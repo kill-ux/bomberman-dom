@@ -1,4 +1,6 @@
 import {SimpleJS} from '../dist/index.js'
+import { useEffect } from '../dist/utils.js';
+import { animateMovement } from './components/animation.js';
 import { Board, MapSchema } from './components/map.js';
 import { Player } from './components/player.js';
 
@@ -8,15 +10,21 @@ let size = Math.min(initWidth, initHeight);
 export let width = size;
 export let height = size;
 export let delta = 0.0166
-
+export let player 
+export let bomberman 
 export const App = () => {
-  
+
+
+  useEffect(()=>{
+    console.log("heeeeeee")
+    requestAnimationFrame(animateMovement)
+  },[])
   const map = SimpleJS.createElement('div', {class: 'map'},[])
   const BoardMap = new Board(map, MapSchema)
   BoardMap.randomizeBricks()
   BoardMap.initLevel(map)
   const playerPos = BoardMap.getPlayerPose()
-  const player = new Player(playerPos[0]* width,playerPos[1] * height, Math.ceil(size*delta)*2)
+  player = new Player(playerPos[0]* width,playerPos[1] * height, Math.ceil(size*delta)*2)
   player.initBomberMan(map)
   
   return (map)

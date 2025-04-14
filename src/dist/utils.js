@@ -1,16 +1,16 @@
 
-import { updateElement } from "./dom.js";
+import { mountCallback, updateElement } from "./dom.js";
 
 const stateStore = new Map();
 const refStore = new Map();
 const instanceMap = new Map();
 
-export function useState(initialValue, { comp, instanceId, ele , vdom }) {
+export function useState(initialValue, { comp, instanceId, ele, vdom }) {
   if (!stateStore.has(instanceId)) {
     stateStore.set(instanceId, {
       value: initialValue,
       comp,
-      vdom : vdom,
+      vdom: vdom,
       ele,
     });
   }
@@ -60,7 +60,7 @@ function scheduleUpdate(instanceId) {
 function processUpdates() {
   updateQueue.forEach(instanceId => {
     const { comp, vdom, ele } = stateStore.get(instanceId);
-    console.log("vdom",vdom)
+    console.log("vdom", vdom)
     const newVdom = comp();
     console.log(ele.current, vdom, newVdom)
     updateElement(ele.current, vdom.current ? vdom.current : vdom, newVdom);
@@ -77,4 +77,12 @@ let currentInstanceId = null;
 export function trackInstance(instance, id) {
   instanceMap.set(id, instance);
   currentInstanceId = id;
+}
+
+
+
+export const useEffect = (value,tab) => {
+  if (!mountCallback.has(value)) {
+    mountCallback.add(value)
+  }
 }

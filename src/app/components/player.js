@@ -1,4 +1,5 @@
 import { SimpleJS } from "../../dist/index.js";
+import { useRef } from "../../dist/utils.js";
 import { height, width } from "../App.js";
 
 export class Player {
@@ -22,12 +23,16 @@ export class Player {
         this.colTop = 0;
         this.deathTime = 2
         this.deathCounter = 0
+        this.bomberman
     }
 
     initBomberMan(map) {
+        const elmentRef = useRef("bomberman")
+
         let div = SimpleJS.createElement('div', {
             class: 'bomber-man',
-            style: `transform:translate(${this.x}px, ${this.y}px)`
+            style: `transform:translate(${this.x}px, ${this.y}px)`,
+            ref:elmentRef
         }, [
             SimpleJS.createElement("img", {
                 style: `background-image:url(assets/hitler.png);
@@ -41,7 +46,8 @@ export class Player {
         map.attrs.onkeyup = this.stopPlayer
         
         map.children.push(div);
-        return div;
+        this.bomberman = elmentRef
+        return elmentRef;
     }
     movePlayer = (e) => {
         let key = e.key.toLowerCase();

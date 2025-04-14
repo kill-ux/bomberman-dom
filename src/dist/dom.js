@@ -3,6 +3,7 @@ import { SimpleJS } from "./index.js";
 
 export const createElement = (tag, attrs = {}, children = []) => ({ tag, attrs, children })
 
+export const mountCallback = new Set()
 
 export const mount = (component) => {
     SimpleJS.newVDOM = component
@@ -10,7 +11,12 @@ export const mount = (component) => {
     SimpleJS.currentVDOM = vDom;
     SimpleJS.rootElement.innerHTML = ""
     SimpleJS.render(vDom, SimpleJS.rootElement);
+    mountCallback.forEach(callback => {
+        callback()
+    })
+    mountCallback.clear()
 };
+
 
 export const render = (vNode, container) => {
     if (typeof vNode === 'string') {
