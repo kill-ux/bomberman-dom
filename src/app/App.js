@@ -11,7 +11,6 @@ export let width = size;
 export let height = size;
 export let delta = 0.0166
 export let player 
-export let bomberman 
 export const App = () => {
 
 
@@ -19,7 +18,7 @@ export const App = () => {
     console.log("heeeeeee")
     requestAnimationFrame(animateMovement)
   },[])
-  const map = SimpleJS.createElement('div', {class: 'map'},[])
+  const map = SimpleJS.createElement('div', {class: 'map', tabindex : 0, autofocus:true},[])
   const BoardMap = new Board(map, MapSchema)
   BoardMap.randomizeBricks()
   BoardMap.initLevel(map)

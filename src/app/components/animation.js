@@ -1,4 +1,4 @@
-import { player } from "../App.js";
+import { height, player, width } from "../App.js";
 import { checkDownMove, checkLeftMove, checkRightMove, checkUpperMove } from "./checker.js";
 
 export const animateMovement = () => {

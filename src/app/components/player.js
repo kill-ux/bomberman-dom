@@ -50,6 +50,7 @@ export class Player {
         return elmentRef;
     }
     movePlayer = (e) => {
+        console.log("move player func")
         let key = e.key.toLowerCase();
         
         switch (key) {
