@@ -55,7 +55,13 @@ export class Board {
 			if (this.bluePrint[row][col] == 0) this.bluePrint[row][col] = 2
 		}
 	}
-
+	getPlayerPose = () => {
+        for (let i = 0; i < this.bluePrint.length; i++) {
+            for (let j = 0; j < this.bluePrint[i].length; j++) {
+                if (this.bluePrint[i][j] === "x") return [i, j];
+            }
+        }
+    }
 	initLevel() {
 		this.map.attrs.style = `width:${this.bluePrint[0].length * width}px;height:${this.bluePrint.length * height}px`
 
