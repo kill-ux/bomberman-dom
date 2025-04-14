@@ -1,3 +1,1 @@
 # bomberman-dom
-
-

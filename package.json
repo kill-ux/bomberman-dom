@@ -1,0 +1,30 @@
+{
+    "name": "@sphinex/mini-framework",
+    "type": "module",
+    "version": "1.0.0",
+    "description": "A custom mini-framework with TodoMVC",
+    "main": "src/app/index.js",
+    "scripts": {
+        "start": "node server.js",
+        "dev": "node server.js"
+    },
+    "author": "edu-01",
+    "license": "UNLICENSED",
+    "directories": {
+        "doc": "docs"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/Margoumachraf/framework.git"
+    },
+    "keywords": [
+        "framework",
+        "js",
+        "zone01",
+        "mini-framework"
+    ],
+    "bugs": {
+        "url": "https://github.com/Margoumachraf/framework/issues"
+    },
+    "homepage": "https://github.com/Margoumachraf/framework/docs/README.md"
+}
