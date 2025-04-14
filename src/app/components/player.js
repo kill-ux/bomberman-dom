@@ -27,26 +27,24 @@ export class Player {
     initBomberMan(map) {
         let div = SimpleJS.createElement('div', {
             class: 'bomber-man',
-            onkeydown: (e) => {
-                console.log(e)
-                // this.movePlayer
-            },
-            onkeyup: this.stopPlayer
+            style: `transform:translate(${this.x}px, ${this.y}px)`
         }, [
             SimpleJS.createElement("img", {
                 style: `background-image:url(assets/hitler.png);
                         background-size:${4 * width}px ${8 * height}px;
                         width:${width}px;
                         height:${height}px;
-                        transform:translate(${this.x}px, ${this.y}px)`
+                        `
             })
         ]);
+        map.attrs.onkeydown = this.movePlayer
+        map.attrs.onkeyup = this.stopPlayer
+        
         map.children.push(div);
         return div;
     }
     movePlayer = (e) => {
         let key = e.key.toLowerCase();
-        console.log(key,"eeeeeeeeeeeeeeee");
         
         switch (key) {
             case "p":
@@ -56,20 +54,20 @@ export class Player {
                 break;
             case "x":
                 if (!pause) {
-                    flames = bomb.putTheBomb(player.x, player.y, map);
+                    flames = bomb.putTheBomb(this.x, this.y, map);
                 }
                 break;
             case "arrowup":
-                player.moveUp = true;
+                this.moveUp = true;
                 break;
             case "arrowdown":
-                player.moveDown = true;
+                this.moveDown = true;
                 break;
             case "arrowleft":
-                player.moveLeft = true;
+                this.moveLeft = true;
                 break;
             case "arrowright":
-                player.moveRight = true;
+                this.moveRight = true;
                 break;
         }
     };
@@ -78,16 +76,16 @@ export class Player {
         let key = e.key.toLowerCase();
         switch (key) {
             case "arrowup":
-                player.moveUp = false;
+                this.moveUp = false;
                 break;
             case "arrowdown":
-                player.moveDown = false;
+                this.moveDown = false;
                 break;
             case "arrowleft":
-                player.moveLeft = false;
+                this.moveLeft = false;
                 break;
             case "arrowright":
-                player.moveRight = false;
+                this.moveRight = false;
                 break;
         }
     };
