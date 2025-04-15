@@ -27,8 +27,9 @@ export const App = () => {
     requestAnimationFrame(() => animateMovement())
   }, [])
 
-  const map = SimpleJS.createElement('div', { class: 'map', tabindex: 0, autofocus: true }, [
+  const map = SimpleJS.createElement('div', { class: 'map', tabindex: 0, autofocus: true },
     SimpleJS.state.bombs.map(bomb => {
+      console.log("bomb")
       return SimpleJS.createElement(
         "div",
         {
@@ -46,7 +47,7 @@ export const App = () => {
         []
       );
     })
-  ])
+  )
   const BoardMap = new Board(map, MapSchema)
   BoardMap.randomizeBricks()
   grids = BoardMap.initLevel(map)
