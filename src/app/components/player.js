@@ -31,17 +31,14 @@ export class Player {
 
         let div = SimpleJS.createElement('div', {
             class: 'bomber-man',
-            style: `transform:translate(${this.x}px, ${this.y}px)`,
+            style: `background-image:url(assets/hitler.png);
+            background-size:${4 * width}px ${8 * height}px;
+            width:${width}px;
+            height:${height}px;
+            transform:translate(${this.x}px, ${this.y}px);
+            `,
             ref: elmentRef
-        }, [
-            SimpleJS.createElement("img", {
-                style: `background-image:url(assets/hitler.png);
-                        background-size:${4 * width}px ${8 * height}px;
-                        width:${width}px;
-                        height:${height}px;
-                        `
-            })
-        ]);
+        });
         map.attrs.onkeydown = this.movePlayer
         map.attrs.onkeyup = this.stopPlayer
 
