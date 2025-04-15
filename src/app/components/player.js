@@ -1,6 +1,6 @@
 import { SimpleJS } from "../../dist/index.js";
 import { useRef } from "../../dist/utils.js";
-import { height, width } from "../App.js";
+import { bomb, height, width } from "../App.js";
 
 export class Player {
     constructor(x, y, speed) {
@@ -58,9 +58,9 @@ export class Player {
                 Displaymenu(map);
                 break;
             case "x":
-                if (!pause) {
+                // if (!pause) {
                     flames = bomb.putTheBomb(this.x, this.y, map);
-                }
+                // }
                 break;
             case "arrowup":
                 this.moveUp = true;

@@ -1,6 +1,7 @@
 import {SimpleJS} from '../dist/index.js'
 import { useEffect } from '../dist/utils.js';
 import { animateMovement } from './components/animation.js';
+import { Bomb } from './components/bomb.js';
 import { Board, MapSchema } from './components/map.js';
 import { Player } from './components/player.js';
 
@@ -12,6 +13,7 @@ export let height = size;
 export let delta = 0.0166
 export let player 
 export let grids = []
+export let bomb 
 export const App = () => {
 
   useEffect(()=>{
@@ -21,6 +23,7 @@ export const App = () => {
         grids[i][j] = element.current
       });
     });
+    bomb = new Bomb(grids)
     requestAnimationFrame(() => animateMovement())
   },[])
   
