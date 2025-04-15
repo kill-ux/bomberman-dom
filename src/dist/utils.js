@@ -60,9 +60,7 @@ function scheduleUpdate(instanceId) {
 function processUpdates() {
   updateQueue.forEach(instanceId => {
     const { comp, vdom, ele } = stateStore.get(instanceId);
-    console.log("vdom", vdom)
     const newVdom = comp();
-    console.log(ele.current, vdom, newVdom)
     updateElement(ele.current, vdom.current ? vdom.current : vdom, newVdom);
     stateStore.set(instanceId, { ...stateStore.get(instanceId), vdom: newVdom });
   });

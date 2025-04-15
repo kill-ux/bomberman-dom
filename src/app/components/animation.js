@@ -4,11 +4,9 @@ import { checkDownMove, checkLeftMove, checkRightMove, checkUpperMove, getPosImg
 export const animateMovement = () => {
   // console.log(grids)
   let checkObj;
-  console.log(player.moveDown,player.moveLeft,player.moveUp,player.moveRight)
   // console.log(grids)
   switch (true) {
     case player.moveDown:
-      console.log(player.moveDown)
       player.rowBot = Math.floor((player.y + player.speed) / height);
       player.rowTop = Math.ceil((player.y + player.speed) / height);
       player.colBot = Math.floor(player.x / width);
@@ -92,6 +90,8 @@ export const animateMovement = () => {
   } else {
     player.slow++;
   }
+
+  
 
   requestAnimationFrame(animateMovement);
 };

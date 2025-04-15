@@ -49,6 +49,7 @@ export class Player {
         this.bomberman = elmentRef
         return elmentRef;
     }
+    
     movePlayer = (e) => {
        
         let key = e.key.toLowerCase();

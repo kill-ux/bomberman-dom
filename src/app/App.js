@@ -21,7 +21,6 @@ export const App = () => {
         grids[i][j] = element.current
       });
     });
-    // console.log(grids)
     requestAnimationFrame(() => animateMovement())
   },[])
   
