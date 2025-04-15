@@ -89,23 +89,22 @@ export const getPosImg = (frameX, frameY, div) => {
   const x = frameX * width;
   const y = frameY * height;
   div.style.backgroundPosition = `${x}px ${y}px`;
-  console.log("inside get post image", x, y)
 };
 
-// export const checkIfBombed = (grids, x, y) => {
-//   return grids[Math.round(y / height)][
-//     Math.round(x / width)
-//   ].classList.contains("explotion");
-// };
+export const checkIfBombed = (grids, x, y) => {
+  return grids[Math.round(y / height)][
+    Math.round(x / width)
+  ].classList.contains("explotion");
+};
 
-// export const checkIfPortal = (grids, x, y) => {
-//   return grids[Math.round(y / height)][
-//     Math.round(x / width)
-//   ].classList.contains("portal");
-// };
+export const checkIfPortal = (grids, x, y) => {
+  return grids[Math.round(y / height)][
+    Math.round(x / width)
+  ].classList.contains("portal");
+};
 
-// const checkIfinBomb = (grids, player) => {
-//   return grids[Math.round(player.y / height)][
-//     Math.round(player.x / width)
-//   ].classList.contains("bomb-wall");
-// }
+const checkIfinBomb = (grids, player) => {
+  return grids[Math.round(player.y / height)][
+    Math.round(player.x / width)
+  ].classList.contains("bomb-wall");
+}

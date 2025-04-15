@@ -2,7 +2,8 @@ import { SimpleJS } from "../../dist/index.js";
 import { height, width } from "../App.js";
 import { checkDownMove, checkLeftMove, checkRightMove, checkUpperMove, getPosImg } from "./checker.js";
 
-export const animateMovement = () => {
+export const animateMovement = (time) => {
+  console.log("f")
   const grids = SimpleJS.state.grids
   let player = SimpleJS.state.player
   let checkObj;

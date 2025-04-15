@@ -27,24 +27,36 @@ export class Player {
     }
 
     initBomberMan(map) {
-        const elmentRef = useRef("bomberman")
+        // const elmentRef = useRef("bomberman")
 
-        let div = SimpleJS.createElement('div', {
-            class: 'bomber-man',
-            style: `background-image:url(assets/hitler.png);
-            background-size:${4 * width}px ${8 * height}px;
-            width:${width}px;
-            height:${height}px;
-            transform:translate(${this.x}px, ${this.y}px);
-            `,
-            ref: elmentRef
-        });
-        map.attrs.onkeydown = (e) => this.movePlayer(e, map)
-        map.attrs.onkeyup = (e) => this.stopPlayer(e, map)
+        // let div = { x: this.x, y: this.y }
+        // SimpleJS.setState((prev) => {
+        //     return {
+        //         ...prev,
+        //         player: {
+        //             ...prev.player,
+        //             x: this.x,
+        //             y: this.y
+        //         }
+        //     }
+        // })
 
-        map.children.push(div);
-        this.bomberman = elmentRef
-        return elmentRef;
+        // let div = SimpleJS.createElement('div', {
+        //     class: 'bomber-man',
+        //     style: `background-image:url(assets/hitler.png);
+        //     background-size:${4 * width}px ${8 * height}px;
+        //     width:${width}px;
+        //     height:${height}px;
+        //     transform:translate(${this.x}px, ${this.y}px);
+        //     `,
+        //     ref: elmentRef
+        // });
+        // map.attrs.onkeydown = (e) => this.movePlayer(e, map)
+        // map.attrs.onkeyup = (e) => this.stopPlayer(e, map)
+
+        // map.children.push(div);
+        // this.bomberman = elmentRef
+        // return elmentRef;
     }
 
     movePlayer = (e, map) => {

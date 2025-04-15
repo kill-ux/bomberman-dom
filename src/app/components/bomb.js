@@ -82,8 +82,9 @@ export class Bomb {
         
         // bomb.style.transform = `translate(${xPos * width}px, ${yPos * height}px)`;
 
-        // let explotions = [];
-        // this.grids[yPos][xPos].classList.add("bomb-wall");
+        let explotions = [];
+        console.log(SimpleJS.state.grids[yPos][xPos])
+        this.grids[yPos][xPos].classList.add("bomb-wall");
         // let centerEx = new explotion(xPos, yPos, map, 1);
         // let rightEx = new explotion(xPos + 1, yPos, map, 2);
         // let leftEx = new explotion(xPos - 1, yPos, map, 3);

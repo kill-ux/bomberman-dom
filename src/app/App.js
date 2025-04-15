@@ -1,5 +1,5 @@
 import { SimpleJS } from '../dist/index.js'
-import { useEffect, useState } from '../dist/utils.js';
+import { useEffect, useRef, useState } from '../dist/utils.js';
 import { animateMovement } from './components/animation.js';
 import { Bomb } from './components/bomb.js';
 import { Board, MapSchema } from './components/map.js';
@@ -18,9 +18,10 @@ export let bomb
 
 export const App = () => {
 
+	const elmentRef = useRef("bomberman")
+
 	useEffect(() => {
 		bomb = new Bomb();
-		console.log("jj")
 		requestAnimationFrame(() => animateMovement());
 	}, []);
 
@@ -28,8 +29,23 @@ export const App = () => {
 		class: 'map',
 		tabindex: 0,
 		autofocus: true,
-		style: `width:${MapSchema[0].length * width}px;height:${MapSchema.length * height}px`
+		style: `width:${MapSchema[0].length * width}px;height:${MapSchema.length * height}px`,
+		onkeydown: (e) => SimpleJS.state.player?.movePlayer(e, map),
+		onkeyup: (e) => SimpleJS.state.player?.stopPlayer(e, map)
 	}, [
+
+		// Player will be added separately
+		SimpleJS.state.player ? SimpleJS.createElement('div', {
+			class: 'bomber-man',
+			style: `background-image:url(assets/hitler.png);
+            background-size:${4 * width}px ${8 * height}px;
+            width:${width}px;
+            height:${height}px;
+            transform:translate(${SimpleJS.state.player.x}px, ${SimpleJS.state.player.y}px);
+            `,
+			ref: elmentRef,
+		}) : "",
+
 		// Render grid cells
 		...SimpleJS.state.grids.flatMap((row, i) => {
 			return row.map((cell, j) =>
@@ -56,8 +72,8 @@ export const App = () => {
                 transform:translate(${bomb.xPos * width}px, ${bomb.yPos * height}px);
             `
 			})
-		),
-		// Player will be added separately
+		)
+
 
 	]);
 
@@ -67,15 +83,14 @@ export const App = () => {
 			BoardMap.randomizeBricks()
 			grids = BoardMap.initLevel(map)
 			SimpleJS.state.initialized = true
-		})	
+		})
 	}
 
 	if (!SimpleJS.state.initialized) {
 		const playerPos = BoardMap.getPlayerPose()
 		SimpleJS.state.player = new Player(playerPos[0] * width, playerPos[1] * height, Math.ceil(size * delta) * 2)
-		SimpleJS.state.player.initBomberMan(map)
+		SimpleJS.state.player.bomberman = elmentRef
 	}
-	console.log(SimpleJS.state.player)
 
 	return (map)
 }
