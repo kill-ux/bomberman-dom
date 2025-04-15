@@ -1,0 +1,93 @@
+html,body,#app {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    overflow: hidden; 
+  }
+  
+  body,#app {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+  
+  }
+  .container{
+    overflow: hidden;
+  }
+  .header{
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    gap: 10px;
+  }
+  .map {
+    border: 5px solid;
+    display: flex;
+    flex-wrap: wrap;
+    position: relative;
+  }
+  
+  .lifes-holder {
+    left: 250px;
+  }
+  
+  .enemies-holder {
+    left: 350px;
+  }
+  
+  .timer-holder {
+    left: 450px
+  }
+  
+  .wall {
+    background-image: url('../solid.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
+  
+  .empty {
+    background-image: url('../rbiaa.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
+  .soft-wall {
+    background-image: url('../soft.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
+  
+  .portal {
+    text-size-adjust: 50px;
+  }
+  
+  .bomber-man {
+    position: absolute;
+  }
+  
+  .bomb {
+    background-image: url('../bomb.png');
+    background-size: 30px 30px;
+  }
+  
+  #menu {
+    position: absolute;
+    justify-content: center;
+    align-content: center;
+  }
+  
+  .open {
+    display: none;
+  }
+  
+  .btn {
+    cursor: pointer;
+  }
+  
+  
+  @media (max-width: 575.98px) { 
+    .header{
+      font-size: 10px;
+    }
+   }
+  
