@@ -75,7 +75,7 @@ export class Bomb {
                 xPos,
                 yPos
             })
-            return 
+            return prev
         })
         
         // map.children.push(bomb)

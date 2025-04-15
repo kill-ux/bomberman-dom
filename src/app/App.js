@@ -36,11 +36,11 @@ export const App = () => {
           class: `bomb`,
           style: `
                 background-image:url(assets/bomb.png);
-                background-size = ${width * 3}px ${height}px;
-                width = ${width}px;
-                height = ${height}px;
+                background-size : ${width * 3}px ${height}px;
+                width : ${width}px;
+                height : ${height}px;
                 background-position = ${width}px ${height}px;
-                position = absolute;
+                position : absolute;
                 translate(${bomb.xPos * width}px, ${bomb.yPos * height}px);
             `
         },
