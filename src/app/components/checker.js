@@ -1,3 +1,4 @@
+import { height, width } from "../App.js";
 
 export const checkUpperMove = (grids, rowBot, colBot, colTop, object) => {
   const leftGrid =
@@ -21,7 +22,7 @@ export const checkUpperMove = (grids, rowBot, colBot, colTop, object) => {
 };
 
 export const checkDownMove = (grids, rowTop, colBot, colTop, object) => {
-  console.log(grids,rowTop, colBot, colTop)
+  // console.log(grids,rowTop, colBot, colTop)
   const leftGrid =
     grids[rowTop][colBot].classList.contains("wall") ||
     grids[rowTop][colBot].classList.contains("soft-wall") ||
@@ -83,4 +84,10 @@ export const checkRightMove = (grids, rowBot, rowTop, colTop, object) => {
     return [true, object.y];
   }
   return [false, object.y];
+};
+
+export const getPosImg = (frameX, frameY, div) => {
+  const x = frameX * width;
+  const y = frameY * height;
+  div.style.backgroundPosition = `${x}px ${y}px`;
 };

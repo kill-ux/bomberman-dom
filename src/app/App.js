@@ -11,17 +11,24 @@ export let width = size;
 export let height = size;
 export let delta = 0.0166
 export let player 
+export let grids = []
 export const App = () => {
-
 
   useEffect(()=>{
     console.log("heeeeeee")
-    requestAnimationFrame(animateMovement)
+    grids.forEach((grid,i) => {
+      grid.forEach((element,j) => {
+        grids[i][j] = element.current
+      });
+    });
+    // console.log(grids)
+    requestAnimationFrame(() => animateMovement())
   },[])
+  
   const map = SimpleJS.createElement('div', {class: 'map', tabindex : 0, autofocus:true},[])
   const BoardMap = new Board(map, MapSchema)
   BoardMap.randomizeBricks()
-  BoardMap.initLevel(map)
+  grids = BoardMap.initLevel(map)
   const playerPos = BoardMap.getPlayerPose()
   player = new Player(playerPos[0]* width,playerPos[1] * height, Math.ceil(size*delta)*2)
   player.initBomberMan(map)

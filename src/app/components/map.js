@@ -76,7 +76,8 @@ export class Board {
 				})
 				//div.attrs.style = 'imageRendering:pixelated;'
 				// grids[i].push(div)
-				grids[i].push(divRef.current)
+				grids[i].push(divRef)
+				// console.log(divRef)
 				// this.map.appendChild(div)
 				this.map.children.push(div)
 

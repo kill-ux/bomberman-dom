@@ -32,7 +32,7 @@ export class Player {
         let div = SimpleJS.createElement('div', {
             class: 'bomber-man',
             style: `transform:translate(${this.x}px, ${this.y}px)`,
-            ref:elmentRef
+            ref: elmentRef
         }, [
             SimpleJS.createElement("img", {
                 style: `background-image:url(assets/hitler.png);
@@ -44,15 +44,15 @@ export class Player {
         ]);
         map.attrs.onkeydown = this.movePlayer
         map.attrs.onkeyup = this.stopPlayer
-        
+
         map.children.push(div);
         this.bomberman = elmentRef
         return elmentRef;
     }
     movePlayer = (e) => {
-        console.log("move player func")
+       
         let key = e.key.toLowerCase();
-        
+
         switch (key) {
             case "p":
                 if (!pause) pause = true;
