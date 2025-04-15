@@ -8,9 +8,7 @@ export function setState(newState) {
         SimpleJS.state = { ...SimpleJS.state, ...newState };
     }
     
-    
     const newVDom = SimpleJS.newVDOM();
-    
     updateElement(SimpleJS.rootElement.childNodes[0], SimpleJS.currentVDOM, newVDom);
     SimpleJS.currentVDOM = newVDom;
 };

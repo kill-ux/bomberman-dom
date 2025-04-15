@@ -1,10 +1,11 @@
-import { grids, height, player, width } from "../App.js";
+import { SimpleJS } from "../../dist/index.js";
+import { height, width } from "../App.js";
 import { checkDownMove, checkLeftMove, checkRightMove, checkUpperMove, getPosImg } from "./checker.js";
 
 export const animateMovement = () => {
-  // console.log(grids)
+  const grids = SimpleJS.state.grids
+  let player = SimpleJS.state.player
   let checkObj;
-  // console.log(grids)
   switch (true) {
     case player.moveDown:
       player.rowBot = Math.floor((player.y + player.speed) / height);
@@ -91,7 +92,7 @@ export const animateMovement = () => {
     player.slow++;
   }
 
-  
+
 
   requestAnimationFrame(animateMovement);
 };

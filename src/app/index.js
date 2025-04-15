@@ -3,7 +3,10 @@ import { App } from '../app/App.js';
 import { SimpleJS } from '../dist/index.js';
 
 SimpleJS.state = {
-    bombs : []
+    bombs: [],
+    grids: [],
+    player: null,
+    initialized: false
 }
 
 SimpleJS.addRoute('/', App)

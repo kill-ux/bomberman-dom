@@ -56,7 +56,6 @@ export class Bomb {
     }
 
     putTheBomb(x, y, map) {
-        console.log(this.grids)
         if (this.droped) return;
         this.droped = true;
         // let bomb = document.createElement("div");

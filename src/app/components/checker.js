@@ -1,15 +1,14 @@
 import { height, width } from "../App.js";
 
 export const checkUpperMove = (grids, rowBot, colBot, colTop, object) => {
-  console.log(grids)
   const leftGrid =
-    grids[rowBot][colBot].classList.contains("wall") ||
-    grids[rowBot][colBot].classList.contains("soft-wall") ||
-    (grids[rowBot][colBot].classList.contains("bomb-wall") && !checkIfinBomb(grids,object));
+    grids[rowBot][colBot].type == "wall" ||
+    grids[rowBot][colBot].type == "soft-wall" ||
+    (grids[rowBot][colBot].type == "bomb-wall" && !checkIfinBomb(grids, object));
   const rightGrid =
-    grids[rowBot][colTop].classList.contains("wall") ||
-    grids[rowBot][colTop].classList.contains("soft-wall") ||
-    (grids[rowBot][colTop].classList.contains("bomb-wall") && !checkIfinBomb(grids,object));
+    grids[rowBot][colTop].type == "wall" ||
+    grids[rowBot][colTop].type == "soft-wall" ||
+    (grids[rowBot][colTop].type == "bomb-wall" && !checkIfinBomb(grids, object));
   if (leftGrid && !rightGrid) {
     return [true, (object.x += object.speed)];
   }
@@ -23,15 +22,14 @@ export const checkUpperMove = (grids, rowBot, colBot, colTop, object) => {
 };
 
 export const checkDownMove = (grids, rowTop, colBot, colTop, object) => {
-  // console.log(grids,rowTop, colBot, colTop)
   const leftGrid =
-    grids[rowTop][colBot].classList.contains("wall") ||
-    grids[rowTop][colBot].classList.contains("soft-wall") ||
-    (grids[rowTop][colBot].classList.contains("bomb-wall") && !checkIfinBomb(grids,object));
+    grids[rowTop][colBot].type == "wall" ||
+    grids[rowTop][colBot].type == "soft-wall" ||
+    (grids[rowTop][colBot].type == "bomb-wall" && !checkIfinBomb(grids, object));
   const rightGrid =
-    grids[rowTop][colTop].classList.contains("wall") ||
-    grids[rowTop][colTop].classList.contains("soft-wall") ||
-    (grids[rowTop][colTop].classList.contains("bomb-wall") && !checkIfinBomb(grids,object));
+    grids[rowTop][colTop].type == "wall" ||
+    grids[rowTop][colTop].type == "soft-wall" ||
+    (grids[rowTop][colTop].type == "bomb-wall" && !checkIfinBomb(grids, object));
   if (leftGrid && !rightGrid) {
     return [true, (object.x += object.speed)];
   }
@@ -46,13 +44,13 @@ export const checkDownMove = (grids, rowTop, colBot, colTop, object) => {
 
 export const checkLeftMove = (grids, rowBot, rowTop, colBot, object) => {
   const downGrid =
-    grids[rowTop][colBot].classList.contains("wall") ||
-    grids[rowTop][colBot].classList.contains("soft-wall") ||
-    (grids[rowTop][colBot].classList.contains("bomb-wall") && !checkIfinBomb(grids,object));
+    grids[rowTop][colBot].type == "wall" ||
+    grids[rowTop][colBot].type == "soft-wall" ||
+    (grids[rowTop][colBot].type == "bomb-wall" && !checkIfinBomb(grids, object));
   const upGrid =
-    grids[rowBot][colBot].classList.contains("wall") ||
-    grids[rowBot][colBot].classList.contains("soft-wall") ||
-    (grids[rowBot][colBot].classList.contains("bomb-wall") && !checkIfinBomb(grids,object));
+    grids[rowBot][colBot].type == "wall" ||
+    grids[rowBot][colBot].type == "soft-wall" ||
+    (grids[rowBot][colBot].type == "bomb-wall" && !checkIfinBomb(grids, object));
   if (upGrid && !downGrid) {
     return [true, (object.y += object.speed)];
   }
@@ -67,13 +65,13 @@ export const checkLeftMove = (grids, rowBot, rowTop, colBot, object) => {
 
 export const checkRightMove = (grids, rowBot, rowTop, colTop, object) => {
   const upGrid =
-    grids[rowBot][colTop].classList.contains("wall") ||
-    grids[rowBot][colTop].classList.contains("soft-wall") ||
-    (grids[rowBot][colTop].classList.contains("bomb-wall") && !checkIfinBomb(grids,object));
+    grids[rowBot][colTop].type == "wall" ||
+    grids[rowBot][colTop].type == "soft-wall" ||
+    (grids[rowBot][colTop].type == "bomb-wall" && !checkIfinBomb(grids, object));
   const downGrid =
-    grids[rowTop][colTop].classList.contains("wall") ||
-    grids[rowTop][colTop].classList.contains("soft-wall") ||
-    (grids[rowTop][colTop].classList.contains("bomb-wall") && !checkIfinBomb(grids,object));
+    grids[rowTop][colTop].type == "wall" ||
+    grids[rowTop][colTop].type == "soft-wall" ||
+    (grids[rowTop][colTop].type == "bomb-wall" && !checkIfinBomb(grids, object));
 
   if (upGrid && !downGrid) {
     return [true, (object.y += object.speed)];
@@ -91,5 +89,23 @@ export const getPosImg = (frameX, frameY, div) => {
   const x = frameX * width;
   const y = frameY * height;
   div.style.backgroundPosition = `${x}px ${y}px`;
-  console.log("inside get post image",x,y)
+  console.log("inside get post image", x, y)
 };
+
+// export const checkIfBombed = (grids, x, y) => {
+//   return grids[Math.round(y / height)][
+//     Math.round(x / width)
+//   ].classList.contains("explotion");
+// };
+
+// export const checkIfPortal = (grids, x, y) => {
+//   return grids[Math.round(y / height)][
+//     Math.round(x / width)
+//   ].classList.contains("portal");
+// };
+
+// const checkIfinBomb = (grids, player) => {
+//   return grids[Math.round(player.y / height)][
+//     Math.round(player.x / width)
+//   ].classList.contains("bomb-wall");
+// }

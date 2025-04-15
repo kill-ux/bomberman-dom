@@ -63,49 +63,66 @@ export class Board {
         }
     }
 	initLevel() {
-		this.map.attrs.style = `width:${this.bluePrint[0].length * width}px;height:${this.bluePrint.length * height}px`
+		// this.map.attrs.style = `width:${this.bluePrint[0].length * width}px;height:${this.bluePrint.length * height}px`;
+		
+		// SimpleJS.setState(prev => ({ ...prev, grid: gridState }));
+		// return gridState; // Optionally return for initialization
+
+		// this.map.attrs.style = `width:${this.bluePrint[0].length * width}px;height:${this.bluePrint.length * height}px`
 
 		const grids = []
-		for (let i = 0; i < this.bluePrint.length; i++) {
-			grids[i] = []
-			for (let j = 0; j < this.bluePrint[i].length; j++) {
-				const divRef = useRef(`grid${j}-${i}`)
-				const div = SimpleJS.createElement('div', {
-					style: `image-rendering:pixelated; width:${width}px;height:${height}px;`,
-					ref: divRef
-				})
-				//div.attrs.style = 'imageRendering:pixelated;'
-				// grids[i].push(div)
-				grids[i].push(divRef)
-				// console.log(divRef)
-				// this.map.appendChild(div)
-				this.map.children.push(div)
+		const gridState = this.bluePrint.map(row => row.map(cell => ({
+			type: cell === 0 || cell === 'x' 
+			? 'empty' 
+			: cell === 1 ? 'wall' :  cell === 2 ? 'soft-wall' : 'soft-wall portal'
+		})));
+		SimpleJS.setState(prev => ({ ...prev, grids: gridState }));
 
 
-				if (this.bluePrint[i][j] == 0 || this.bluePrint[i][j] == 'x') {
-					//   div.classList.add('empty')
-					div.attrs.class = 'empty'
-					continue
-				}
-				if (this.bluePrint[i][j] == 1) {
-					//   div.classList.add('wall')
-					div.attrs.class = 'wall'
+		// for (let i = 0; i < this.bluePrint.length; i++) {
+		// 	grids[i] = []
+		// 	for (let j = 0; j < this.bluePrint[i].length; j++) {
+		// 		const div = {}
+		// 		// const divRef = useRef(`grid${j}-${i}`)
+		// 		// const div = SimpleJS.createElement('div', {
+		// 		// 	style: `image-rendering:pixelated; width:${width}px;height:${height}px;`,
+		// 		// })
+		// 		//div.attrs.style = 'imageRendering:pixelated;'
+		// 		// grids[i].push(div)
+		// 		// grids[i].push(divRef)
+		// 		// console.log(divRef)
+		// 		// this.map.appendChild(div)
+		// 		this.map.children.push(div)
 
-					continue
-				}
-				if (this.bluePrint[i][j] == 2) {
-					//   div.classList.add('soft-wall')
-					div.attrs.class = 'soft-wall'
 
-					continue
-				}
-				if (this.bluePrint[i][j] == 3) {
-					//   div.classList.add('soft-wall', 'portal')
-					div.attrs.class = 'soft-wall portal'
-					continue
-				}
-			}
-		}
-		return grids
+		// 		if (this.bluePrint[i][j] == 0 || this.bluePrint[i][j] == 'x') {
+		// 			//   div.classList.add('empty')
+		// 			// div.attrs.class = 'empty'
+		// 			div.type = 'empty'
+		// 			continue
+		// 		}
+		// 		if (this.bluePrint[i][j] == 1) {
+		// 			//   div.classList.add('wall')
+		// 			// div.attrs.class = 'wall'
+		// 			div.type = 'wall'
+
+		// 			continue
+		// 		}
+		// 		if (this.bluePrint[i][j] == 2) {
+		// 			//   div.classList.add('soft-wall')
+		// 			// div.attrs.class = 'soft-wall'
+		// 			div.type = 'soft-wall'
+
+		// 			continue
+		// 		}
+		// 		if (this.bluePrint[i][j] == 3) {
+		// 			//   div.classList.add('soft-wall', 'portal')
+		// 			// div.attrs.class = 'soft-wall portal'
+		// 			div.type = 'soft-wall portal'
+		// 			continue
+		// 		}
+		// 	}
+		// }
+		// return grids
 	}
 }
