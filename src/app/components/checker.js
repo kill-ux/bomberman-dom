@@ -90,4 +90,5 @@ export const getPosImg = (frameX, frameY, div) => {
   const x = frameX * width;
   const y = frameY * height;
   div.style.backgroundPosition = `${x}px ${y}px`;
+  console.log("inside get post image",x,y)
 };
