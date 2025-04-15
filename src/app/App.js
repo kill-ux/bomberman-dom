@@ -73,8 +73,21 @@ export const App = () => {
             `
 			})
 		)
-
-
+		,
+		// Render fires
+		...SimpleJS.state.fires.map(fire =>
+			SimpleJS.createElement("div", {
+				class: `fire-${fire.id}`,
+				style: `background-image:url(assets/inTheFire.png);
+                    background-size:${width * 5}px ${height * 2}px;
+                    width:${width}px;
+                    height:${height}px;
+                    background-position:${width}px ${height * 2}px;
+                    position:absolute;
+                    transform:translate(${fire.x * width}px, ${fire.y * height}px);
+                    `,
+			}, [])
+		)
 	]);
 
 	const BoardMap = new Board(map, MapSchema)

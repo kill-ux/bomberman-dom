@@ -2,13 +2,13 @@ import { height, width } from "../App.js";
 
 export const checkUpperMove = (grids, rowBot, colBot, colTop, object) => {
   const leftGrid =
-    grids[rowBot][colBot].type == "wall" ||
-    grids[rowBot][colBot].type == "soft-wall" ||
-    (grids[rowBot][colBot].type == "bomb-wall" && !checkIfinBomb(grids, object));
+    grids[rowBot][colBot].type.includes("wall")  ||
+    grids[rowBot][colBot].type.includes("soft-wall") ||
+    (grids[rowBot][colBot].type.includes("bomb-wall") && !checkIfinBomb(grids, object));
   const rightGrid =
-    grids[rowBot][colTop].type == "wall" ||
-    grids[rowBot][colTop].type == "soft-wall" ||
-    (grids[rowBot][colTop].type == "bomb-wall" && !checkIfinBomb(grids, object));
+    grids[rowBot][colTop].type.includes("wall") ||
+    grids[rowBot][colTop].type.includes("soft-wall") ||
+    (grids[rowBot][colTop].type.includes("bomb-wall") && !checkIfinBomb(grids, object));
   if (leftGrid && !rightGrid) {
     return [true, (object.x += object.speed)];
   }
@@ -23,13 +23,13 @@ export const checkUpperMove = (grids, rowBot, colBot, colTop, object) => {
 
 export const checkDownMove = (grids, rowTop, colBot, colTop, object) => {
   const leftGrid =
-    grids[rowTop][colBot].type == "wall" ||
-    grids[rowTop][colBot].type == "soft-wall" ||
-    (grids[rowTop][colBot].type == "bomb-wall" && !checkIfinBomb(grids, object));
+    grids[rowTop][colBot].type.includes("wall") ||
+    grids[rowTop][colBot].type.includes("soft-wall") ||
+    (grids[rowTop][colBot].type.includes("bomb-wall") && !checkIfinBomb(grids, object));
   const rightGrid =
-    grids[rowTop][colTop].type == "wall" ||
-    grids[rowTop][colTop].type == "soft-wall" ||
-    (grids[rowTop][colTop].type == "bomb-wall" && !checkIfinBomb(grids, object));
+    grids[rowTop][colTop].type.includes("wall") ||
+    grids[rowTop][colTop].type.includes("soft-wall") ||
+    (grids[rowTop][colTop].type.includes("bomb-wall") && !checkIfinBomb(grids, object));
   if (leftGrid && !rightGrid) {
     return [true, (object.x += object.speed)];
   }
@@ -44,13 +44,13 @@ export const checkDownMove = (grids, rowTop, colBot, colTop, object) => {
 
 export const checkLeftMove = (grids, rowBot, rowTop, colBot, object) => {
   const downGrid =
-    grids[rowTop][colBot].type == "wall" ||
-    grids[rowTop][colBot].type == "soft-wall" ||
-    (grids[rowTop][colBot].type == "bomb-wall" && !checkIfinBomb(grids, object));
+    grids[rowTop][colBot].type.includes("wall") ||
+    grids[rowTop][colBot].type.includes("soft-wall") ||
+    (grids[rowTop][colBot].type.includes("bomb-wall") && !checkIfinBomb(grids, object));
   const upGrid =
-    grids[rowBot][colBot].type == "wall" ||
-    grids[rowBot][colBot].type == "soft-wall" ||
-    (grids[rowBot][colBot].type == "bomb-wall" && !checkIfinBomb(grids, object));
+    grids[rowBot][colBot].type.includes("wall") ||
+    grids[rowBot][colBot].type.includes("soft-wall") ||
+    (grids[rowBot][colBot].type.includes("bomb-wall") && !checkIfinBomb(grids, object));
   if (upGrid && !downGrid) {
     return [true, (object.y += object.speed)];
   }
@@ -65,13 +65,13 @@ export const checkLeftMove = (grids, rowBot, rowTop, colBot, object) => {
 
 export const checkRightMove = (grids, rowBot, rowTop, colTop, object) => {
   const upGrid =
-    grids[rowBot][colTop].type == "wall" ||
-    grids[rowBot][colTop].type == "soft-wall" ||
-    (grids[rowBot][colTop].type == "bomb-wall" && !checkIfinBomb(grids, object));
+    grids[rowBot][colTop].type.includes("wall") ||
+    grids[rowBot][colTop].type.includes("soft-wall") ||
+    (grids[rowBot][colTop].type.includes("bomb-wall") && !checkIfinBomb(grids, object));
   const downGrid =
-    grids[rowTop][colTop].type == "wall" ||
-    grids[rowTop][colTop].type == "soft-wall" ||
-    (grids[rowTop][colTop].type == "bomb-wall" && !checkIfinBomb(grids, object));
+    grids[rowTop][colTop].type.includes("wall") ||
+    grids[rowTop][colTop].type.includes("soft-wall") ||
+    (grids[rowTop][colTop].type.includes("bomb-wall") && !checkIfinBomb(grids, object));
 
   if (upGrid && !downGrid) {
     return [true, (object.y += object.speed)];

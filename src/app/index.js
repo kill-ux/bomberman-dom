@@ -5,6 +5,7 @@ import { SimpleJS } from '../dist/index.js';
 SimpleJS.state = {
     bombs: [],
     grids: [],
+    fires: [],
     player: null,
     initialized: false
 }
