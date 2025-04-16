@@ -1,6 +1,7 @@
 import { SimpleJS } from "../../dist/index.js";
-import { height, width } from "../App.js";
+import { height, monsters, size, width } from "../App.js";
 import { checkDownMove, checkLeftMove, checkRightMove, checkUpperMove, getPosImg } from "./checker.js";
+import { checkMonsterMove, randomMonsterDir } from "./monsters.js";
 
 export const animateMovement = (time) => {
   console.log("f")
@@ -93,6 +94,67 @@ export const animateMovement = (time) => {
     player.slow++;
   }
 
+  /*--- Start Monster Move ---*/
+  monsters.forEach((enemy) => {
+    if (!checkMonsterMove(enemy, grids)) {
+      // let div = document.querySelector(`.monster-${enemy.id}`);
+      let div = enemy.monsterDiv.current;
+      // if (checkIfBombed(grids, enemy.x, enemy.y)) {
+      //   map.removeChild(div);
+      //   monsters = monsters.filter((monster) => monster.id !== enemy.id);
+      //   currentScore += 100;
+      //   enemiesTotal--;
+      //   enemies.innerText = enemiesTotal;
+      //   score.innerText = currentScore;
+      // }
+      if (div) {
+        switch (enemy.dir) {
+          case "up":
+            enemy.y -= enemy.speed;
+            getPosImg(enemy.frames[enemy.loop], 4, div);
+            break;
+          case "down":
+            enemy.y += enemy.speed;
+            getPosImg(enemy.frames[enemy.loop], 2, div);
+            break;
+          case "left":
+            enemy.x -= enemy.speed;
+            getPosImg(enemy.frames[enemy.loop], 1, div);
+            break;
+          case "right":
+            enemy.x += enemy.speed;
+            getPosImg(enemy.frames[enemy.loop], 3, div);
+            break;
+        }
+        if (enemy.slow >= player.slowFrames) {
+          if (enemy.loop < player.frames.length - 1) {
+            enemy.loop++;
+          } else {
+            enemy.loop = 0;
+          }
+          enemy.slow = 0;
+        } else {
+          enemy.slow++;
+        }
+        div.style.transform = `translate(${enemy.x}px, ${enemy.y}px)`;
+        if (
+          enemy.x + size/2 >= player.x &&
+          enemy.x <= player.x + size/2 &&
+          enemy.y + size/2 >= player.y &&
+          enemy.y <= player.y + size/2 &&
+          !player.bomberman.current.classList.contains("immune")
+        ) {
+          death(player, monsters, player.bomberman.current);
+          currentLifes--;
+          lifes.innerHTML = currentLifes;
+        }
+      }
+    } else {
+      enemy.dir = randomMonsterDir();
+    }
+  });
+
+  /*--- End Monster Move ---*/
 
 
   requestAnimationFrame(animateMovement);

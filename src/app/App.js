@@ -3,18 +3,19 @@ import { useEffect, useRef, useState } from '../dist/utils.js';
 import { animateMovement } from './components/animation.js';
 import { Bomb } from './components/bomb.js';
 import { Board, MapSchema } from './components/map.js';
+import { Monster } from './components/monsters.js';
 import { Player } from './components/player.js';
 
 const initWidth = Math.floor(window.innerWidth / MapSchema[0].length / 1.4)
 const initHeight = Math.floor(window.innerHeight / MapSchema.length / 1.4)
-let size = Math.min(initWidth, initHeight);
+export let size = Math.min(initWidth, initHeight);
 export let width = size;
 export let height = size;
 export let delta = 0.0166
 // export let player
 export let grids = []
 export let bomb
-
+export let monsters
 
 export const App = () => {
 
@@ -103,6 +104,9 @@ export const App = () => {
 		const playerPos = BoardMap.getPlayerPose()
 		SimpleJS.state.player = new Player(playerPos[0] * width, playerPos[1] * height, Math.ceil(size * delta) * 2)
 		SimpleJS.state.player.bomberman = elmentRef
+
+     monsters = new Monster().initMonsters(5, MapSchema, map);
+
 	}
 
 	return (map)
