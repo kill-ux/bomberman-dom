@@ -104,9 +104,7 @@ export const App = () => {
 		const playerPos = BoardMap.getPlayerPose()
 		SimpleJS.state.player = new Player(playerPos[0] * width, playerPos[1] * height, Math.ceil(size * delta) * 2)
 		SimpleJS.state.player.bomberman = elmentRef
-
-     monsters = new Monster().initMonsters(5, MapSchema, map);
-
+		monsters = new Monster().initMonsters(5, MapSchema, map);
 	}
 
 	return (map)
