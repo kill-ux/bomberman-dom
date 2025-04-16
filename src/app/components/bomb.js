@@ -2,7 +2,7 @@
 // import { height, width } from "../App.js";
 
 
-// export class explotion {
+// export class explosion {
 //     constructor(x, y, map, id) {
 //         this.map = map;
 //         this.x = x;
@@ -33,7 +33,7 @@
 //         //     currentDiv.classList.contains("wall")
 //         //         ? null
 //         //         : currentDiv.classList.add("empty");
-//         //     currentDiv.classList.add("explotion");
+//         //     currentDiv.classList.add("explosion");
 //         //     fire.classList.add(`fire-${this.id}`);
 //         //     return [fire, currentDiv];
 //         // }
@@ -65,7 +65,7 @@
 //             currentDiv.type.contains("wall")
 //                 ? null
 //                 : currentDiv.type = `${currentDiv.type} empty`
-//             currentDiv.type = `${currentDiv.type} explotion`
+//             currentDiv.type = `${currentDiv.type} explosion`
 //             // fire.classList.add(`fire-${this.id}`);
 //             SimpleJS.setState(prev => prev)
 //             return [fire, currentDiv];
@@ -120,11 +120,11 @@
 //         console.log(SimpleJS.state.grids[yPos][xPos])
 //         // this.grids[yPos][xPos].classList.add("bomb-wall");
 //         SimpleJS.state.grids[yPos][xPos].type = `${SimpleJS.state.grids[yPos][xPos].type} bomb-wall`
-//         let centerEx = new explotion(xPos, yPos, map, 1);
-//         let rightEx = new explotion(xPos + 1, yPos, map, 2);
-//         let leftEx = new explotion(xPos - 1, yPos, map, 3);
-//         let downEx = new explotion(xPos, yPos + 1, map, 4);
-//         let upEx = new explotion(xPos, yPos - 1, map, 5);
+//         let centerEx = new explosion(xPos, yPos, map, 1);
+//         let rightEx = new explosion(xPos + 1, yPos, map, 2);
+//         let leftEx = new explosion(xPos - 1, yPos, map, 3);
+//         let downEx = new explosion(xPos, yPos + 1, map, 4);
+//         let upEx = new explosion(xPos, yPos - 1, map, 5);
 
 
 //         let bombInt = setInterval(() => {
@@ -156,7 +156,7 @@
 //         //         explotions.forEach((element) => {
 //         //             if (element != undefined) {
 //         //                 map.removeChild(element[0]);
-//         //                 element[1].classList.remove("explotion");
+//         //                 element[1].classList.remove("explosion");
 //         //             }
 //         //         });
 //         //         this.removeEffectsCounter = 0;
@@ -208,24 +208,26 @@ export class Explosion {
 
         const currentCell = SimpleJS.state.grids[this.y][this.x];
 
-        console.log(currentCell)
+        // console.log(currentCell)
 
         // Skip if it's a wall
         let oldType = ` ${currentCell.type} `
         if (oldType.includes(" wall ")) {
             return null;
         }
-        console.log("#")
+        // console.log("#")
 
         // Update cell type
         let newType = currentCell.type
             .replace("soft-wall", "")
             .trim();
 
-        if (!newType.includes("wall")) {
-            newType += " empty";
+        newType = ` ${newType} `
+        if (!newType.includes("wall") && !newType.includes("empty")) {
+            newType = "empty";
+        } else {
+            newType += " explosion";
         }
-        newType += " explosion";
 
         // Update state
         SimpleJS.setState(prev => {
@@ -282,9 +284,12 @@ export class Bomb {
         });
 
         // Set explosion timeout
-        setTimeout(() => {
+        let t
+        const time = setInterval(() => {
+            if (SimpleJS.state.pause) return
             this.explode(xPos, yPos);
-        }, this.explosionTime * 1000);
+            clearInterval(time)
+        }, this.explosionTime * 1000);;
     }
 
     explode(xPos, yPos) {
@@ -297,7 +302,7 @@ export class Bomb {
             new Explosion(xPos, yPos - 1, 5)   // up
         ];
 
-        console.log(explosions)
+        // console.log(explosions)
 
         // Initialize explosions
         explosions.forEach(exp => exp.initExplosion());
@@ -324,8 +329,10 @@ export class Bomb {
         });
 
         // Remove explosion effects after delay
-        setTimeout(() => {
+        const time = setInterval(() => {
+            if (SimpleJS.state.pause) return
             this.removeExplosionEffects(explosions);
+            clearInterval(time)
         }, this.removeEffectsTime * 1000);
     }
 

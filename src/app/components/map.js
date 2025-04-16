@@ -72,9 +72,9 @@ export class Board {
 
 		const grids = []
 		const gridState = this.bluePrint.map(row => row.map(cell => ({
-			type: cell === 0 || cell === 'x' 
+			type: (cell === 0 || cell === 'x') 
 			? 'empty' 
-			: cell === 1 ? 'wall' :  cell === 2 ? 'soft-wall' : 'soft-wall portal'
+			: (cell === 1 ? 'wall' :  (cell === 2 ? 'soft-wall' : 'soft-wall portal'))
 		})));
 		SimpleJS.setState(prev => ({ ...prev, grids: gridState }));
 

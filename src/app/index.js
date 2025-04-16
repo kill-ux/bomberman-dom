@@ -6,8 +6,10 @@ SimpleJS.state = {
     bombs: [],
     grids: [],
     fires: [],
+    monsters:[],
     player: null,
-    initialized: false
+    initialized: false,
+    pause:false
 }
 
 SimpleJS.addRoute('/', App)

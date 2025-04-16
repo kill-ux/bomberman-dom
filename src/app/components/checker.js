@@ -2,7 +2,7 @@ import { height, width } from "../App.js";
 
 export const checkUpperMove = (grids, rowBot, colBot, colTop, object) => {
   const leftGrid =
-    grids[rowBot][colBot].type.includes("wall")  ||
+    grids[rowBot][colBot].type.includes("wall") ||
     grids[rowBot][colBot].type.includes("soft-wall") ||
     (grids[rowBot][colBot].type.includes("bomb-wall") && !checkIfinBomb(grids, object));
   const rightGrid =
@@ -92,9 +92,12 @@ export const getPosImg = (frameX, frameY, div) => {
 };
 
 export const checkIfBombed = (grids, x, y) => {
+  // console.log("check", grids[Math.round(y / height)][
+  //   Math.round(x / width)
+  // ].type)
   return grids[Math.round(y / height)][
     Math.round(x / width)
-  ].classList.contains("explotion");
+  ].type.includes("explosion");
 };
 
 export const checkIfPortal = (grids, x, y) => {

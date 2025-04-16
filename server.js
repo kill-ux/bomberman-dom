@@ -2,7 +2,7 @@ import fs from 'node:fs/promises';
 import { createServer } from 'node:http';
 import path from 'node:path';
 
-const hostname = 'localhost';
+const hostname = '';
 const port = 3000;
 const baseDirectory = process.cwd();
 
