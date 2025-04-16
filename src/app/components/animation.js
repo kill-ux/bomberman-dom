@@ -144,9 +144,9 @@ export const animateMovement = (time) => {
           enemy.y <= player.y + size/2 &&
           !player.bomberman.current.classList.contains("immune")
         ) {
-          death(player, monsters, player.bomberman.current);
-          currentLifes--;
-          lifes.innerHTML = currentLifes;
+          //death(player, monsters, player.bomberman.current);
+          // currentLifes--;
+          // lifes.innerHTML = currentLifes;
         }
       }
     } else {
