@@ -80,7 +80,7 @@ export const App = () => {
 			SimpleJS.createElement("div", {
 				class: `fire-${fire.id}`,
 				style: `background-image:url(assets/inTheFire.png);
-                    background-size:${width * 5}px ${height * 2}px;
+                    background-size:${width}px ${height}px;
                     width:${width}px;
                     height:${height}px;
                     background-position:${width}px ${height * 2}px;

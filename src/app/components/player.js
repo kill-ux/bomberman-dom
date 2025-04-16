@@ -71,6 +71,7 @@ export class Player {
                 break;
             case "x":
                 // if (!pause) {
+                console.log(this.x, this.y)
                 let flames = bomb.putTheBomb(this.x, this.y, map);
                 // }
                 break;

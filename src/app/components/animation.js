@@ -4,7 +4,6 @@ import { checkDownMove, checkLeftMove, checkRightMove, checkUpperMove, getPosImg
 import { checkMonsterMove, randomMonsterDir } from "./monsters.js";
 
 export const animateMovement = (time) => {
-  console.log("f")
   const grids = SimpleJS.state.grids
   let player = SimpleJS.state.player
   let checkObj;
