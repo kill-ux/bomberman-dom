@@ -13,6 +13,7 @@ export const Websocket = () => {
   };
 
   ws.onclose = () => {
+    
     console.log('Connection closed');
   };
 

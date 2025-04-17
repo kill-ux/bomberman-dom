@@ -12,13 +12,12 @@ export function CreatePlayer(playerName) {
         Room.id++
     }
     Room.players.push(playerName); 
-    const start_game = false;
-    if (Room.players.length <= 2 && Room.players.length >= 4){
+    let start_game = false;
+    if (Room.players.length >= 2 && Room.players.length <= 4){
         start_game = true
-    }else if (start_game) {
+    }else  {
         start_game = false
     }
-    
-    return  [playerName,Room.players, start_game]
+    return  [playerName,start_game,Room.players]
     
 }

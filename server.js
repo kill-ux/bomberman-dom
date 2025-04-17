@@ -3,7 +3,6 @@ import { createServer } from 'node:http';
 import path from 'node:path';
 import { WebSocketServer } from 'ws';
 import { CreatePlayer } from './webSocket.js';
-import { Player } from './src/app/components/player.js';
 
 
 
@@ -74,8 +73,9 @@ const server = createServer(async (req, res) => {
 
 
 let wss = new WebSocketServer({ server });
- 
+
 wss.on('connection', (ws) => {
+    
     console.log('New client connected');
 
 
@@ -84,16 +84,45 @@ wss.on('connection', (ws) => {
 
     ws.on('message', (message) => {
         const data = JSON.parse(message);
-        if (data.action=="join"){
-            console.log(data);
-            let [countPlayers,StartGame,playerName] =CreatePlayer(data.name);
-            console.log( {action: 'Room', play:StartGame, name: countPlayers });
-            
-            ws.send(JSON.stringify({ action: 'Room', play:StartGame, myname: countPlayers,playerName:playerName }));
-        }else if   (data.action=="message"){
-            
-        }
+        console.log(data);
+    
+        switch (data.action) {
+            case "join":
+                let [countPlayers, StartGame, playerName] = CreatePlayer(data.name);
+    
+                const response = {
+                    action: 'Room',
+                    play: StartGame,
+                    myname: countPlayers,
+                    playerName: playerName
+                };
+    
+                console.log("Player joined:", response);
+    
+                wss.clients.forEach(client => {
+                    client.send(JSON.stringify(response));
+                });
+    
+                break;
+    
+            case "start":
+              
+                break;
+    
+            case "message":
+             
+                break;
+    
+            case "possition":
+
+                break;
+    
+            default:
+                console.log("Unknown action:", data.action);
+                break;
+        } 
     });
+    
 
 
     ws.on('close', () => {
