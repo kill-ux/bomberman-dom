@@ -1,6 +1,7 @@
 import fs from 'node:fs/promises';
 import { createServer } from 'node:http';
 import path from 'node:path';
+import { WebSocketServer } from 'ws';
 
 const hostname = '';
 const port = 3000;
@@ -30,7 +31,9 @@ async function serveIndexHtml(res) {
         res.end('Internal Server Error');
     }
 }
-const server = createServer(async (req, res) => {
+const server = createServer();
+
+server.on("request", async (req, res) => {
     const filePath = req.url === "/" ? "/index.html" : req.url;
     const ph = path.join(baseDirectory, filePath);
     try {
@@ -58,7 +61,34 @@ const server = createServer(async (req, res) => {
             res.end('Internal Server Error');
         }
     }
+})
+
+
+const wss = new WebSocketServer({ server })
+
+wss.on('connection', (ws) => {
+    console.log('New client connected');
+    ws.on('message', (message) => {
+        console.log(message)
+        wss.clients.forEach(client => {
+            if (client !== ws) {
+                client.send("Hello", (cb) => {
+                    if (cb != null) {
+                        console.log(cb)
+                    }
+                })
+            }
+        })
+        console.log(`Received message: ${message}`);
+        ws.send(`Server received your message: ${message}`);
+    });
+
+    ws.on('close', () => {
+        console.log('Client disconnected');
+    });
+
 });
+
 
 // Start the server
 server.listen(port, hostname, () => {

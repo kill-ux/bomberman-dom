@@ -21,3 +21,21 @@ const component = SimpleJS.routes[window.location.pathname]
 if (component) {
     SimpleJS.mount(component);
 }
+
+export const ws = new WebSocket('ws://localhost:3000');
+
+ws.onopen = () => {
+  ws.send('Hello, server');
+};
+
+ws.onmessage = (event) => {
+  console.log(`Received: ${event.data}`);
+};
+
+ws.onclose = () => {
+  console.log('Disconnected from server');
+};
+
+ws.onerror = (error) => {
+  console.error('WebSocket error:', error);
+};
