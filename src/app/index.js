@@ -1,5 +1,5 @@
 
-import { App, player } from '../app/App.js';
+import { App } from '../app/App.js';
 import { Websocket } from '../app/chat.js';
 import { SimpleJS } from '../dist/index.js';
 
@@ -22,3 +22,5 @@ const component = SimpleJS.routes[window.location.pathname]
 if (component) {
     SimpleJS.mount(component);
 }
+
+
