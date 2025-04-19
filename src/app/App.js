@@ -20,6 +20,7 @@ export const totalMonsters = 5
 export let monsters
 
 export const Game = () => {
+	console.log(width,"jkkkkkkkkk",height)
 
 	const elmentRef = useRef("bomberman")
 	const map = SimpleJS.createElement('div', {
@@ -33,8 +34,8 @@ export const Game = () => {
 		// Player will be added separately
 		SimpleJS.state.player ? SimpleJS.createElement('div', {
 			class: 'bomber-man',
-			style: `background-image:url(assets/hitler.png);
-            background-size:${4 * width}px ${8 * height}px;
+			style: `background-image:url(assets/4.png);
+            background-size:${4 * width}px ${4 * height}px;
             width:${width}px;
             height:${height}px;
             transform:translate(${SimpleJS.state.player.x}px, ${SimpleJS.state.player.y}px);
