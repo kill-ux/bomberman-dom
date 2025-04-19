@@ -97,11 +97,12 @@ wss.on('connection', (ws) => {
                         Clients.set(data.playername, {
                             ws,
                             lifes: 3,
-                            spawn: spawns[Clients.size]
+                            spawn: spawns[Clients.size],
+                            image: Clients.size + 1
                         })
 
                         Clients.forEach(value => {
-                            value.ws.send(JSON.stringify({ type: "appendQueue", playerCount: Clients.size , playerName }))
+                            value.ws.send(JSON.stringify({ type: "appendQueue", playerCount: Clients.size, playerName }))
                         })
 
                         if (Clients.size == 2) {
