@@ -104,6 +104,7 @@ export const Game = () => {
 	const BoardMap = new Board(map, MapSchema)
 	if (SimpleJS.state.grids.length == 0) {
 		useEffect(() => {
+			console.log(SimpleJS.state.players)
 			const playerPos = SimpleJS.state.players[SimpleJS.state.playerName].spawn
 			SimpleJS.state.player = new Player(playerPos[0] * width, playerPos[1] * height, Math.ceil(size * delta) * 2)
 			SimpleJS.state.player.bomberman = elmentRef
@@ -112,7 +113,16 @@ export const Game = () => {
 			grids = BoardMap.initLevel(map)
 			SimpleJS.state.initialized = true
 			bomb = new Bomb();
-			SimpleJS.state.monsters = new Monster().initMonsters(totalMonsters, MapSchema, map);
+			// SimpleJS.state.monsters = new Monster().initMonsters(totalMonsters, MapSchema, map);
+
+			/* other players */
+			SimpleJS.state.players.forEach((playerName, data) => {
+				if (playerName != SimpleJS.state.playerName) {
+					SimpleJS.state.player = new Player(data.spawn[0] * width, data.spawn[1] * height, Math.ceil(size * delta) * 2)
+					SimpleJS.state.player.bomberman = elmentRef
+				}
+			});
+
 			SimpleJS.setState()
 			requestAnimationFrame(() => animateMovement());
 		})
@@ -125,13 +135,13 @@ export const Game = () => {
 	// }
 
 	return (
-		SimpleJS.createElement("div",{class:"body"},[
-		  SimpleJS.createElement("div",{class: "container"},[
-			map
-		  ])
+		SimpleJS.createElement("div", { class: "body" }, [
+			SimpleJS.createElement("div", { class: "container" }, [
+				map
+			])
 		])
-	  )
-	}
+	)
+}
 
 /*
 <div class="map"></div>
