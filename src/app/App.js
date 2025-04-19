@@ -26,29 +26,16 @@ export const Game = () => {
 		tabindex: 0,
 		autofocus: true,
 		style: `width:${MapSchema[0].length * width}px;height:${MapSchema.length * height}px`,
-		onkeydown: (e) => SimpleJS.state.player?.movePlayer(e, map),
-		onkeyup: (e) => SimpleJS.state.player?.stopPlayer(e, map)
+		onkeydown: (e) => SimpleJS.state.players[SimpleJS.state.playerName].pObj?.movePlayer(e, map),
+		onkeyup: (e) => SimpleJS.state.players[SimpleJS.state.playerName].pObj?.stopPlayer(e, map)
 	}, [
-		// Player will be added separately
-		// SimpleJS.state.player ? SimpleJS.createElement('div', {
-		// 	class: 'bomber-man',
-		// 	style: `background-image:url(assets/4.png);
-		//     background-size:${4 * width}px ${4 * height}px;
-		//     width:${width}px;
-		//     height:${height}px;
-		//     transform:translate(${SimpleJS.state.player.x}px, ${SimpleJS.state.player.y}px);
-		//     `,
-		// 	ref: elmentRef,
-		// }) : "",
 
-		//render other players
 
 		...Object.keys(SimpleJS.state.players).map((playerName) => {
 			console.log("tttttttttttttttt")
 			if (SimpleJS.state.players[playerName].pObj) {
 				const elmentRef = useRef(playerName)
-				SimpleJS.state.players[playerName]["bomberman"] = elmentRef
-				console.log("inside render loop =               ================")
+				SimpleJS.state.players[playerName].pObj.bomberman = elmentRef
 				const { pObj } = SimpleJS.state.players[playerName]
 
 				return SimpleJS.createElement('div', {
@@ -132,32 +119,20 @@ export const Game = () => {
 	const BoardMap = new Board(map, MapSchema)
 	if (SimpleJS.state.grids.length == 0) {
 		useEffect(() => {
-			// const playerPos = SimpleJS.state.players[SimpleJS.state.playerName].spawn
-			// SimpleJS.state.player = new Player(playerPos[0] * width, playerPos[1] * height, Math.ceil(size * delta) * 2)
-			// SimpleJS.state.player.bomberman = elmentRef
 			/* all players */
 			Object.entries(SimpleJS.state.players).forEach(([playerName, data]) => {
 				SimpleJS.state.players[playerName].pObj = new Player(data.spawn[0] * width, data.spawn[1] * height, Math.ceil(size * delta) * 2)
-				// SimpleJS.state.players[playerName]["bomberman"] = { current: {} }
 			});
 			BoardMap.randomizeBricks(SimpleJS.state.diffMap)
 			grids = BoardMap.initLevel(map)
 			bomb = new Bomb();
 			// SimpleJS.state.monsters = new Monster().initMonsters(totalMonsters, MapSchema, map);
 
-
-
 			SimpleJS.setState()
 			console.log("%v => ",SimpleJS.state.players[SimpleJS.state.playerName])
 			requestAnimationFrame(() => animateMovement());
 		})
 	}
-
-	// if (!SimpleJS.state.initialized) {
-	// 	// const playerPos = BoardMap.getPlayerPose()
-	// 	// SimpleJS.state.player = new Player(playerPos[0] * width, playerPos[1] * height, Math.ceil(size * delta) * 2)
-	// 	// SimpleJS.state.player.bomberman = elmentRef
-	// }
 
 	return (
 		SimpleJS.createElement("div", { class: "body" }, [

@@ -1,15 +1,15 @@
 import { SimpleJS } from "../../dist/index.js";
 import { height, size, width } from "../App.js";
+import { ws } from "../index.js";
 import { checkDownMove, checkIfBombed, checkLeftMove, checkRightMove, checkUpperMove, getPosImg } from "./checker.js";
 import { death } from "./helpers.js";
 import { checkMonsterMove, randomMonsterDir } from "./monsters.js";
 
 export const animateMovement = (time) => {
-	if (!SimpleJS.state.pause){
+	if (!SimpleJS.state.pause) {
 
 		const grids = SimpleJS.state.grids
-		let player = SimpleJS.state.players[SimpleJS.state.playerName]
-		console.log(player, SimpleJS.state.players[SimpleJS.state.playerName], "<==========")
+		let player = SimpleJS.state.players[SimpleJS.state.playerName].pObj
 		let checkObj;
 		switch (true) {
 			case player.moveDown:
@@ -69,7 +69,7 @@ export const animateMovement = (time) => {
 				player.rowBot = Math.floor(player.y / height);
 				player.rowTop = Math.ceil(player.y / height);
 				player.colTop = Math.ceil((player.x + player.speed) / width);
-	
+
 				checkObj = checkRightMove(
 					grids,
 					player.rowBot,
@@ -85,10 +85,15 @@ export const animateMovement = (time) => {
 				break;
 			default:
 				getPosImg(1, 4, player.bomberman.current);
-	
+
 		}
 		if (player.bomberman.current) {
-			player.bomberman.current.style.transform = `translate(${player.x}px, ${player.y}px)`;
+			const copy = player.bomberman.current.style.transform
+			if (copy != `translate(${player.x}px, ${player.y}px)`) {
+				player.bomberman.current.style.transform = `translate(${player.x}px, ${player.y}px)`;
+				ws.send(JSON.stringify({ type: "moves", playerName: SimpleJS.state.playerName, content: `translate(${player.x}px, ${player.y}px)` }))
+			}
+
 		}
 		if (player.slow >= player.slowFrames) {
 			if (player.loop < player.frames.length - 1) {
@@ -100,7 +105,7 @@ export const animateMovement = (time) => {
 		} else {
 			player.slow++;
 		}
-	
+
 		/*--- Start Monster Move ---*/
 		SimpleJS.state.monsters.forEach((enemy) => {
 			if (!checkMonsterMove(enemy, grids)) {
@@ -164,9 +169,9 @@ export const animateMovement = (time) => {
 				enemy.dir = randomMonsterDir();
 			}
 		});
-	
+
 		/*--- End Monster Move ---*/
-	
+
 		/*--- player death ---*/
 		// if ((currentLifes === 0 || countDown === 0) && !stopAlert) {
 		//   stopAlert = true;

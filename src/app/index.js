@@ -30,7 +30,7 @@ if (component) {
   SimpleJS.mount(component);
 }
 
-export const ws = new WebSocket('ws://localhost:3000');
+export const ws = new WebSocket('/');
 
 ws.onopen = () => {
   console.log('you are connected to the server');
@@ -55,6 +55,10 @@ ws.onmessage = (event) => {
       if (location.pathname !== "/game") {
         SimpleJS.Link("/game")
       }
+      break
+    case "moves":
+      
+      SimpleJS.state.players = cls
       break
   }
 };
