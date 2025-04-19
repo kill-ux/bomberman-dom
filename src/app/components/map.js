@@ -43,28 +43,28 @@ export class Board {
 		}
 	}
 
-	randomizeBricks() {
+	randomizeBricks(arr) {
 		for (
 			let i = 0;
-			i < (this.bluePrint.length * this.bluePrint[0].length) / 2;
+			i < Math.floor((this.bluePrint.length * this.bluePrint[0].length) / 2);
 			i++
 		) {
-			const row = Math.floor(Math.random() * this.bluePrint.length)
-			const col = Math.floor(Math.random() * this.bluePrint[0].length)
+			const row = Math.floor(arr[i][0] * this.bluePrint.length)
+			const col = Math.floor(arr[i][1] * this.bluePrint[0].length)
 
 			if (this.bluePrint[row][col] == 0) this.bluePrint[row][col] = 2
 		}
 	}
 	getPlayerPose = () => {
-        for (let i = 0; i < this.bluePrint.length; i++) {
-            for (let j = 0; j < this.bluePrint[i].length; j++) {
-                if (this.bluePrint[i][j] === "x") return [i, j];
-            }
-        }
-    }
+		for (let i = 0; i < this.bluePrint.length; i++) {
+			for (let j = 0; j < this.bluePrint[i].length; j++) {
+				if (this.bluePrint[i][j] === "x") return [i, j];
+			}
+		}
+	}
 	initLevel() {
 		// this.map.attrs.style = `width:${this.bluePrint[0].length * width}px;height:${this.bluePrint.length * height}px`;
-		
+
 		// SimpleJS.setState(prev => ({ ...prev, grid: gridState }));
 		// return gridState; // Optionally return for initialization
 
@@ -72,9 +72,9 @@ export class Board {
 
 		const grids = []
 		const gridState = this.bluePrint.map(row => row.map(cell => ({
-			type: (cell === 0 || cell === 'x') 
-			? 'empty' 
-			: (cell === 1 ? 'wall' :  (cell === 2 ? 'soft-wall' : 'soft-wall portal'))
+			type: (cell === 0 || cell === 'x')
+				? 'empty'
+				: (cell === 1 ? 'wall' : (cell === 2 ? 'soft-wall' : 'soft-wall portal'))
 		})));
 		SimpleJS.setState(prev => ({ ...prev, grids: gridState }));
 

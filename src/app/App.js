@@ -19,7 +19,7 @@ export let bomb
 export const totalMonsters = 5
 export let monsters
 
-export const App = () => {
+export const Game = () => {
 
 	const elmentRef = useRef("bomberman")
 	const map = SimpleJS.createElement('div', {
@@ -104,11 +104,11 @@ export const App = () => {
 	const BoardMap = new Board(map, MapSchema)
 	if (SimpleJS.state.grids.length == 0) {
 		useEffect(() => {
-			// console.log("hhh")
-			const playerPos = BoardMap.getPlayerPose()
+			const playerPos = SimpleJS.state.players[SimpleJS.state.playerName].spawn
 			SimpleJS.state.player = new Player(playerPos[0] * width, playerPos[1] * height, Math.ceil(size * delta) * 2)
 			SimpleJS.state.player.bomberman = elmentRef
-			BoardMap.randomizeBricks()
+			console.log(SimpleJS.state.diffMap)
+			BoardMap.randomizeBricks(SimpleJS.state.diffMap)
 			grids = BoardMap.initLevel(map)
 			SimpleJS.state.initialized = true
 			bomb = new Bomb();
@@ -128,9 +128,7 @@ export const App = () => {
 		SimpleJS.createElement("div",{class:"body"},[
 		  SimpleJS.createElement("div",{class: "container"},[
 			map
-		  ]),
-	
-		  SimpleJS.state.pause && menu()
+		  ])
 		])
 	  )
 	}

@@ -1,5 +1,5 @@
 
-import { updateElement } from "./dom.js";
+import { mountCallback, updateElement } from "./dom.js";
 import { SimpleJS } from "./index.js";
 
 
@@ -11,6 +11,10 @@ export function router() {
         const newVDom = SimpleJS.newVDOM();
         updateElement(SimpleJS.rootElement.childNodes[0], SimpleJS.currentVDOM, newVDom);
         SimpleJS.currentVDOM = newVDom;
+        mountCallback.forEach(callback => {
+            callback()
+        })
+        mountCallback.clear()
     }
 };
 
@@ -21,6 +25,6 @@ export function addRoute(path, component) {
 
 
 export const Link = (path) => {
-    history.pushState({...SimpleJS.state.todos}, "", path)
+    history.pushState({ ...SimpleJS.state.todos }, "", path)
     router()
 }

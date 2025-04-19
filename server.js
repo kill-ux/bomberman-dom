@@ -63,27 +63,79 @@ server.on("request", async (req, res) => {
     }
 })
 
+const DiffMap = () => {
+    const arr = []
+    for (let index = 0; index < 126; index++) {
+        arr[index] = [Math.random(), Math.random()]
+    }
+    return arr
+}
 
+
+let time
+let playerCount = 0
 const wss = new WebSocketServer({ server })
+const Clients = new Map()
+// room => Map of users
+const spawns = [[1, 1], [21, 9], [21, 1], [1, 9]]
+let diffMap
 
 wss.on('connection', (ws) => {
     console.log('New client connected');
+    let playerName
     ws.on('message', (message) => {
-        console.log(message)
-        wss.clients.forEach(client => {
-            if (client !== ws) {
-                client.send("Hello", (cb) => {
-                    if (cb != null) {
-                        console.log(cb)
+        let data = JSON.parse(message)
+        switch (data.type) {
+            case "newPlayer":
+                if (Clients.size === 0) {
+                    diffMap = DiffMap()
+                }
+                if (Clients.size < 4) {
+                    if (data.playername && !Clients.has(data.playername)) {
+                        playerName = data.playername
+                        console.log(`${playerName} join the room`)
+                        Clients.set(data.playername, {
+                            ws,
+                            lifes: 3,
+                            spawn: spawns[Clients.size]
+                        })
+
+                        Clients.forEach(value => {
+                            value.ws.send(JSON.stringify({ type: "appendQueue", playerCount: Clients.size , playerName }))
+                        })
+
+                        if (Clients.size == 2) {
+                            let cls = {}
+                            Clients.forEach(({ lifes, spawn }, key) => {
+                                cls[key] = { lifes, spawn }
+                            })
+                            console.log(cls)
+
+                            Clients.forEach(value => {
+                                value.ws.send(JSON.stringify({ type: "startGame", cls, diffMap }))
+                            })
+                        }
+
+                    } else {
+                        ws.send(JSON.stringify({ type: "error", content: "invalid name" }))
                     }
-                })
-            }
-        })
-        console.log(`Received message: ${message}`);
-        ws.send(`Server received your message: ${message}`);
+                }
+
+            case "newMessage":
+            //
+            case "moves":
+            //
+            case "bomb":
+            //
+            case "dead":
+            //
+        }
     });
 
     ws.on('close', () => {
+        console.log(`${playerName} are close his connection`)
+        Clients.delete(playerName)
+        // send 
         console.log('Client disconnected');
     });
 

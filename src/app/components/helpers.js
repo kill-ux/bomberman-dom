@@ -4,7 +4,7 @@ import { height, width } from "../App.js";
 export const death = (player, monsters, bomberman) => {
     bomberman.classList.add('immune')
     setTimeout(() => {
-        if (!SimpleJS.state.pause) player.deathCounter++
+        // if (!SimpleJS.state.pause) player.deathCounter++
         // player.deathCounter++
         // if (player.deathCounter == player.deathTime) {
             bomberman.classList.remove('immune')

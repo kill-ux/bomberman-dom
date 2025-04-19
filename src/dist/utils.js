@@ -79,7 +79,7 @@ export function trackInstance(instance, id) {
 
 
 
-export const useEffect = (value,tab) => {
+export const useEffect = (value, tab) => {
   if (!mountCallback.has(value)) {
     mountCallback.add(value)
   }

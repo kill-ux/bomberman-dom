@@ -1,35 +1,62 @@
 
-import { App } from '../app/App.js';
 import { SimpleJS } from '../dist/index.js';
+import { Game } from './App.js';
+import { Queue } from './Queue.js';
+import { Welcome } from './Welcome.js';
 
 SimpleJS.state = {
-    bombs: [],
-    grids: [],
-    fires: [],
-    monsters:[],
-    player: null,
-    initialized: false,
-    pause:false
+  bombs: [],
+  grids: [],
+  fires: [],
+  monsters: [],
+  player: null,
+  initialized: false,
+  pause: false,
+  playerCount: 0,
+  timer: 10,
+  playerName: "",
+  players: {}
 }
 
-SimpleJS.addRoute('/', App)
+SimpleJS.addRoute('/', Welcome)
+SimpleJS.addRoute('/queue', Queue)
+SimpleJS.addRoute('/game', Game)
 SimpleJS.addRoute('/notfound', () => {
-    return SimpleJS.createElement("div", {}, ["error 404"])
+  return SimpleJS.createElement("div", {}, ["error 404"])
 })
 
 const component = SimpleJS.routes[window.location.pathname]
 if (component) {
-    SimpleJS.mount(component);
+  SimpleJS.mount(component);
 }
 
 export const ws = new WebSocket('ws://localhost:3000');
 
 ws.onopen = () => {
-  ws.send('Hello, server');
+  console.log('you are connected to the server');
 };
 
 ws.onmessage = (event) => {
-  console.log(`Received: ${event.data}`);
+  const { type, content, playerCount, playerName, cls, diffMap } = JSON.parse(event.data)
+  switch (type) {
+    case "error":
+      console.error(content)
+      break
+    case "appendQueue":
+
+      SimpleJS.setState(prev => ({ ...prev, playerCount, playerName: prev.playerName ? prev.playerName : playerName }))
+      if (location.pathname !== "/queue") {
+        SimpleJS.Link("/queue")
+      }
+      break
+    case "startGame":
+      SimpleJS.state.players = cls
+      SimpleJS.state.diffMap = diffMap
+      if (location.pathname !== "/game") {
+        SimpleJS.Link("/game")
+      }
+      break
+  }
 };
 
 ws.onclose = () => {

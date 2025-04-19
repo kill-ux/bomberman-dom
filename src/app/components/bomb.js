@@ -219,15 +219,21 @@ export class Explosion {
 
         // Update cell type
         let newType = currentCell.type
-            .replace("soft-wall", "")
+            .replace("soft-wall", "empty")
             .trim();
 
-        newType = ` ${newType} `
-        if (!newType.includes("wall") && !newType.includes("empty")) {
-            newType = "empty";
-        } else {
-            newType += " explosion";
-        }
+        newType = newType.replace("empty", "empty explosion")
+            .trim();
+
+        // let newType = ` ${currentCell.type} `
+        // if (!newType.includes(" wall ")) {
+        //     if (!newType.includes("empty")) {
+        //         newType = "empty explosion";
+        //     } else {
+        //         newType = "explosion";
+        //     }
+        // }
+        console.log(newType)
 
         // Update state
         SimpleJS.setState(prev => {
@@ -286,7 +292,6 @@ export class Bomb {
         // Set explosion timeout
         let t
         const time = setInterval(() => {
-            if (SimpleJS.state.pause) return
             this.explode(xPos, yPos);
             clearInterval(time)
         }, this.explosionTime * 1000);;
@@ -330,7 +335,7 @@ export class Bomb {
 
         // Remove explosion effects after delay
         const time = setInterval(() => {
-            if (SimpleJS.state.pause) return
+            // if (SimpleJS.state.pause) return
             this.removeExplosionEffects(explosions);
             clearInterval(time)
         }, this.removeEffectsTime * 1000);

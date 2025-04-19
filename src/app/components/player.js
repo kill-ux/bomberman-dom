@@ -35,20 +35,10 @@ export class Player {
 
         switch (key) {
             case "p":
-                if (!SimpleJS.state.pause) {
-                    SimpleJS.setState((prev)=>({...prev, pause:true}))
-                    // pause = true
-                }else{
-                    SimpleJS.setState((prev)=>({...prev, pause:false}))
-                    //  pause = false
-                };
-                // Displaymenu(map);
-                //Displaymenu();
+                // quit button
                 break
             case " ":
-                if (!SimpleJS.state.pause) {
                 let flames = bomb.putTheBomb(this.x, this.y, map);
-                }
                 break;
             case "arrowup":
                 this.moveUp = true;
