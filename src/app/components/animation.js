@@ -8,7 +8,8 @@ export const animateMovement = (time) => {
 	if (!SimpleJS.state.pause){
 
 		const grids = SimpleJS.state.grids
-		let player = SimpleJS.state.player
+		let player = SimpleJS.state.players[SimpleJS.state.playerName]
+		console.log(player, SimpleJS.state.players[SimpleJS.state.playerName], "<==========")
 		let checkObj;
 		switch (true) {
 			case player.moveDown:
@@ -172,7 +173,7 @@ export const animateMovement = (time) => {
 		//   alert("You lose!");
 		//   location.reload();
 		// }
-	
+		console.log(player.x, player.y)
 		if (
 			checkIfBombed(grids, player.x, player.y) &&
 			!player.bomberman.current.classList.contains("immune")

@@ -70,13 +70,13 @@ export class Board {
 
 		// this.map.attrs.style = `width:${this.bluePrint[0].length * width}px;height:${this.bluePrint.length * height}px`
 
-		const grids = []
+		// const grids = []
 		const gridState = this.bluePrint.map(row => row.map(cell => ({
 			type: (cell === 0 || cell === 'x')
 				? 'empty'
 				: (cell === 1 ? 'wall' : (cell === 2 ? 'soft-wall' : 'soft-wall portal'))
 		})));
-		SimpleJS.setState(prev => ({ ...prev, grids: gridState }));
+		SimpleJS.state.grids = gridState
 
 
 		// for (let i = 0; i < this.bluePrint.length; i++) {
