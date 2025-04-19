@@ -13,7 +13,6 @@ SimpleJS.state = {
   initialized: false,
   pause: false,
   playerCount: 0,
-  timer: 10,
   playerName: "",
   players: {}
 }
@@ -36,8 +35,9 @@ ws.onopen = () => {
   console.log('you are connected to the server');
 };
 
+let interval
 ws.onmessage = (event) => {
-  const { type, content, playerCount, playerName, cls, diffMap } = JSON.parse(event.data)
+  const { type, content, playerCount, playerName, cls, diffMap , timer } = JSON.parse(event.data)
   switch (type) {
     case "error":
       console.error(content)
@@ -55,6 +55,8 @@ ws.onmessage = (event) => {
       if (location.pathname !== "/game") {
         SimpleJS.Link("/game")
       }
+    case "startTime":
+        SimpleJS.setState((prev) => ({ ...prev , timer }))
       break
   }
 };

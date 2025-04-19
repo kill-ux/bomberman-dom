@@ -72,13 +72,40 @@ const DiffMap = () => {
 }
 
 
-let time
+
+let timeout
+let timer20
+let timer10
 let playerCount = 0
 const wss = new WebSocketServer({ server })
 const Clients = new Map()
 // room => Map of users
 const spawns = [[1, 1], [21, 9], [21, 1], [1, 9]]
 let diffMap
+
+
+const startTime = () => {
+    timer10 = 10
+    timeout = setInterval(() => {
+        if (timer10 === -1) {
+            let cls = {}
+            Clients.forEach(({ lifes, spawn }, key) => {
+                cls[key] = { lifes, spawn }
+            })
+            console.log(cls)
+            Clients.forEach(value => {
+                value.ws.send(JSON.stringify({ type: "startGame", cls, diffMap, }))
+            })
+            timer10 = null
+            clearInterval(timeout)
+        } else {
+            Clients.forEach(value => {
+                value.ws.send(JSON.stringify({ type: "startTime", timer: timer10 }))
+            })
+            timer10--
+        }
+    }, 1000)
+}
 
 wss.on('connection', (ws) => {
     console.log('New client connected');
@@ -90,6 +117,10 @@ wss.on('connection', (ws) => {
                 if (Clients.size === 0) {
                     diffMap = DiffMap()
                 }
+                if (timer10) {
+                    return
+                }
+                console.log(Clients)
                 if (Clients.size < 4) {
                     if (data.playername && !Clients.has(data.playername)) {
                         playerName = data.playername
@@ -105,16 +136,17 @@ wss.on('connection', (ws) => {
                             value.ws.send(JSON.stringify({ type: "appendQueue", playerCount: Clients.size, playerName }))
                         })
 
-                        if (Clients.size == 2) {
-                            let cls = {}
-                            Clients.forEach(({ lifes, spawn }, key) => {
-                                cls[key] = { lifes, spawn }
-                            })
-                            console.log(cls)
+                        if (Clients.size >= 2) {
+                            timer20 = 20
+                            clearTimeout(timeout)
+                            if (Clients.size == 4) {
+                                startTime()
+                            } else {
+                                timeout = setTimeout(() => {
+                                    startTime()
+                                }, 20000)
+                            }
 
-                            Clients.forEach(value => {
-                                value.ws.send(JSON.stringify({ type: "startGame", cls, diffMap }))
-                            })
                         }
 
                     } else {

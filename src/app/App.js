@@ -105,6 +105,7 @@ export const Game = () => {
 	const BoardMap = new Board(map, MapSchema)
 	if (SimpleJS.state.grids.length == 0) {
 		useEffect(() => {
+			console.log("jkjk")
 			const playerPos = SimpleJS.state.players[SimpleJS.state.playerName].spawn
 			SimpleJS.state.player = new Player(playerPos[0] * width, playerPos[1] * height, Math.ceil(size * delta) * 2)
 			SimpleJS.state.player.bomberman = elmentRef
@@ -115,7 +116,7 @@ export const Game = () => {
 			bomb = new Bomb();
 			SimpleJS.state.monsters = new Monster().initMonsters(totalMonsters, MapSchema, map);
 			SimpleJS.setState()
-			requestAnimationFrame(() => animateMovement());
+			requestAnimationFrame(animateMovement);
 		})
 	}
 
