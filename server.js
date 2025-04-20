@@ -159,16 +159,20 @@ wss.on('connection', (ws) => {
             case "newMessage":
             //
             case "moves":
-                
                 Clients.forEach((value, key) => {
                     if (key != data.playerName){
                         value.ws.send(JSON.stringify(data))
                     }
                 })
                 break
-            //
+            // boomb
             case "bomb":
-            //
+            Clients.forEach((value, key) => {
+                if (key != data.playerName){
+                    value.ws.send(JSON.stringify(data))
+                }
+            })
+            break
             case "dead":
             //
         }

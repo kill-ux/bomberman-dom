@@ -1,6 +1,7 @@
 
 import { SimpleJS } from '../dist/index.js';
 import { Game, size } from './App.js';
+import { Bomb } from './components/bomb.js';
 import { Queue } from './Queue.js';
 import { Welcome } from './Welcome.js';
 
@@ -36,9 +37,8 @@ ws.onopen = () => {
 };
 
 let resetMoves
-
 ws.onmessage = (event) => {
-  const { type, content, playerCount, playerName, cls, diffMap, playerX, playerY, moveUp, moveRight, moveLeft, moveDown , timer } = JSON.parse(event.data)
+  const { type, content, playerCount, playerName, cls, boombx, boomby, diffMap, playerX, playerY, moveUp, moveRight, moveLeft, moveDown , timer } = JSON.parse(event.data)
   switch (type) {
     case "error":
       console.error(content)
@@ -74,6 +74,7 @@ ws.onmessage = (event) => {
       SimpleJS.state.players[playerName].pObj.moveUp = false
       SimpleJS.state.players[playerName].pObj.moveRight = false
     },50)
+    case "boomb":
 
       break
   }
