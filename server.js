@@ -140,11 +140,12 @@ wss.on('connection', (ws) => {
                             timer20 = 20
                             clearTimeout(timeout)
                             if (Clients.size == 4) {
-                                startTime()
+                                // startTime()
                             } else {
                                 timeout = setTimeout(() => {
-                                    startTime()
-                                }, 20000)
+                                    // startTime()
+                                    // }, 20000)
+                                }, 2000)
                             }
 
                         }
