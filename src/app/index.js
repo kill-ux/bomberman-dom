@@ -6,6 +6,7 @@ import { Welcome } from './Welcome.js';
 
 SimpleJS.state = {
   bombs: [],
+  powers: [],
   grids: [],
   fires: [],
   monsters: [],
@@ -38,7 +39,7 @@ ws.onopen = () => {
 let resetMoves
 
 ws.onmessage = (event) => {
-  const { type, content, playerCount, playerName, cls, diffMap, playerX, playerY, moveUp, moveRight, moveLeft, moveDown , timer } = JSON.parse(event.data)
+  const { type, content, playerCount, playerName, cls, diffMap, playerX, playerY, moveUp, moveRight, moveLeft, moveDown, timer } = JSON.parse(event.data)
   switch (type) {
     case "error":
       console.error(content)
@@ -57,23 +58,23 @@ ws.onmessage = (event) => {
         SimpleJS.Link("/game")
       }
     case "startTime":
-        SimpleJS.setState((prev) => ({ ...prev , timer }))
+      SimpleJS.setState((prev) => ({ ...prev, timer }))
       break
     case "moves":
-    SimpleJS.state.players[playerName].pObj.x = playerX*size
-    SimpleJS.state.players[playerName].pObj.y = playerY*size
-    SimpleJS.state.players[playerName].pObj.moveUp = moveUp    
-    SimpleJS.state.players[playerName].pObj.moveDown = moveDown  
-    SimpleJS.state.players[playerName].pObj.moveLeft = moveLeft  
-    SimpleJS.state.players[playerName].pObj.moveRight = moveRight
-      
-    clearTimeout(resetMoves)
-    resetMoves = setTimeout(()=>{
-      SimpleJS.state.players[playerName].pObj.moveDown = false
-      SimpleJS.state.players[playerName].pObj.moveLeft = false
-      SimpleJS.state.players[playerName].pObj.moveUp = false
-      SimpleJS.state.players[playerName].pObj.moveRight = false
-    },50)
+      SimpleJS.state.players[playerName].pObj.x = playerX * size
+      SimpleJS.state.players[playerName].pObj.y = playerY * size
+      SimpleJS.state.players[playerName].pObj.moveUp = moveUp
+      SimpleJS.state.players[playerName].pObj.moveDown = moveDown
+      SimpleJS.state.players[playerName].pObj.moveLeft = moveLeft
+      SimpleJS.state.players[playerName].pObj.moveRight = moveRight
+
+      clearTimeout(resetMoves)
+      resetMoves = setTimeout(() => {
+        SimpleJS.state.players[playerName].pObj.moveDown = false
+        SimpleJS.state.players[playerName].pObj.moveLeft = false
+        SimpleJS.state.players[playerName].pObj.moveUp = false
+        SimpleJS.state.players[playerName].pObj.moveRight = false
+      }, 50)
 
       break
   }

@@ -53,12 +53,14 @@ export class Board {
 			const col = Math.floor(arr[i][1] * this.bluePrint[0].length)
 
 			if (this.bluePrint[row][col] == 0) {
-				console.log(row, col)
-				if (arr[i][0] > 0) {
-					this.bluePrint[row][col] = 3
-				} else {
-					this.bluePrint[row][col] = 2
-				}
+				this.bluePrint[row][col] = 3
+				// if (row > 3) {
+				// 	this.bluePrint[row][col] = 3
+				// } else if (row > 2) {
+				// 	this.bluePrint[row][col] = 4
+				// } else {
+				// 	this.bluePrint[row][col] = 2
+				// }
 			}
 		}
 	}
@@ -78,12 +80,15 @@ export class Board {
 		// this.map.attrs.style = `width:${this.bluePrint[0].length * width}px;height:${this.bluePrint.length * height}px`
 
 		// const grids = []
-		const gridState = this.bluePrint.map(row => row.map(cell => ({
-			type: (cell === 0 || cell === 'x')
-				? 'empty'
-				: (cell === 1 ? 'wall' : 'soft-wall'),
-			power: cell === 3 ? "bombs" : "empty",
-		})));
+		const gridState = this.bluePrint.map((row, i) => row.map((cell, j) => {
+			return {
+				type: (cell === 0 || cell === 'x')
+					? 'empty'
+					: (cell === 1 ? 'wall' : 'soft-wall'),
+				power: cell === 3 ? "idel" : (cell === 4 ? "shoe" : ""),
+				id: `${i}-${j}`
+			}
+		}));
 		SimpleJS.state.grids = gridState
 
 

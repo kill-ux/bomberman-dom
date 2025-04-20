@@ -1,5 +1,5 @@
 import { SimpleJS } from "../../dist/index.js";
-import { bomb} from "../App.js";
+import { bomb } from "../App.js";
 
 export class Player {
     constructor(x, y, speed) {
@@ -38,7 +38,7 @@ export class Player {
                 // quit button
                 break
             case " ":
-                let flames = bomb.putTheBomb(this.x, this.y, map);
+                let flames = bomb.putTheBomb(this.x, this.y, this.maxBomb);
                 break;
             case "arrowup":
                 this.moveUp = true;
