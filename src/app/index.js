@@ -1,6 +1,6 @@
 
 import { SimpleJS } from '../dist/index.js';
-import { Game } from './App.js';
+import { Game, size } from './App.js';
 import { Queue } from './Queue.js';
 import { Welcome } from './Welcome.js';
 
@@ -37,7 +37,7 @@ ws.onopen = () => {
 };
 
 ws.onmessage = (event) => {
-  const { type, content, playerCount, playerName, cls, diffMap } = JSON.parse(event.data)
+  const { type, content, playerCount, playerName, cls, diffMap, playerX, playerY } = JSON.parse(event.data)
   switch (type) {
     case "error":
       console.error(content)
@@ -58,7 +58,8 @@ ws.onmessage = (event) => {
       break
     case "moves":
       
-      SimpleJS.state.players = cls
+    SimpleJS.state.players[playerName].pObj.x = playerX*size
+    SimpleJS.state.players[playerName].pObj.y = playerY*size
       break
   }
 };

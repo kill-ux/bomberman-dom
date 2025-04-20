@@ -1,6 +1,7 @@
 import fs from 'node:fs/promises';
 import { createServer } from 'node:http';
 import path from 'node:path';
+import { stringify } from 'node:querystring';
 import { WebSocketServer } from 'ws';
 
 const hostname = '';
@@ -121,15 +122,17 @@ wss.on('connection', (ws) => {
                         ws.send(JSON.stringify({ type: "error", content: "invalid name" }))
                     }
                 }
-
+                break
             case "newMessage":
             //
             case "moves":
+                
                 Clients.forEach((value, key) => {
                     if (key != data.playerName){
-                        value.ws.send(message)
+                        value.ws.send(JSON.stringify(data))
                     }
                 })
+                break
             //
             case "bomb":
             //

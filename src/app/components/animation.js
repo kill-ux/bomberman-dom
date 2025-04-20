@@ -85,13 +85,18 @@ export const animateMovement = (time) => {
 				break;
 			default:
 				getPosImg(1, 4, player.bomberman.current);
-
 		}
 		if (player.bomberman.current) {
 			const copy = player.bomberman.current.style.transform
 			if (copy != `translate(${player.x}px, ${player.y}px)`) {
-				player.bomberman.current.style.transform = `translate(${player.x}px, ${player.y}px)`;
-				ws.send(JSON.stringify({ type: "moves", playerName: SimpleJS.state.playerName, content: `translate(${player.x}px, ${player.y}px)` }))
+				//move players
+				Object.values(SimpleJS.state.players).forEach(({pObj})=>{
+					pObj.bomberman.current.style.transform = `translate(${pObj.x}px, ${pObj.y}px)`;
+
+				})
+				// player.bomberman.current.style.transform = `translate(${player.x}px, ${player.y}px)`;
+
+				ws.send(JSON.stringify({ type: "moves", playerName: SimpleJS.state.playerName, playerX: player.x/size, playerY: player.y/size}))
 			}
 
 		}
@@ -178,7 +183,6 @@ export const animateMovement = (time) => {
 		//   alert("You lose!");
 		//   location.reload();
 		// }
-		console.log(player.x, player.y)
 		if (
 			checkIfBombed(grids, player.x, player.y) &&
 			!player.bomberman.current.classList.contains("immune")

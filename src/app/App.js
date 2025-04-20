@@ -26,13 +26,12 @@ export const Game = () => {
 		tabindex: 0,
 		autofocus: true,
 		style: `width:${MapSchema[0].length * width}px;height:${MapSchema.length * height}px`,
-		onkeydown: (e) => SimpleJS.state.players[SimpleJS.state.playerName].pObj?.movePlayer(e, map),
-		onkeyup: (e) => SimpleJS.state.players[SimpleJS.state.playerName].pObj?.stopPlayer(e, map)
+		onkeydown: SimpleJS.state.players[SimpleJS.state.playerName].pObj? (e) => SimpleJS.state.players[SimpleJS.state.playerName].pObj?.movePlayer(e, map):"",
+		onkeyup: SimpleJS.state.players[SimpleJS.state.playerName].pObj ? (e) => SimpleJS.state.players[SimpleJS.state.playerName].pObj?.stopPlayer(e, map):""
 	}, [
 
 
-		...Object.keys(SimpleJS.state.players).map((playerName) => {
-			console.log("tttttttttttttttt")
+		...Object.keys(SimpleJS.state.players).map((playerName,index) => {
 			if (SimpleJS.state.players[playerName].pObj) {
 				const elmentRef = useRef(playerName)
 				SimpleJS.state.players[playerName].pObj.bomberman = elmentRef
@@ -40,7 +39,7 @@ export const Game = () => {
 
 				return SimpleJS.createElement('div', {
 					class: 'bomber-man',
-					style: `background-image:url(assets/4.png);
+					style: `background-image:url(assets/${index+1}.png);
 						background-size:${4 * width}px ${4 * height}px;
 						width:${width}px;
 						height:${height}px;
@@ -129,7 +128,7 @@ export const Game = () => {
 			// SimpleJS.state.monsters = new Monster().initMonsters(totalMonsters, MapSchema, map);
 
 			SimpleJS.setState()
-			console.log("%v => ",SimpleJS.state.players[SimpleJS.state.playerName])
+			console.log("%v => ",SimpleJS.state.players)
 			requestAnimationFrame(() => animateMovement());
 		})
 	}
