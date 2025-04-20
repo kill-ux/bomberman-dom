@@ -128,8 +128,7 @@ export const Game = () => {
 			// SimpleJS.state.monsters = new Monster().initMonsters(totalMonsters, MapSchema, map);
 
 			SimpleJS.setState()
-			console.log("%v => ",SimpleJS.state.players)
-			requestAnimationFrame(() => animateMovement());
+			requestAnimationFrame(animateMovement);
 		})
 	}
 

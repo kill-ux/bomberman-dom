@@ -7,7 +7,7 @@ export const Queue = () => {
                 `${SimpleJS.state.playerCount} players`
             ]),
             SimpleJS.createElement("h6", { class: "" }, [
-                "waiting..."
+                `${SimpleJS.state.timer != undefined ? `starting in ${SimpleJS.state.timer}` : "waiting..."}`
             ])
         ])
     )
