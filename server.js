@@ -86,7 +86,7 @@ let diffMap
 
 
 const startTime = () => {
-    timer10 = 10
+    timer10 = 1
     timeout = setInterval(() => {
         if (timer10 === -1) {
             let cls = {}
