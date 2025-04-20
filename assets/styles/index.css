@@ -84,6 +84,15 @@ html,body,.body {
     cursor: pointer;
   }
   
+  .Bincrease {
+    background: red;
+  }
+  .flames {
+    background: red;
+  }
+  .speed {
+    background: red;
+  }
   
   @media (max-width: 575.98px) { 
     .header{

@@ -100,13 +100,13 @@ export const checkIfBombed = (grids, x, y) => {
     Math.round(x / width)
   ].type.includes("explosion");
 };
-
+/*
 export const checkIfPortal = (grids, x, y) => {
   return grids[Math.round(y / height)][
     Math.round(x / width)
   ].classList.contains("portal");
 };
-
+*/
 const checkIfinBomb = (grids, player) => {
   return grids[Math.round(player.y / height)][
     Math.round(player.x / width)
