@@ -37,7 +37,7 @@ ws.onopen = () => {
 };
 
 ws.onmessage = (event) => {
-  const { type, content, playerCount, playerName, cls, diffMap, playerX, playerY } = JSON.parse(event.data)
+  const { type, content, playerCount, playerName, cls, diffMap, playerX, playerY, moveUP, moveRight, moveLeft, moveDown } = JSON.parse(event.data)
   switch (type) {
     case "error":
       console.error(content)
@@ -60,6 +60,11 @@ ws.onmessage = (event) => {
       
     SimpleJS.state.players[playerName].pObj.x = playerX*size
     SimpleJS.state.players[playerName].pObj.y = playerY*size
+    SimpleJS.state.players[playerName].pObj.moveUP = moveUP    
+    SimpleJS.state.players[playerName].pObj.moveDown = moveDown  
+    SimpleJS.state.players[playerName].pObj.moveLeft = moveLeft  
+    SimpleJS.state.players[playerName].pObj.moveRight = moveRight  
+
       break
   }
 };
