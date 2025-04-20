@@ -88,12 +88,16 @@ export const animateMovement = (time) => {
 		}
 		if (player.bomberman.current) {
 			const copy = player.bomberman.current.style.transform
+			Object.values(SimpleJS.state.players).forEach(({pObj})=>{
+				pObj.bomberman.current.style.transform = `translate(${pObj.x}px, ${pObj.y}px)`;
+
+			})
 			if (copy != `translate(${player.x}px, ${player.y}px)`) {
 				//move players
-				Object.values(SimpleJS.state.players).forEach(({pObj})=>{
-					pObj.bomberman.current.style.transform = `translate(${pObj.x}px, ${pObj.y}px)`;
+				// Object.values(SimpleJS.state.players).forEach(({pObj})=>{
+				// 	pObj.bomberman.current.style.transform = `translate(${pObj.x}px, ${pObj.y}px)`;
 
-				})
+				// })
 				// player.bomberman.current.style.transform = `translate(${player.x}px, ${player.y}px)`;
 
 				ws.send(JSON.stringify({ type: "moves", playerName: SimpleJS.state.playerName, playerX: player.x/size, playerY: player.y/size}))
