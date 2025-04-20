@@ -23,7 +23,6 @@ async function serveIndexHtml(res) {
         const data = await fs.readFile(indexPath, 'utf8');
         res.statusCode = 200;
         res.setHeader('Content-Type', 'text/html');
-        console.log("yes");
 
         res.end(data);
     } catch (err) {
@@ -93,7 +92,6 @@ const startTime = () => {
             Clients.forEach(({ lifes, spawn }, key) => {
                 cls[key] = { lifes, spawn }
             })
-            console.log(cls)
             Clients.forEach(value => {
                 value.ws.send(JSON.stringify({ type: "startGame", cls, diffMap, }))
             })
@@ -121,7 +119,6 @@ wss.on('connection', (ws) => {
                 if (timer10) {
                     return
                 }
-                console.log(Clients)
                 if (Clients.size < 4) {
                     if (data.playername && !Clients.has(data.playername)) {
                         playerName = data.playername
@@ -137,7 +134,7 @@ wss.on('connection', (ws) => {
                             value.ws.send(JSON.stringify({ type: "appendQueue", playerCount: Clients.size, playerName }))
                         })
 
-                        if (Clients.size >= 1) {
+                        if (Clients.size >= 2) {
                             timer20 = 20
                             clearTimeout(timeout)
                             if (Clients.size == 4) {

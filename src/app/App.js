@@ -26,12 +26,12 @@ export const Game = () => {
 		tabindex: 0,
 		autofocus: true,
 		style: `width:${MapSchema[0].length * width}px;height:${MapSchema.length * height}px`,
-		onkeydown: SimpleJS.state.players[SimpleJS.state.playerName].pObj? (e) => SimpleJS.state.players[SimpleJS.state.playerName].pObj?.movePlayer(e, map):"",
-		onkeyup: SimpleJS.state.players[SimpleJS.state.playerName].pObj ? (e) => SimpleJS.state.players[SimpleJS.state.playerName].pObj?.stopPlayer(e, map):""
+		onkeydown: SimpleJS.state.players[SimpleJS.state.playerName].pObj ? (e) => SimpleJS.state.players[SimpleJS.state.playerName].pObj?.movePlayer(e, map) : "",
+		onkeyup: SimpleJS.state.players[SimpleJS.state.playerName].pObj ? (e) => SimpleJS.state.players[SimpleJS.state.playerName].pObj?.stopPlayer(e, map) : ""
 	}, [
 
 
-		...Object.keys(SimpleJS.state.players).map((playerName,index) => {
+		...Object.keys(SimpleJS.state.players).map((playerName, index) => {
 			if (SimpleJS.state.players[playerName].pObj) {
 				const elmentRef = useRef(playerName)
 				SimpleJS.state.players[playerName].pObj.bomberman = elmentRef
@@ -39,7 +39,7 @@ export const Game = () => {
 
 				return SimpleJS.createElement('div', {
 					class: 'bomber-man',
-					style: `background-image:url(assets/${index+1}.png);
+					style: `background-image:url(assets/${index + 1}.png);
 						background-size:${4 * width}px ${4 * height}px;
 						background-position:${1 * width}px 0px;
 						width:${width}px;
@@ -121,13 +121,12 @@ export const Game = () => {
 		useEffect(() => {
 			/* all players */
 			Object.entries(SimpleJS.state.players).forEach(([playerName, data]) => {
-				SimpleJS.state.players[playerName].pObj = new Player(data.spawn[0] * width, data.spawn[1] * height, Math.ceil(size * delta) * 2)
+				SimpleJS.state.players[playerName].pObj = new Player(data.spawn[0] * width, data.spawn[1] * height, size * delta * 2)
 			});
 			BoardMap.randomizeBricks(SimpleJS.state.diffMap)
 			grids = BoardMap.initLevel(map)
 			bomb = new Bomb();
 			// SimpleJS.state.monsters = new Monster().initMonsters(totalMonsters, MapSchema, map);
-
 			SimpleJS.setState()
 			requestAnimationFrame(animateMovement);
 		})

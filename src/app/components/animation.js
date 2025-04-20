@@ -18,6 +18,8 @@ export const animateMovement = (time) => {
 				player.rowTop = Math.ceil((player.y + player.speed) / height);
 				player.colBot = Math.floor(player.x / width);
 				player.colTop = Math.ceil(player.x / width);
+				console.log("cords:",player.x,player.y);
+				
 				checkObj = checkDownMove(
 					grids,
 					player.rowTop,
@@ -27,7 +29,9 @@ export const animateMovement = (time) => {
 				);
 				player.x = checkObj[1];
 				// getPosImg(player.frames[player.loop], 4, player.bomberman.current);
+				console.log("going down ?")
 				if (!checkObj[0]) {
+					console.log("hell yeah")
 					player.y += player.speed;
 				}
 
@@ -105,6 +109,8 @@ export const animateMovement = (time) => {
 			const copy = player.bomberman.current.style.transform
 			Object.values(SimpleJS.state.players).forEach(({ pObj }) => {
 				let skip =false
+				// pObj.x = Math.round(pObj.x)
+				// pObj.y = Math.round(pObj.y)
 				pObj.bomberman.current.style.transform = `translate(${pObj.x}px, ${pObj.y}px)`;
 
 				switch (true) {

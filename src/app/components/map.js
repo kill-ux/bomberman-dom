@@ -53,7 +53,6 @@ export class Board {
 			const col = Math.floor(arr[i][1] * this.bluePrint[0].length)
 
 			if (this.bluePrint[row][col] == 0) {
-				console.log(row, col)
 				if (arr[i][0] > 0) {
 					this.bluePrint[row][col] = 3
 				} else {
