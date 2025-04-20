@@ -5,6 +5,7 @@ import { checkDownMove, checkIfBombed, checkLeftMove, checkRightMove, checkUpper
 import { death } from "./helpers.js";
 import { checkMonsterMove, randomMonsterDir } from "./monsters.js";
 
+let resetMoves
 export const animateMovement = (time) => {
 	if (!SimpleJS.state.pause) {
 
@@ -29,6 +30,8 @@ export const animateMovement = (time) => {
 				if (!checkObj[0]) {
 					player.y += player.speed;
 				}
+
+				clearTimeout(resetMoves)
 				break;
 			case player.moveLeft:
 				player.rowBot = Math.floor(player.y / height);
@@ -47,6 +50,8 @@ export const animateMovement = (time) => {
 				if (!checkObj[0]) {
 					player.x -= player.speed;
 				}
+
+				clearTimeout(resetMoves)
 				break;
 			case player.moveUp:
 				player.rowBot = Math.floor((player.y - player.speed) / height);
@@ -64,6 +69,8 @@ export const animateMovement = (time) => {
 				if (!checkObj[0]) {
 					player.y -= player.speed;
 				}
+
+				clearTimeout(resetMoves)
 				break;
 			case player.moveRight:
 				player.rowBot = Math.floor(player.y / height);
@@ -82,14 +89,22 @@ export const animateMovement = (time) => {
 				if (!checkObj[0]) {
 					player.x += player.speed
 				}
+
+				clearTimeout(resetMoves)
 				break;
 			default:
-				// getPosImg(1, 4, player.bomberman.current);
+				if (!resetMoves) {
+					resetMoves = setTimeout(() => {
+						ws.send(JSON.stringify({ type: "moves", playerName: SimpleJS.state.playerName, playerX: player.x / size, playerY: player.y / size, moveRight: player.moveRight, moveUp: player.moveUp, moveDown: player.moveDown, moveLeft: player.moveLeft }))
+
+					}, 50)
+				}
+			// getPosImg(1, 4, player.bomberman.current);
 		}
 		if (player.bomberman.current) {
 			const copy = player.bomberman.current.style.transform
-			Object.values(SimpleJS.state.players).forEach(({pObj})=>{
-				getPosImg(pObj.frames[pObj.loop], 3, pObj.bomberman.current);
+			Object.values(SimpleJS.state.players).forEach(({ pObj }) => {
+				let skip =false
 				pObj.bomberman.current.style.transform = `translate(${pObj.x}px, ${pObj.y}px)`;
 
 				switch (true) {
@@ -105,34 +120,28 @@ export const animateMovement = (time) => {
 					case pObj.moveRight:
 						getPosImg(pObj.frames[pObj.loop], 2, pObj.bomberman.current);
 						break;
-					default:
-						getPosImg(1, 4, pObj.bomberman.current);
+					default:	
+						skip = true
+				}
+				if(!skip){
+					if (pObj.slow >= pObj.slowFrames) {
+						if (pObj.loop < pObj.frames.length - 1) {
+							pObj.loop++;
+						} else {
+							pObj.loop = 0;
+						}
+	
+	
+						pObj.slow = 0;
+					} else {
+						pObj.slow++;
 					}
+				}
 
-
-
-		if (pObj.slow >= pObj.slowFrames) {
-			if (pObj.loop < pObj.frames.length - 1) {
-				pObj.loop++;
-			} else {
-				pObj.loop = 0;
-			}
-			pObj.slow = 0;
-		} else {
-			pObj.slow++;
-		}
-				
 
 			})
 			if (copy != `translate(${player.x}px, ${player.y}px)`) {
-				//move players
-				// Object.values(SimpleJS.state.players).forEach(({pObj})=>{
-				// 	pObj.bomberman.current.style.transform = `translate(${pObj.x}px, ${pObj.y}px)`;
-
-				// })
-				// player.bomberman.current.style.transform = `translate(${player.x}px, ${player.y}px)`;
-
-				ws.send(JSON.stringify({ type: "moves", playerName: SimpleJS.state.playerName, playerX: player.x/size, playerY: player.y/size, moveRight:player.moveRight, moveUp:player.moveUp, moveDown:player.moveDown, moveLeft:player.moveLeft}))
+				ws.send(JSON.stringify({ type: "moves", playerName: SimpleJS.state.playerName, playerX: player.x / size, playerY: player.y / size, moveRight: player.moveRight, moveUp: player.moveUp, moveDown: player.moveDown, moveLeft: player.moveLeft }))
 			}
 
 		}

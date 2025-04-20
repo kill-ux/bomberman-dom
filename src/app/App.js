@@ -41,6 +41,7 @@ export const Game = () => {
 					class: 'bomber-man',
 					style: `background-image:url(assets/${index+1}.png);
 						background-size:${4 * width}px ${4 * height}px;
+						background-position:${1 * width}px 0px;
 						width:${width}px;
 						height:${height}px;
 						transform:translate(${pObj.x}px, ${pObj.y}px);
