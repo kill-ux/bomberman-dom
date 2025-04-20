@@ -137,7 +137,7 @@ wss.on('connection', (ws) => {
                             value.ws.send(JSON.stringify({ type: "appendQueue", playerCount: Clients.size, playerName }))
                         })
 
-                        if (Clients.size >= 2) {
+                        if (Clients.size >= 1) {
                             timer20 = 20
                             clearTimeout(timeout)
                             if (Clients.size == 4) {

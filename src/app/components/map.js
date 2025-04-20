@@ -52,7 +52,14 @@ export class Board {
 			const row = Math.floor(arr[i][0] * this.bluePrint.length)
 			const col = Math.floor(arr[i][1] * this.bluePrint[0].length)
 
-			if (this.bluePrint[row][col] == 0) this.bluePrint[row][col] = 2
+			if (this.bluePrint[row][col] == 0) {
+				console.log(row, col)
+				if (arr[i][0] > 0) {
+					this.bluePrint[row][col] = 3
+				} else {
+					this.bluePrint[row][col] = 2
+				}
+			}
 		}
 	}
 	getPlayerPose = () => {
@@ -74,7 +81,8 @@ export class Board {
 		const gridState = this.bluePrint.map(row => row.map(cell => ({
 			type: (cell === 0 || cell === 'x')
 				? 'empty'
-				: (cell === 1 ? 'wall' : (cell === 2 ? 'soft-wall' : 'soft-wall portal'))
+				: (cell === 1 ? 'wall' : 'soft-wall'),
+			power: cell === 3 ? "bombs" : "empty",
 		})));
 		SimpleJS.state.grids = gridState
 
