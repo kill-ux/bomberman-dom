@@ -1,4 +1,5 @@
 import { SimpleJS } from "../../dist/index.js";
+import { setState } from "../../dist/state.js";
 import { bomb, height, size, width } from "../App.js";
 import { ws } from "../index.js";
 import { checkDownMove, checkIfBombed, checkLeftMove, checkRightMove, checkUpperMove, getPosImg } from "./checker.js";
@@ -18,8 +19,8 @@ export const animateMovement = (time) => {
 				player.rowTop = Math.ceil((player.y + player.speed) / height);
 				player.colBot = Math.floor(player.x / width);
 				player.colTop = Math.ceil(player.x / width);
-				console.log("cords:",player.x,player.y);
-				
+				console.log("cords:", player.x, player.y);
+
 				checkObj = checkDownMove(
 					grids,
 					player.rowTop,
@@ -229,6 +230,11 @@ export const animateMovement = (time) => {
 						!player.bomberman.current.classList.contains("immune")
 					) {
 						death(player, SimpleJS.state.monsters, player.bomberman.current);
+						//player.lifes--;
+						setState((prev)=>{
+							prev.players[prev.playerName].lifes--
+							return prev
+						})
 						// currentLifes--;
 						// lifes.innerHTML = currentLifes;
 					}
@@ -252,6 +258,13 @@ export const animateMovement = (time) => {
 		) {
 			death(player, SimpleJS.state.monsters, player.bomberman.current, player.bomberman.current.classList);
 			// console.log(bomberman,player.bomberman.current)
+
+			//player.lifes--;
+
+			setState((prev)=>{
+				prev.players[prev.playerName].lifes--
+				return prev
+			})
 			// currentLifes--;
 			// lifes.innerHTML = currentLifes;
 		}

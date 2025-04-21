@@ -1,5 +1,5 @@
-import { SimpleJS } from '../../dist/index.js'
-import { height, width } from '../App.js'
+import { SimpleJS } from "../../dist/index.js";
+import { height, width } from "../App.js";
 
 export class Explosion {
   constructor (x, y, id) {
@@ -20,50 +20,42 @@ export class Explosion {
 
     const currentCell = SimpleJS.state.grids[this.y][this.x]
 
-    // Skip if it's a wall
-    let oldType = ` ${currentCell.type} `
-    if (oldType.includes(' wall ')) {
-      return null
-    }
+        // Skip if it's a wall
+        let oldType = ` ${currentCell.type} `;
+        if (oldType.includes(" wall ")) {
+            return { x: this.x, y: this.y, wall: true };
+        }
 
     // Update cell type
     let newType = currentCell.type.replace('soft-wall', 'empty').trim()
 
     newType = newType.replace('empty', 'empty explosion').trim()
 
-    // const powers = SimpleJS.state.powers
+        const power = currentCell.power;
+        const id = currentCell?.id;
 
-    const power = currentCell.power
-    const id = currentCell?.id
-
-    // Update state
-    SimpleJS.setState(prev => {
-      const newGrids = [...prev.grids]
-      newGrids[this.y][this.x] = {
-        ...newGrids[this.y][this.x],
-        type: newType,
-        power: power != '' ? `powered-${power}` : ''
-      }
-      return {
-        ...prev,
-        grids: newGrids,
-        fires: [
-          ...prev.fires,
-          {
-            x: this.x,
-            y: this.y,
-            id: this.id
-          }
-        ],
-        powers:
-          power != '' && !power.startsWith('powered')
-            ? [...prev.powers, { id, image: power, xPos: this.x, yPos: this.y }]
-            : [...prev.powers]
-      }
-    })
-    // if (currentCell.power != "") {
-    //     currentCell.power
-    // }
+        // Update state
+        SimpleJS.setState(prev => {
+            const newGrids = [...prev.grids];
+            newGrids[this.y][this.x] = {
+                ...newGrids[this.y][this.x],
+                type: newType,
+                power: power != "" ? `powered-${power}` : ""
+            };
+            return {
+                ...prev,
+                grids: newGrids,
+                fires: [
+                    ...prev.fires, {
+                        x: this.x,
+                        y: this.y,
+                        id: this.id
+                    }],
+                powers: (power != "" && !power.startsWith("powered")) ? 
+                    [...prev.powers, { id, image: power, xPos: this.x, yPos: this.y }] : 
+                    [...prev.powers],
+            };
+        });
 
     return { x: this.x, y: this.y }
   }
@@ -112,30 +104,45 @@ export class Bomb {
     }, this.explosionTime * 1000)
   }
 
-  explode (xPos, yPos, expCount) {
-    // Create explosions
-    // const explosions = [
-    //     new Explosion(xPos, yPos, 1),  // center
-    //     new Explosion(xPos + 1, yPos, 2),  // right
-    //     new Explosion(xPos - 1, yPos, 3),  // left
-    //     new Explosion(xPos, yPos + 1, 4),  // down
-    //     new Explosion(xPos, yPos - 1, 5)   // up
-    // ];
-    const explosions = []
-    for (let index = 1; index <= expCount; index++) {
-      explosions.push(
-        new Explosion(xPos, yPos, 1),
-        new Explosion(xPos + index, yPos, 2),
-        new Explosion(xPos - index, yPos, 3),
-        new Explosion(xPos, yPos + index, 4),
-        new Explosion(xPos, yPos - index, 5)
-      )
-    }
+    explode(xPos, yPos, expCount) {
+        const explosions = [];
+        // Add center explosion
+        explosions.push(new Explosion(xPos, yPos, 1));
 
-    // console.log(explosions)
+        // Add explosions in all directions up to expCount
+        for (let i = 1; i <= expCount; i++) {
+            explosions.push(
+                new Explosion(xPos + i, yPos, 2), // right
+                new Explosion(xPos - i, yPos, 3), // left
+                new Explosion(xPos, yPos + i, 4), // down
+                new Explosion(xPos, yPos - i, 5)  // up
+            );
+        }
 
-    // Initialize explosions
-    explosions.forEach(exp => exp.initExplosion())
+        // Process explosions with directional awareness
+        const processed = {
+            right: false,
+            left: false,
+            down: false,
+            up: false
+        };
+
+        explosions.forEach(exp => {
+            // Skip if direction is already blocked
+            if (exp.id === 2 && processed.right) return;
+            if (exp.id === 3 && processed.left) return;
+            if (exp.id === 4 && processed.down) return;
+            if (exp.id === 5 && processed.up) return;
+
+            const res = exp.initExplosion();
+            if (res && res.wall) {
+                // Mark direction as blocked if wall is hit
+                if (exp.id === 2) processed.right = true;
+                if (exp.id === 3) processed.left = true;
+                if (exp.id === 4) processed.down = true;
+                if (exp.id === 5) processed.up = true;
+            }
+        });
 
     // Clean up bomb
     SimpleJS.setState(prev => {
@@ -159,13 +166,12 @@ export class Bomb {
       }
     })
 
-    // Remove explosion effects after delay
-    const time = setInterval(() => {
-      // if (SimpleJS.state.pause) return
-      this.removeExplosionEffects(explosions)
-      clearInterval(time)
-    }, this.removeEffectsTime * 1000)
-  }
+        // Remove explosion effects after delay
+        const time = setInterval(() => {
+            this.removeExplosionEffects(explosions);
+            clearInterval(time);
+        }, this.removeEffectsTime * 1000);
+    }
 
   removeExplosionEffects (explosions) {
     SimpleJS.setState(prev => {

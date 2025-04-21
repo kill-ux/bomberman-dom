@@ -171,47 +171,31 @@ export const Game = () => {
     })
   }
 
-
-  // function SendMessage(message) {
-  //   wss.send({ type: "newMessage", message, message: SimpleJS.state.playerName })
-  // }
-  let messageText = "";
-
-  return (
-    SimpleJS.createElement("div", { class: "body" }, [
-      SimpleJS.createElement("textarea", {
-        class: "chat",
-        onInput: (e) => {
-          messageText = e.target.value;
-        }
-      },[]),
-      SimpleJS.createElement("button", {
-        onClick: () => {
-          SendMessage(messageText);
-          messageText = "";
-        }
-      }, ["Submit"]),
-
-
-      SimpleJS.createElement("div", { class: "playerInfo topNav" }, [
-        SimpleJS.createElement("div", { class: "player1" }, [
-          SimpleJS.createElement("h1", { class: "" }, ["player1"])
-        ]),
-        SimpleJS.createElement("div", { class: "player3" }, [
-          SimpleJS.createElement("h1", { class: "" }, ["player3"])
-        ])
-      ]),
-      SimpleJS.createElement("div", { class: "container" }, [
-        map
-      ]),
-      SimpleJS.createElement("div", { class: "playerInfo botNav" }, [
-        SimpleJS.createElement("div", { class: "player4" }, [
-          SimpleJS.createElement("h1", { class: "" }, ["player4"])
-        ]),
-        SimpleJS.createElement("div", { class: "player2" }, [
-          SimpleJS.createElement("h1", { class: "" }, ["player2"])
-        ])
-      ]),
-    ])
-  )
+	return (
+		SimpleJS.createElement("div", { class: "body" }, [
+			SimpleJS.createElement("div", { class: "playerInfo topNav" },[
+			SimpleJS.createElement("div", { class: "player1" },[
+				SimpleJS.createElement("h1", { class: "" },[`player1: ${Object.keys(SimpleJS.state.players)[0]}`]),
+				SimpleJS.createElement("h1", { class: "" },[`lives: ${SimpleJS.state.players[Object.keys(SimpleJS.state.players)[0]]?.pObj?.lifes}`])
+			]),
+			SimpleJS.createElement("div", { class: "player3" },[
+				SimpleJS.createElement("h1", { class: "" },[`player3: ${Object.keys(SimpleJS.state.players)[2]}`]),
+				SimpleJS.createElement("h1", { class: "" },[`lives: ${SimpleJS.state.players[Object.keys(SimpleJS.state.players)[2]]?.pObj?.lifes}`])
+			])
+			]),		
+			SimpleJS.createElement("div", { class: "container" }, [
+				map
+			]),
+			SimpleJS.createElement("div", { class: "playerInfo botNav" },[
+				SimpleJS.createElement("div", { class: "player4" },[
+					SimpleJS.createElement("h1", { class: "" },[`player4: ${Object.keys(SimpleJS.state.players)[3]}`]),
+					SimpleJS.createElement("h1", { class: "" },[`lives: ${SimpleJS.state.players[Object.keys(SimpleJS.state.players)[3]]?.pObj?.lifes}`])
+				]),
+				SimpleJS.createElement("div", { class: "player2" },[
+					SimpleJS.createElement("h1", { class: "" },[`player2: ${Object.keys(SimpleJS.state.players)[1]}`]),
+					SimpleJS.createElement("h1", { class: "" },[`lives: ${SimpleJS.state.players[Object.keys(SimpleJS.state.players)[1]]?.pObj?.lifes}`])
+				])
+				]),		
+		])
+	)
 }

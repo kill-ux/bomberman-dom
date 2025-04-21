@@ -70,7 +70,8 @@ ws.onmessage = event => {
     moveDown,
     timer,
     message,
-    expCount
+    expCount,
+    row, col,
   } = JSON.parse(event.data)
 
   switch (type) {
@@ -113,16 +114,18 @@ ws.onmessage = event => {
       }, 50)
       break
     case 'boomb':
+      console.log('boomb cor', boombX, boombY)
       bombUsers.putTheBomb(boombX * size, boombY * size, expCount)
       break
-    case 'newMessage':
-      SimpleJS.setState(perv=>{
-        perv.chat.push({playerName,message})
-        return perv
-      })
-      console.log(SimpleJS.state.chat);
-      
+    case 'powerups':
+      SimpleJS.state.grids[row][col].power = "";
+      SimpleJS.setState((prev) => ({
+        ...prev,
+        powers: prev.powers.filter((p) => p.id !== SimpleJS.state.grids[row][col].id),
+      }));
       break
+    case 'lifes':
+      
   }
 }
 
