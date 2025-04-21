@@ -1,108 +1,224 @@
-html,body {
-    margin: 0;
-    padding: 0;
-    height: 100%;
-    overflow: hidden; 
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  overflow: hidden;
+}
+
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+
+}
+
+.playerInfo {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  width: 100%;
+}
+
+.container {
+  overflow: hidden;
+}
+
+.header {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.map {
+  border: 5px solid;
+  display: flex;
+  flex-wrap: wrap;
+  position: relative;
+}
+
+.lifes-holder {
+  left: 250px;
+}
+
+.enemies-holder {
+  left: 350px;
+}
+
+.timer-holder {
+  left: 450px
+}
+
+.wall {
+  background-image: url('../solid.png');
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.empty {
+  background-image: url('../rbiaa.png');
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.soft-wall {
+  background-image: url('../soft.png');
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.portal {
+  text-size-adjust: 50px;
+}
+
+.bomber-man {
+  position: absolute;
+}
+
+.bomb {
+  background-image: url('../bomb.png');
+  background-size: 30px 30px;
+}
+
+#menu {
+  position: absolute;
+  justify-content: center;
+  align-content: center;
+}
+
+.open {
+  display: none;
+}
+
+.btn {
+  cursor: pointer;
+}
+
+.Bincrease {
+  background: red;
+}
+
+.flames {
+  background: red;
+}
+
+.speed {
+  background: red;
+}
+
+@media (max-width: 575.98px) {
+  .header {
+    font-size: 10px;
   }
-  
-  body {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100%;
-  
-  }
-  .playerInfo{
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    width: 100%;
+}
+
+.welcome {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: #F9F7F7;
+  gap: 50px;
+  word-break: break-all;
+}
+
+.title-welcom {
+  font-family: "Press Start 2P", system-ui;
+  font-weight: 400;
+  font-style: normal;
+  font-size: xx-large;
+  color: #F7374F;
+}
+
+.body-welcome {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  font-weight: 100;
+}
+
+.input {
+  width: 200px;
+  padding: 8px;
+  font-family: "Press Start 2P", system-ui;
+}
+
+
+.cheap-welcom {
+  width: 100px;
+  height: 100px;
+  background-image: url(../packhitler.png);
+  animation: hitler1 1s steps(11) 1s infinite;
+  animation-direction: alternate;
+}
+
+
+@keyframes hitler1 {
+  from {
+    background-position: 0px 400px;
   }
 
-  .container{
-    overflow: hidden;
+  to {
+    background-position: -1070px 400px;
   }
-  .header{
-    display: flex;
-    width: 100%;
-    justify-content: space-between;
-    gap: 10px;
+}
+
+@keyframes hitler2 {
+  from {
+    background-position: -400px 390px;
   }
-  .map {
-    border: 5px solid;
-    display: flex;
-    flex-wrap: wrap;
-    position: relative;
+
+  to {
+    background-position: 0px 200px;
   }
-  
-  .lifes-holder {
-    left: 250px;
+}
+
+.space {
+  background-image: url(../space.png);
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+/* 
+@keyframes hitler {
+  0% {
+    background-position: 0px 400px;
   }
-  
-  .enemies-holder {
-    left: 350px;
+  10% {
+    background-position: -100px 400px;
   }
-  
-  .timer-holder {
-    left: 450px
+  20% {
+    background-position: -200px 400px;
   }
-  
-  .wall {
-    background-image: url('../solid.png');
-    background-repeat: no-repeat;
-    background-size: cover;
+  30% {
+    background-position: -300px 400px;
   }
-  
-  .empty {
-    background-image: url('../rbiaa.png');
-    background-repeat: no-repeat;
-    background-size: cover;
+  40% {
+    background-position: 0px 300px;
   }
-  .soft-wall {
-    background-image: url('../soft.png');
-    background-repeat: no-repeat;
-    background-size: cover;
+  50% {
+    background-position: 0px 200px;
   }
-  
-  .portal {
-    text-size-adjust: 50px;
+  60% {
+    background-position: -100px 200px;
   }
-  
-  .bomber-man {
-    position: absolute;
+  70% {
+    background-position: -200px 200px;
   }
-  
-  .bomb {
-    background-image: url('../bomb.png');
-    background-size: 30px 30px;
+  80% {
+    background-position: -300px 200px;
   }
-  
-  #menu {
-    position: absolute;
-    justify-content: center;
-    align-content: center;
+  90% {
+    background-position: 0px 100px;
   }
-  
-  .open {
-    display: none;
+  100% {
+    background-position: -100px 100px;
   }
-  
-  .btn {
-    cursor: pointer;
-  }
-  
-  .Bincrease {
-    background: red;
-  }
-  .flames {
-    background: red;
-  }
-  .speed {
-    background: red;
-  }
-  
-  @media (max-width: 575.98px) { 
-    .header{
-      font-size: 10px;
-    }
-   }
-  
+} */
+
