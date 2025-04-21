@@ -1,6 +1,27 @@
 import { SimpleJS } from "../../dist/index.js";
 import { bomb, height, width } from "../App.js";
 
+const checkIfinBomb = (grids, player) => {
+  return grids[Math.round(player.y / height)][Math.round(player.x / width)].classList.contains("bomb-wall");
+};
+
+const handlePowerUp = (grids, row, col, bomb) => {
+  if (grids[row][col].power.startsWith("powered")) {
+    if (grids[row][col].power.endsWith("idel")) {
+      bomb.bombs++;
+    } else if (grids[row][col].power.endsWith("fire")) {
+      bomb.expCount++
+    } else {
+      SimpleJS.state.players[SimpleJS.state.playerName].pObj.speed *= 1.1
+    }
+    grids[row][col].power = "";
+    SimpleJS.setState((prev) => ({
+      ...prev,
+      powers: prev.powers.filter((p) => p.id !== grids[row][col].id),
+    }));
+  }
+};
+
 export const checkUpperMove = (grids, rowBot, colBot, colTop, object) => {
   const leftGrid =
     grids[rowBot][colBot].type.includes("wall") ||
@@ -10,29 +31,23 @@ export const checkUpperMove = (grids, rowBot, colBot, colTop, object) => {
     grids[rowBot][colTop].type.includes("wall") ||
     grids[rowBot][colTop].type.includes("soft-wall") ||
     (grids[rowBot][colTop].type.includes("bomb-wall") && !checkIfinBomb(grids, object));
+
   if (leftGrid && !rightGrid) {
-    return [true, (object.x += object.speed)];
+    return [true, object.x + object.speed];
   }
   if (!leftGrid && rightGrid) {
-    return [true, (object.x -= object.speed)];
+    return [true, object.x - object.speed];
   }
   if (leftGrid && rightGrid) {
     return [true, object.x];
   }
-  const power = colBot == colTop && grids[rowBot][colBot].power != ""
-  if (power && SimpleJS.state.powers.find(p => p.id == grids[rowBot][colBot].id  && p.power != "" && p.power != "powered")) {
-    console.log("hhhhhhhhhhhhhh", SimpleJS.state.powers.find(p => p.id == grids[rowBot][colBot].id && p.power != "" && p.power != "powered" ))
-    bomb.max++
-    SimpleJS.setState(prev => {
-      return {
-        ...prev,
-        powers: prev.powers.filter(p => p.id != grids[rowBot][colBot].id)
-      }
-    })
+
+  if (colBot === colTop) {
+    handlePowerUp(grids, rowBot, colBot, bomb);
   }
+
   return [false, object.x];
 };
-
 
 export const checkDownMove = (grids, rowTop, colBot, colTop, object) => {
   const leftGrid =
@@ -43,26 +58,21 @@ export const checkDownMove = (grids, rowTop, colBot, colTop, object) => {
     grids[rowTop][colTop].type.includes("wall") ||
     grids[rowTop][colTop].type.includes("soft-wall") ||
     (grids[rowTop][colTop].type.includes("bomb-wall") && !checkIfinBomb(grids, object));
+
   if (leftGrid && !rightGrid) {
-    return [true, (object.x += object.speed)];
+    return [true, object.x + object.speed];
   }
   if (!leftGrid && rightGrid) {
-    return [true, (object.x -= object.speed)];
+    return [true, object.x - object.speed];
   }
   if (leftGrid && rightGrid) {
     return [true, object.x];
   }
-  const power = colBot == colTop && grids[rowTop][colBot].power != ""
-  if (power && SimpleJS.state.powers.find(p => p.id == grids[rowTop][colBot].id  && p.power != "" && p.power != "powered") ) {
-    bomb.max++
-    SimpleJS.setState(prev => {
-      return {
-        ...prev,
-        powers: prev.powers.filter(p => p.id != grids[rowTop][colBot].id)
-      }
-    })
 
+  if (colBot === colTop) {
+    handlePowerUp(grids, rowTop, colBot, bomb);
   }
+
   return [false, object.x];
 };
 
@@ -75,26 +85,21 @@ export const checkLeftMove = (grids, rowBot, rowTop, colBot, object) => {
     grids[rowBot][colBot].type.includes("wall") ||
     grids[rowBot][colBot].type.includes("soft-wall") ||
     (grids[rowBot][colBot].type.includes("bomb-wall") && !checkIfinBomb(grids, object));
+
   if (upGrid && !downGrid) {
-    return [true, (object.y += object.speed)];
+    return [true, object.y + object.speed];
   }
   if (!upGrid && downGrid) {
-    return [true, (object.y -= object.speed)];
+    return [true, object.y - object.speed];
   }
   if (upGrid && downGrid) {
     return [true, object.y];
   }
-  const power = rowTop == rowBot && (grids[rowTop][colBot].power != "")
-  if (power && SimpleJS.state.powers.find(p => p.id == grids[rowTop][colBot].id  && p.power != "" && p.power != "powered")) {
-    bomb.max++
-    SimpleJS.setState(prev => {
-      return {
-        ...prev,
-        powers: prev.powers.filter(p => p.id != grids[rowTop][colBot].id)
-      }
-    })
 
+  if (rowTop === rowBot) {
+    handlePowerUp(grids, rowTop, colBot, bomb);
   }
+
   return [false, object.y];
 };
 
@@ -109,24 +114,19 @@ export const checkRightMove = (grids, rowBot, rowTop, colTop, object) => {
     (grids[rowTop][colTop].type.includes("bomb-wall") && !checkIfinBomb(grids, object));
 
   if (upGrid && !downGrid) {
-    return [true, (object.y += object.speed)];
+    return [true, object.y + object.speed];
   }
   if (!upGrid && downGrid) {
-    return [true, (object.y -= object.speed)];
+    return [true, object.y - object.speed];
   }
   if (upGrid && downGrid) {
     return [true, object.y];
   }
-  const power = rowBot == rowTop && grids[rowBot][colTop].power != ""
-  if (power && SimpleJS.state.powers.find(p => p.id == grids[rowBot][colTop].id  && p.power != "" && p.power != "powered")) {
-    bomb.max++
-    SimpleJS.setState(prev => {
-      return {
-        ...prev,
-        powers: prev.powers.filter(p => p.id != grids[rowBot][colTop].id)
-      }
-    })
+
+  if (rowBot === rowTop) {
+    handlePowerUp(grids, rowBot, colTop, bomb);
   }
+
   return [false, object.y];
 };
 
@@ -137,22 +137,9 @@ export const getPosImg = (frameX, frameY, div) => {
 };
 
 export const checkIfBombed = (grids, x, y) => {
-  // console.log("check", grids[Math.round(y / height)][
-  //   Math.round(x / width)
-  // ].type)
-  return grids[Math.round(y / height)][
-    Math.round(x / width)
-  ].type.includes("explosion");
+  return grids[Math.round(y / height)][Math.round(x / width)].type.includes("explosion");
 };
 
 export const checkIfPortal = (grids, x, y) => {
-  return grids[Math.round(y / height)][
-    Math.round(x / width)
-  ].classList.contains("portal");
+  return grids[Math.round(y / height)][Math.round(x / width)].classList.contains("portal");
 };
-
-const checkIfinBomb = (grids, player) => {
-  return grids[Math.round(player.y / height)][
-    Math.round(player.x / width)
-  ].classList.contains("bomb-wall");
-}

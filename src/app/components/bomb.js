@@ -43,7 +43,7 @@ export class Explosion {
             newGrids[this.y][this.x] = {
                 ...newGrids[this.y][this.x],
                 type: newType,
-                power: "powered"
+                power: power != "" ? `powered-${power}` : ""
             };
             return {
                 ...prev,
@@ -54,7 +54,7 @@ export class Explosion {
                         y: this.y,
                         id: this.id
                     }],
-                powers: (power != "" && power != "powered") ? [...prev.powers, { id, image: power, xPos: this.x, yPos: this.y }] : [...prev.powers],
+                powers: (power != "" && !power.startsWith("powered")) ? [...prev.powers, { id, image: power, xPos: this.x, yPos: this.y }] : [...prev.powers],
             };
         });
         // if (currentCell.power != "") {
@@ -72,8 +72,8 @@ export class Bomb {
         this.explosionCounter = 0;
         this.removeEffectsTime = 3; // seconds
         this.removeEffectsCounter = 0;
-        this.max = 1
         this.bombs = 1
+        this.expCount = 1
     }
 
     putTheBomb(x, y) {
@@ -99,22 +99,31 @@ export class Bomb {
         });
 
         // Set explosion timeout
-        let t
         const time = setInterval(() => {
-            this.explode(xPos, yPos);
+            this.explode(xPos, yPos, this.expCount);
             clearInterval(time)
         }, this.explosionTime * 1000);;
     }
 
-    explode(xPos, yPos) {
+    explode(xPos, yPos, expCount) {
         // Create explosions
-        const explosions = [
-            new Explosion(xPos, yPos, 1),  // center
-            new Explosion(xPos + 1, yPos, 2),  // right
-            new Explosion(xPos - 1, yPos, 3),  // left
-            new Explosion(xPos, yPos + 1, 4),  // down
-            new Explosion(xPos, yPos - 1, 5)   // up
-        ];
+        // const explosions = [
+        //     new Explosion(xPos, yPos, 1),  // center
+        //     new Explosion(xPos + 1, yPos, 2),  // right
+        //     new Explosion(xPos - 1, yPos, 3),  // left
+        //     new Explosion(xPos, yPos + 1, 4),  // down
+        //     new Explosion(xPos, yPos - 1, 5)   // up
+        // ];
+        const explosions = []
+        for (let index = 1; index <= expCount; index++) {
+            explosions.push(
+                new Explosion(xPos, yPos, 1),
+                new Explosion(xPos + index, yPos, 2),
+                new Explosion(xPos - index, yPos, 3),
+                new Explosion(xPos, yPos + index, 4),
+                new Explosion(xPos, yPos - index, 5)
+            )
+        }
 
         // console.log(explosions)
 
@@ -132,9 +141,7 @@ export class Bomb {
             const newBombs = prev.bombs.filter(b =>
                 !(b.xPos === xPos && b.yPos === yPos)
             );
-            if (this.bombs <= 0) {
-                this.bombs = this.max
-            }
+            this.bombs++
 
             return {
                 ...prev,
