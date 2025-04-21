@@ -121,7 +121,7 @@ wss.on('connection', (ws) => {
                 if (timer10) {
                     return
                 }
-                console.log(Clients)
+                console.log("clients",Clients)
                 if (Clients.size < 4) {
                     if (data.playername && !Clients.has(data.playername)) {
                         playerName = data.playername

@@ -1,5 +1,6 @@
 import { SimpleJS } from "../../dist/index.js";
-import { bomb} from "../App.js";
+import { bomb, size} from "../App.js";
+import {ws} from "../index.js";
 
 export class Player {
     constructor(x, y, speed) {
@@ -34,11 +35,9 @@ export class Player {
         let key = e.key.toLowerCase();
 
         switch (key) {
-            case "p":
-                // quit button
-                break
-            case " ":
-                let flames = bomb.putTheBomb(this.x, this.y, map);
+                case " ":
+                    let flames = bomb.putTheBomb(this.x, this.y, map);
+                    ws.send(JSON.stringify({type: "boomb", playerName: SimpleJS.state.playerName, boombX: this.x/size, boombY: this.y/size}))
                 break;
             case "arrowup":
                 this.moveUp = true;

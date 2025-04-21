@@ -38,7 +38,11 @@ ws.onopen = () => {
 
 let resetMoves
 ws.onmessage = (event) => {
-  const { type, content, playerCount, playerName, cls, boombx, boomby, diffMap, playerX, playerY, moveUp, moveRight, moveLeft, moveDown , timer } = JSON.parse(event.data)
+  console.log(JSON.parse(event.data));
+  const { type, content, playerCount, playerName, cls, boombX, boombY, diffMap, playerX, playerY, moveUp, moveRight, moveLeft, moveDown , timer } = JSON.parse(event.data)
+  console.log("boomb cor",boombX, boombY);
+  console.log(SimpleJS.state.players);
+  
   switch (type) {
     case "error":
       console.error(content)
@@ -75,8 +79,9 @@ ws.onmessage = (event) => {
       SimpleJS.state.players[playerName].pObj.moveRight = false
     },50)
     case "boomb":
-
-      break
+    SimpleJS.state.Bomb.pObj.x = boombX*size
+    SimpleJS.state.Bomb.pObj.y = boombY*size
+    break
   }
 };
 

@@ -88,7 +88,6 @@ export const checkRightMove = (grids, rowBot, rowTop, colTop, object) => {
 export const getPosImg = (frameX, frameY, div) => {
   const x = frameX * width;
   const y = frameY * height;
-  console.log("x:",x,"y:",y)
   div.style.backgroundPosition = `${x}px ${y}px`;
 };
 

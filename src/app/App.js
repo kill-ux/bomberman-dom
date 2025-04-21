@@ -27,7 +27,7 @@ export const Game = () => {
 		autofocus: true,
 		style: `width:${MapSchema[0].length * width}px;height:${MapSchema.length * height}px`,
 		onkeydown: SimpleJS.state.players[SimpleJS.state.playerName].pObj? (e) => SimpleJS.state.players[SimpleJS.state.playerName].pObj?.movePlayer(e, map):"",
-		onkeyup: SimpleJS.state.players[SimpleJS.state.playerName].pObj ? (e) => SimpleJS.state.players[SimpleJS.state.playerName].pObj?.stopPlayer(e, map):""
+		onkeyup: SimpleJS.state.players[SimpleJS.state.playerName].pObj ? (e) => SimpleJS.state.players[SimpleJS.state.playerName].pObj?.stopPlayer(e, map):"",
 	}, [
 
 
