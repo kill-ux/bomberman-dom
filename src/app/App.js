@@ -172,7 +172,3 @@ export const Game = () => {
 		])
 	)
 }
-
-/*
-<div class="map"></div>
-*/
