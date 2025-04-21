@@ -1,5 +1,5 @@
 import { SimpleJS } from "../../dist/index.js";
-import { height, size, width } from "../App.js";
+import { bomb, height, size, width } from "../App.js";
 import { ws } from "../index.js";
 import { checkDownMove, checkIfBombed, checkLeftMove, checkRightMove, checkUpperMove, getPosImg } from "./checker.js";
 import { death } from "./helpers.js";
@@ -38,6 +38,7 @@ export const animateMovement = (time) => {
 				player.rowTop = Math.ceil(player.y / height);
 				player.colBot = Math.floor((player.x - player.speed) / width);
 				player.colTop = Math.ceil((player.x - player.speed) / width);
+				// checkPowerUp(grids, player.rowTop, player.colBot, player.colTop)
 				checkObj = checkLeftMove(
 					grids,
 					player.rowBot,
@@ -57,6 +58,7 @@ export const animateMovement = (time) => {
 				player.rowBot = Math.floor((player.y - player.speed) / height);
 				player.colBot = Math.floor(player.x / width);
 				player.colTop = Math.ceil(player.x / width);
+				// checkPowerUp(grids, player.rowBot, player.colBot, player.colTop)
 				checkObj = checkUpperMove(
 					grids,
 					player.rowBot,
@@ -76,6 +78,7 @@ export const animateMovement = (time) => {
 				player.rowBot = Math.floor(player.y / height);
 				player.rowTop = Math.ceil(player.y / height);
 				player.colTop = Math.ceil((player.x + player.speed) / width);
+				// checkPowerUp(grids, player.rowBot, player.colBot, player.colTop)
 
 				checkObj = checkRightMove(
 					grids,
@@ -102,9 +105,22 @@ export const animateMovement = (time) => {
 			// getPosImg(1, 4, player.bomberman.current);
 		}
 		if (player.bomberman.current) {
+
+			// if (
+			// 	enemy.x + size / 2 >= player.x &&
+			// 	enemy.x <= player.x + size / 2 &&
+			// 	enemy.y + size / 2 >= player.y &&
+			// 	enemy.y <= player.y + size / 2 &&
+			// 	!player.bomberman.current.classList.contains("immune")
+			// ) {
+			// 	// death(player, SimpleJS.state.monsters, player.bomberman.current);
+			// 	// currentLifes--;
+			// 	// lifes.innerHTML = currentLifes;
+			// }
+
 			const copy = player.bomberman.current.style.transform
 			Object.values(SimpleJS.state.players).forEach(({ pObj }) => {
-				let skip =false
+				let skip = false
 				pObj.bomberman.current.style.transform = `translate(${pObj.x}px, ${pObj.y}px)`;
 
 				switch (true) {
@@ -120,25 +136,23 @@ export const animateMovement = (time) => {
 					case pObj.moveRight:
 						getPosImg(pObj.frames[pObj.loop], 2, pObj.bomberman.current);
 						break;
-					default:	
+					default:
 						skip = true
 				}
-				if(!skip){
+				if (!skip) {
 					if (pObj.slow >= pObj.slowFrames) {
 						if (pObj.loop < pObj.frames.length - 1) {
 							pObj.loop++;
 						} else {
 							pObj.loop = 0;
 						}
-	
-	
+
+
 						pObj.slow = 0;
 					} else {
 						pObj.slow++;
 					}
 				}
-
-
 			})
 			if (copy != `translate(${player.x}px, ${player.y}px)`) {
 				ws.send(JSON.stringify({ type: "moves", playerName: SimpleJS.state.playerName, playerX: player.x / size, playerY: player.y / size, moveRight: player.moveRight, moveUp: player.moveUp, moveDown: player.moveDown, moveLeft: player.moveLeft }))

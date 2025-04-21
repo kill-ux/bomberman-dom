@@ -1,7 +1,5 @@
 //import { SimpleJS } from '../../dist/index.js'
 import { SimpleJS } from "../../dist/index.js";
-import { useRef } from "../../dist/utils.js";
-import { width, height } from "../App.js";
 
 export const MapSchema = [
 	[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
@@ -38,12 +36,9 @@ export class Board {
 			const row = Math.floor(arr[i][0] * this.bluePrint.length)
 			const col = Math.floor(arr[i][1] * this.bluePrint[0].length)
 
-			if (powers <= 7  && this.bluePrint[row][col] == 0) {
-				this.bluePrint[row][col] = powers;
-				powers++;
-				continue;
-			  }
-			if (this.bluePrint[row][col] == 0) this.bluePrint[row][col] = 2
+			if (this.bluePrint[row][col] == 0) {
+				this.bluePrint[row][col] = 3
+			}
 		}
 	}
 	getPlayerPose = () => {
@@ -55,13 +50,23 @@ export class Board {
 	}
 	  
 	initLevel() {
-		const gridState = this.bluePrint.map(row => row.map(cell => ({
-			type: (cell === 0 || cell === 'x')
-				? 'empty'
-				: (cell === 1 ? 'wall' : 'soft-wall'),
-			power: cell === 3 ? "bombs" : "empty",
-			powerUps: this.powerUps[cell] || "empty"
-		})));
+		// this.map.attrs.style = `width:${this.bluePrint[0].length * width}px;height:${this.bluePrint.length * height}px`;
+
+		// SimpleJS.setState(prev => ({ ...prev, grid: gridState }));
+		// return gridState; // Optionally return for initialization
+
+		// this.map.attrs.style = `width:${this.bluePrint[0].length * width}px;height:${this.bluePrint.length * height}px`
+
+		// const grids = []
+		const gridState = this.bluePrint.map((row, i) => row.map((cell, j) => {
+			return {
+				type: (cell === 0 || cell === 'x')
+					? 'empty'
+					: (cell === 1 ? 'wall' : 'soft-wall'),
+				power: cell === 3 ? "idel" : (cell === 4 ? "shoe" : ""),
+				id: `${i}-${j}`
+			}
+		}));
 		SimpleJS.state.grids = gridState
 	}
 }

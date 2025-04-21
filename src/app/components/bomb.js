@@ -32,12 +32,18 @@ export class Explosion {
         newType = newType.replace("empty", "empty explosion")
             .trim();
 
+        // const powers = SimpleJS.state.powers
+
+        const power = currentCell.power
+        const id = currentCell?.id
+
         // Update state
         SimpleJS.setState(prev => {
             const newGrids = [...prev.grids];
             newGrids[this.y][this.x] = {
                 ...newGrids[this.y][this.x],
-                type: newType
+                type: newType,
+                power: "powered"
             };
             return {
                 ...prev,
@@ -47,9 +53,13 @@ export class Explosion {
                         x: this.x,
                         y: this.y,
                         id: this.id
-                    }]
+                    }],
+                powers: (power != "" && power != "powered") ? [...prev.powers, { id, image: power, xPos: this.x, yPos: this.y }] : [...prev.powers],
             };
         });
+        // if (currentCell.power != "") {
+        //     currentCell.power
+        // }
 
         return { x: this.x, y: this.y };
     }
@@ -62,11 +72,13 @@ export class Bomb {
         this.explosionCounter = 0;
         this.removeEffectsTime = 3; // seconds
         this.removeEffectsCounter = 0;
+        this.max = 1
+        this.bombs = 1
     }
 
     putTheBomb(x, y) {
-        if (this.dropped) return;
-        this.dropped = true;
+        if (this.bombs <= 0) return;
+        this.bombs--
 
         const xPos = Math.round(x / width);
         const yPos = Math.round(y / height);
@@ -120,13 +132,14 @@ export class Bomb {
             const newBombs = prev.bombs.filter(b =>
                 !(b.xPos === xPos && b.yPos === yPos)
             );
-            this.dropped = false
+            if (this.bombs <= 0) {
+                this.bombs = this.max
+            }
 
             return {
                 ...prev,
                 bombs: newBombs,
                 grids: newGrids,
-                dropped: false
             };
         });
 

@@ -1,4 +1,5 @@
-import { height, width } from "../App.js";
+import { SimpleJS } from "../../dist/index.js";
+import { bomb, height, width } from "../App.js";
 
 export const checkUpperMove = (grids, rowBot, colBot, colTop, object) => {
   const leftGrid =
@@ -18,8 +19,19 @@ export const checkUpperMove = (grids, rowBot, colBot, colTop, object) => {
   if (leftGrid && rightGrid) {
     return [true, object.x];
   }
+  const power = colBot == colTop && grids[rowBot][colBot].power != ""
+  if (power && SimpleJS.state.powers.find(p => p.id == grids[rowBot][colBot].id  && p.power != "" && p.power != "powered")) {
+    bomb.max++
+    SimpleJS.setState(prev => {
+      return {
+        ...prev,
+        powers: prev.powers.filter(p => p.id != grids[rowBot][colBot].id)
+      }
+    })
+  }
   return [false, object.x];
 };
+
 
 export const checkDownMove = (grids, rowTop, colBot, colTop, object) => {
   const leftGrid =
@@ -38,6 +50,17 @@ export const checkDownMove = (grids, rowTop, colBot, colTop, object) => {
   }
   if (leftGrid && rightGrid) {
     return [true, object.x];
+  }
+  const power = colBot == colTop && grids[rowTop][colBot].power != ""
+  if (power && SimpleJS.state.powers.find(p => p.id == grids[rowTop][colBot].id  && p.power != "" && p.power != "powered") ) {
+    bomb.max++
+    SimpleJS.setState(prev => {
+      return {
+        ...prev,
+        powers: prev.powers.filter(p => p.id != grids[rowTop][colBot].id)
+      }
+    })
+
   }
   return [false, object.x];
 };
@@ -60,6 +83,17 @@ export const checkLeftMove = (grids, rowBot, rowTop, colBot, object) => {
   if (upGrid && downGrid) {
     return [true, object.y];
   }
+  const power = rowTop == rowBot && (grids[rowTop][colBot].power != "")
+  if (power && SimpleJS.state.powers.find(p => p.id == grids[rowTop][colBot].id  && p.power != "" && p.power != "powered")) {
+    bomb.max++
+    SimpleJS.setState(prev => {
+      return {
+        ...prev,
+        powers: prev.powers.filter(p => p.id != grids[rowTop][colBot].id)
+      }
+    })
+
+  }
   return [false, object.y];
 };
 
@@ -81,6 +115,16 @@ export const checkRightMove = (grids, rowBot, rowTop, colTop, object) => {
   }
   if (upGrid && downGrid) {
     return [true, object.y];
+  }
+  const power = rowBot == rowTop && grids[rowBot][colTop].power != ""
+  if (power && SimpleJS.state.powers.find(p => p.id == grids[rowBot][colTop].id  && p.power != "" && p.power != "powered")) {
+    bomb.max++
+    SimpleJS.setState(prev => {
+      return {
+        ...prev,
+        powers: prev.powers.filter(p => p.id != grids[rowBot][colTop].id)
+      }
+    })
   }
   return [false, object.y];
 };
