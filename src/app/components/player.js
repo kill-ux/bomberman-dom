@@ -41,7 +41,8 @@ export class Player {
             type: 'boomb',
             playerName: SimpleJS.state.playerName,
             boombX: this.x / size,
-            boombY: this.y / size
+            boombY: this.y / size,
+            expCount: bomb.expCount
           })
         )
         break

@@ -81,7 +81,7 @@ export class Bomb {
     this.expCount = 1
   }
 
-  putTheBomb (x, y) {
+  putTheBomb (x, y, expCount) {
     if (!this.users) {
       if (this.bombs <= 0) return
       this.bombs--
@@ -107,7 +107,7 @@ export class Bomb {
 
     // Set explosion timeout
     const time = setInterval(() => {
-      this.explode(xPos, yPos, this.expCount)
+      this.explode(xPos, yPos, expCount || this.expCount)
       clearInterval(time)
     }, this.explosionTime * 1000)
   }
