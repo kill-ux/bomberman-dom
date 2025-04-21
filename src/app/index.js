@@ -1,5 +1,5 @@
 import { SimpleJS } from '../dist/index.js'
-import { bomb, Game, size } from './App.js'
+import { Game, size } from './App.js'
 import { Bomb } from './components/bomb.js'
 import { Queue } from './Queue.js'
 import { Welcome } from './Welcome.js'
@@ -35,6 +35,8 @@ export const ws = new WebSocket('/')
 ws.onopen = () => {
   console.log('you are connected to the server')
 }
+
+const bombUsers = new Bomb(true)
 
 let resetMoves
 ws.onmessage = event => {
@@ -99,7 +101,7 @@ ws.onmessage = event => {
       console.log('boomb cor', boombX, boombY)
 
       // SimpleJS.state.bombs.push({xPos:boombX,YPos: boombY})
-      bomb.putTheBomb(boombX * size, boombY * size)
+      bombUsers.putTheBomb(boombX * size, boombY * size)
       // SimpleJS.setState(prev => ({
       //   ...prev,
       //   bombs: [...prev.bombs, { xPos: boombX, YPos: boombY }]
