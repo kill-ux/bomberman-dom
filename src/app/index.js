@@ -33,6 +33,14 @@ if (component) {
 
 export const ws = new WebSocket('/')
 
+
+
+export function SendMessage(message) {
+  ws.send(JSON.stringify({ type: "newMessage", message: message, playerName: SimpleJS.state.playerName }))
+}
+
+
+
 ws.onopen = () => {
   console.log('you are connected to the server')
 }
@@ -40,6 +48,10 @@ ws.onopen = () => {
 const bombUsers = new Bomb(true)
 
 let resetMoves
+
+
+
+
 ws.onmessage = event => {
   const {
     type,
@@ -104,7 +116,12 @@ ws.onmessage = event => {
       bombUsers.putTheBomb(boombX * size, boombY * size, expCount)
       break
     case 'newMessage':
-      chat.push(message,playerName)
+      SimpleJS.setState(perv=>{
+        perv.chat.push({playerName,message})
+        return perv
+      })
+      console.log(SimpleJS.state.chat);
+      
       break
   }
 }

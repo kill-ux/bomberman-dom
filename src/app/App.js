@@ -6,7 +6,7 @@ import { Board, MapSchema } from './components/map.js';
 import { menu } from './components/menu.js';
 import { Monster } from './components/monsters.js';
 import { otherPlayer, Player } from './components/player.js';
-
+import { SendMessage } from "./index.js";
 const initWidth = Math.floor(window.innerWidth / MapSchema[0].length / 1.4)
 const initHeight = Math.floor(window.innerHeight / MapSchema.length / 1.4)
 export let size = Math.min(initWidth, initHeight);
@@ -132,11 +132,28 @@ export const Game = () => {
     }),
 
     //RenderMessages
-    ...SimpleJS.state.chat.map(message => {
-    return SimpleJS.createElement("p", {
-      class: 'message',
-    }[message.name,message.message])
-  })
+    // 
+    
+    
+    // Object.entries(SimpleJS.state.chat).forEach(([playerName,message]) => {
+    //   console.log(playerName);
+    //   console.log(message);
+      
+    // })
+    
+    ...SimpleJS.state.chat.map(({playerName, message}) => {
+      console.log(playerName);    
+      console.log(message);  
+       console.log("hhhhhhhhh")
+       return SimpleJS.createElement("div", {class:"chat"})
+      
+      })
+    
+  //   (message => {
+  //   return SimpleJS.createElement("p", {
+  //     class: 'message',
+  //   }[message.name,message.message])
+  // })
   ])
 
   const BoardMap = new Board(map, MapSchema)
@@ -154,10 +171,10 @@ export const Game = () => {
     })
   }
 
-  function SendMessage(message) {
-    ws.send({ type: "newMessage", message, playerName: SimpleJS.state.playerName })
-  }
 
+  // function SendMessage(message) {
+  //   wss.send({ type: "newMessage", message, message: SimpleJS.state.playerName })
+  // }
   let messageText = "";
 
   return (
@@ -167,13 +184,14 @@ export const Game = () => {
         onInput: (e) => {
           messageText = e.target.value;
         }
-      }, [SimpleJS.createElement("button", {
+      },[]),
+      SimpleJS.createElement("button", {
         onClick: () => {
           SendMessage(messageText);
           messageText = "";
         }
-      }, [])
-      ]),
+      }, ["Submit"]),
+
 
       SimpleJS.createElement("div", { class: "playerInfo topNav" }, [
         SimpleJS.createElement("div", { class: "player1" }, [

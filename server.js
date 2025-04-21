@@ -5,7 +5,7 @@ import { stringify } from 'node:querystring'
 import { WebSocketServer } from 'ws'
 
 const hostname = ''
-const port = 3000
+const port = 3001
 const baseDirectory = process.cwd()
 
 const mimeTypes = {
@@ -18,18 +18,18 @@ const mimeTypes = {
 
 // Function to serve index.html
 async function serveIndexHtml(res) {
-    const indexPath = path.join(baseDirectory, 'index.html');
-    try {
-        const data = await fs.readFile(indexPath, 'utf8');
-        res.statusCode = 200;
-        res.setHeader('Content-Type', 'text/html');
+  const indexPath = path.join(baseDirectory, 'index.html');
+  try {
+    const data = await fs.readFile(indexPath, 'utf8');
+    res.statusCode = 200;
+    res.setHeader('Content-Type', 'text/html');
 
-        res.end(data);
-    } catch (err) {
-        res.statusCode = 500;
-        res.setHeader('Content-Type', 'text/plain');
-        res.end('Internal Server Error');
-    }
+    res.end(data);
+  } catch (err) {
+    res.statusCode = 500;
+    res.setHeader('Content-Type', 'text/plain');
+    res.end('Internal Server Error');
+  }
 }
 const server = createServer()
 
@@ -87,25 +87,25 @@ const spawns = [
 let diffMap
 
 const startTime = () => {
-    timer10 = 1
-    timeout = setInterval(() => {
-        if (timer10 === -1) {
-            let cls = {}
-            Clients.forEach(({ lifes, spawn }, key) => {
-                cls[key] = { lifes, spawn }
-            })
-            Clients.forEach(value => {
-                value.ws.send(JSON.stringify({ type: "startGame", cls, diffMap, }))
-            })
-            timer10 = null
-            clearInterval(timeout)
-        } else {
-            Clients.forEach(value => {
-                value.ws.send(JSON.stringify({ type: "startTime", timer: timer10 }))
-            })
-            timer10--
-        }
-    }, 1000)
+  timer10 = 1
+  timeout = setInterval(() => {
+    if (timer10 === -1) {
+      let cls = {}
+      Clients.forEach(({ lifes, spawn }, key) => {
+        cls[key] = { lifes, spawn }
+      })
+      Clients.forEach(value => {
+        value.ws.send(JSON.stringify({ type: "startGame", cls, diffMap, }))
+      })
+      timer10 = null
+      clearInterval(timeout)
+    } else {
+      Clients.forEach(value => {
+        value.ws.send(JSON.stringify({ type: "startTime", timer: timer10 }))
+      })
+      timer10--
+    }
+  }, 1000)
 }
 
 wss.on('connection', ws => {
@@ -161,11 +161,11 @@ wss.on('connection', ws => {
         }
         break
       case 'newMessage':
-      // Message
-      Clients.forEach((value) => {
+        // Message
+        Clients.forEach((value) => {
           value.ws.send(JSON.stringify(data))
-      })
-      break
+        })
+        break
       case 'moves':
         Clients.forEach((value, key) => {
           if (key != data.playerName) {
