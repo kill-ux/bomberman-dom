@@ -110,6 +110,8 @@ ws.onmessage = event => {
         powers: prev.powers.filter((p) => p.id !== SimpleJS.state.grids[row][col].id),
       }));
       break
+    case 'lifes':
+      
   }
 }
 
