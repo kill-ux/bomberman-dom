@@ -8,7 +8,6 @@ import { checkMonsterMove, randomMonsterDir } from "./monsters.js";
 let resetMoves
 export const animateMovement = (time) => {
 	if (!SimpleJS.state.pause) {
-		console.log(SimpleJS.state.players[SimpleJS.state.playerName].pObj.speed)
 
 		const grids = SimpleJS.state.grids
 		let player = SimpleJS.state.players[SimpleJS.state.playerName].pObj

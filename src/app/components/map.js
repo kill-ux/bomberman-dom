@@ -1,7 +1,5 @@
 //import { SimpleJS } from '../../dist/index.js'
 import { SimpleJS } from "../../dist/index.js";
-import { useRef } from "../../dist/utils.js";
-import { width, height } from "../App.js";
 
 export const MapSchema = [
 	[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
@@ -46,6 +44,7 @@ export class Board {
 	}
 
 	randomizeBricks(arr) {
+		let powers = 4;
 		for (
 			let i = 0;
 			i < Math.floor((this.bluePrint.length * this.bluePrint[0].length) / 2);
@@ -68,6 +67,7 @@ export class Board {
 			}
 		}
 	}
+	  
 	initLevel() {
 		const gridState = this.bluePrint.map((row, i) => row.map((cell, j) => {
 			return {
