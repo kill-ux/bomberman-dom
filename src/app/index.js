@@ -15,7 +15,8 @@ SimpleJS.state = {
   pause: false,
   playerCount: 0,
   playerName: '',
-  players: {}
+  players: {},
+  chat: []
 }
 
 SimpleJS.addRoute('/', Welcome)
@@ -56,6 +57,7 @@ ws.onmessage = event => {
     moveLeft,
     moveDown,
     timer,
+    message,
     expCount
   } = JSON.parse(event.data)
 
@@ -99,14 +101,10 @@ ws.onmessage = event => {
       }, 50)
       break
     case 'boomb':
-      console.log('boomb cor', boombX, boombY)
-
-      // SimpleJS.state.bombs.push({xPos:boombX,YPos: boombY})
       bombUsers.putTheBomb(boombX * size, boombY * size, expCount)
-      // SimpleJS.setState(prev => ({
-      //   ...prev,
-      //   bombs: [...prev.bombs, { xPos: boombX, YPos: boombY }]
-      // }))
+      break
+    case 'newMessage':
+      chat.push(message,playerName)
       break
   }
 }

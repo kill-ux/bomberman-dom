@@ -161,7 +161,11 @@ wss.on('connection', ws => {
         }
         break
       case 'newMessage':
-      //
+      // Message
+      Clients.forEach((value) => {
+          value.ws.send(JSON.stringify(data))
+      })
+      break
       case 'moves':
         Clients.forEach((value, key) => {
           if (key != data.playerName) {
