@@ -83,6 +83,22 @@ export const Game = () => {
                 transform:translate(${bomb.xPos * width}px, ${bomb.yPos * height}px);
             `
 			})
+		),
+
+		// Render power-ups
+		...SimpleJS.state.powers.map(power =>
+			SimpleJS.createElement('div', {
+				class: 'bomb',
+				style: `
+                background-image:url(assets/${power.image}.png);
+                background-size:${width}px ${height}px;
+                width:${width}px;
+                height:${height}px;
+                background-position:${width}px ${height * 2}px;
+                position:absolute;
+                transform:translate(${power.xPos * width}px, ${power.yPos * height}px);
+            `
+			})
 		)
 		,
 		// Render fires

@@ -21,6 +21,8 @@ export class Board {
 	constructor(map, bluePrint) {
 		this.map = map
 		this.bluePrint = bluePrint
+		this.maxNothing = 15
+		this.ran = [2, 3, 4, 5, 3, 4, 5]
 	}
 
 	//Solo + Co-Op mode randomize add a port§
@@ -53,13 +55,11 @@ export class Board {
 			const col = Math.floor(arr[i][1] * this.bluePrint[0].length)
 
 			if (this.bluePrint[row][col] == 0) {
-				if (arr[i][0] > 0) {
-					this.bluePrint[row][col] = 3
-				} else {
-					this.bluePrint[row][col] = 2
-				}
+				this.bluePrint[row][col] = this.ran[i % this.ran.length]
 			}
 		}
+
+		console.log(this.bluePrint)
 	}
 	getPlayerPose = () => {
 		for (let i = 0; i < this.bluePrint.length; i++) {
@@ -69,67 +69,15 @@ export class Board {
 		}
 	}
 	initLevel() {
-		// this.map.attrs.style = `width:${this.bluePrint[0].length * width}px;height:${this.bluePrint.length * height}px`;
-
-		// SimpleJS.setState(prev => ({ ...prev, grid: gridState }));
-		// return gridState; // Optionally return for initialization
-
-		// this.map.attrs.style = `width:${this.bluePrint[0].length * width}px;height:${this.bluePrint.length * height}px`
-
-		// const grids = []
-		const gridState = this.bluePrint.map(row => row.map(cell => ({
-			type: (cell === 0 || cell === 'x')
-				? 'empty'
-				: (cell === 1 ? 'wall' : 'soft-wall'),
-			power: cell === 3 ? "bombs" : "empty",
-		})));
+		const gridState = this.bluePrint.map((row, i) => row.map((cell, j) => {
+			return {
+				type: (cell === 0 || cell === 'x')
+					? 'empty'
+					: (cell === 1 ? 'wall' : 'soft-wall'),
+				power: cell === 3 ? "idel" : (cell === 4 ? "fire" : (cell === 5 ? "battery" : "")),
+				id: `${i}-${j}`
+			}
+		}));
 		SimpleJS.state.grids = gridState
-
-
-		// for (let i = 0; i < this.bluePrint.length; i++) {
-		// 	grids[i] = []
-		// 	for (let j = 0; j < this.bluePrint[i].length; j++) {
-		// 		const div = {}
-		// 		// const divRef = useRef(`grid${j}-${i}`)
-		// 		// const div = SimpleJS.createElement('div', {
-		// 		// 	style: `image-rendering:pixelated; width:${width}px;height:${height}px;`,
-		// 		// })
-		// 		//div.attrs.style = 'imageRendering:pixelated;'
-		// 		// grids[i].push(div)
-		// 		// grids[i].push(divRef)
-		// 		// console.log(divRef)
-		// 		// this.map.appendChild(div)
-		// 		this.map.children.push(div)
-
-
-		// 		if (this.bluePrint[i][j] == 0 || this.bluePrint[i][j] == 'x') {
-		// 			//   div.classList.add('empty')
-		// 			// div.attrs.class = 'empty'
-		// 			div.type = 'empty'
-		// 			continue
-		// 		}
-		// 		if (this.bluePrint[i][j] == 1) {
-		// 			//   div.classList.add('wall')
-		// 			// div.attrs.class = 'wall'
-		// 			div.type = 'wall'
-
-		// 			continue
-		// 		}
-		// 		if (this.bluePrint[i][j] == 2) {
-		// 			//   div.classList.add('soft-wall')
-		// 			// div.attrs.class = 'soft-wall'
-		// 			div.type = 'soft-wall'
-
-		// 			continue
-		// 		}
-		// 		if (this.bluePrint[i][j] == 3) {
-		// 			//   div.classList.add('soft-wall', 'portal')
-		// 			// div.attrs.class = 'soft-wall portal'
-		// 			div.type = 'soft-wall portal'
-		// 			continue
-		// 		}
-		// 	}
-		// }
-		// return grids
 	}
 }

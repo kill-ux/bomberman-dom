@@ -1,5 +1,5 @@
 import { SimpleJS } from "../../dist/index.js";
-import { bomb, size} from "../App.js";
+import { bomb } from "../App.js";
 
 export class Player {
     constructor(x, y, speed) {
