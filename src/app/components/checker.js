@@ -15,8 +15,7 @@ const handlePowerUp = (grids, row, col, bomb) => {
     } else {
       SimpleJS.state.players[SimpleJS.state.playerName].pObj.speed *= 1.1
     }
-    ws.send(JSON.stringify({ type: "removes", playerName: SimpleJS.state.playerName, row, col }))
-
+    ws.send(JSON.stringify({ type: "powerups", playerName: SimpleJS.state.playerName, row, col }))
     grids[row][col].power = "";
     SimpleJS.setState((prev) => ({
       ...prev,
