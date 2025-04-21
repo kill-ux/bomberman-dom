@@ -7,7 +7,7 @@ export class Player {
         this.startY = y;
         this.x = x;
         this.y = y;
-        this.speed = speed;
+        this.speed = speed*5;
         this.loop = 0;
         this.slowFrames = 5;
         this.slow = 0;
@@ -38,7 +38,7 @@ export class Player {
                 // quit button
                 break
             case " ":
-                let flames = bomb.putTheBomb(this.x, this.y, map);
+                bomb.putTheBomb(this.x, this.y);
                 break;
             case "arrowup":
                 this.moveUp = true;

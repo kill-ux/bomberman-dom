@@ -25,6 +25,6 @@ export function addRoute(path, component) {
 
 
 export const Link = (path) => {
-    history.pushState({ ...SimpleJS.state.todos }, "", path)
+    history.pushState({}, "", path)
     router()
 }

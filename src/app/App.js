@@ -134,9 +134,25 @@ export const Game = () => {
 
 	return (
 		SimpleJS.createElement("div", { class: "body" }, [
+			SimpleJS.createElement("div", { class: "playerInfo topNav" },[
+			SimpleJS.createElement("div", { class: "player1" },[
+				SimpleJS.createElement("h1", { class: "" },["player1"])
+			]),
+			SimpleJS.createElement("div", { class: "player3" },[
+				SimpleJS.createElement("h1", { class: "" },["player3"])
+			])
+			]),		
 			SimpleJS.createElement("div", { class: "container" }, [
 				map
-			])
+			]),
+			SimpleJS.createElement("div", { class: "playerInfo botNav" },[
+				SimpleJS.createElement("div", { class: "player4" },[
+					SimpleJS.createElement("h1", { class: "" },["player4"])
+				]),
+				SimpleJS.createElement("div", { class: "player2" },[
+					SimpleJS.createElement("h1", { class: "" },["player2"])
+				])
+				]),		
 		])
 	)
 }

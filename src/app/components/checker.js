@@ -1,4 +1,4 @@
-import { height, width } from "../App.js";
+import { height, size, width } from "../App.js";
 
 export const checkUpperMove = (grids, rowBot, colBot, colTop, object) => {
   const leftGrid =
@@ -11,14 +11,14 @@ export const checkUpperMove = (grids, rowBot, colBot, colTop, object) => {
     (grids[rowBot][colTop].type.includes("bomb-wall") && !checkIfinBomb(grids, object));
   if (leftGrid && !rightGrid) {
     if (Math.ceil((object.x + object.speed) / width) > Math.ceil(object.x / width)) {
-      return [true, (object.x = Math.ceil(object.x))];
+      return [true, (object.x = Math.ceil(object.x / width) * size)];
     } else {
       return [true, (object.x += object.speed)];
     }
   }
   if (!leftGrid && rightGrid) {
     if (Math.floor((object.x - object.speed) / width) < Math.floor(object.x / width)) {
-      return [true, (object.x = Math.floor(object.x))];
+      return [true, (object.x = Math.floor(object.x / width) * size)];
     } else {
       return [true, (object.x -= object.speed)];
     }
@@ -43,7 +43,7 @@ export const checkDownMove = (grids, rowTop, colBot, colTop, object) => {
   if (leftGrid && !rightGrid) {
     // console.log("left true right false")
     if (Math.ceil((object.x + object.speed) / width) > Math.ceil(object.x / width)) {
-      return [true, (object.x = Math.ceil(object.x))];
+      return [true, (object.x = Math.ceil(object.x / width) * size)];
     } else {
       return [true, (object.x += object.speed)];
     }
@@ -52,7 +52,7 @@ export const checkDownMove = (grids, rowTop, colBot, colTop, object) => {
   if (!leftGrid && rightGrid) {
     if (Math.floor((object.x - object.speed) / width) < Math.floor(object.x / width)) {
 
-      return [true, (object.x = Math.floor(object.x))];
+      return [true, (object.x = Math.floor(object.x / width) * size)];
     } else {
 
       return [true, (object.x -= object.speed)];
@@ -74,17 +74,17 @@ export const checkLeftMove = (grids, rowBot, rowTop, colBot, object) => {
     grids[rowBot][colBot].type.includes("wall") ||
     grids[rowBot][colBot].type.includes("soft-wall") ||
     (grids[rowBot][colBot].type.includes("bomb-wall") && !checkIfinBomb(grids, object));
-    
+
   if (upGrid && !downGrid) {
     if (Math.ceil((object.y + object.speed) / height) > Math.ceil(object.y / height)) {
-      return [true, (object.y = Math.ceil(object.y))];
+      return [true, (object.y = Math.ceil(object.y / height) * size)];
     } else {
       return [true, (object.y += object.speed)];
     }
   }
   if (!upGrid && downGrid) {
     if (Math.floor((object.y - object.speed) / height) < Math.floor(object.y / height)) {
-      return [true, (object.y = Math.floor(object.y))];
+      return [true, (object.y = Math.floor(object.y / height) * size)];
     } else {
       return [true, (object.y -= object.speed)];
     }
@@ -107,14 +107,15 @@ export const checkRightMove = (grids, rowBot, rowTop, colTop, object) => {
 
   if (upGrid && !downGrid) {
     if (Math.ceil((object.y + object.speed) / height) > Math.ceil(object.y / height)) {
-      return [true, (object.y = Math.ceil(object.y))];
+      return [true, (object.y = Math.ceil(object.y / height) * size)];
     } else {
       return [true, (object.y += object.speed)];
     }
   }
+  console.log("here")
   if (!upGrid && downGrid) {
     if (Math.floor((object.y - object.speed) / height) < Math.floor(object.y / height)) {
-      return [true, (object.y = Math.floor(object.y))];
+      return [true, (object.y = Math.floor(object.y / height) * size)];
     } else {
       return [true, (object.y -= object.speed)];
     }
