@@ -56,7 +56,8 @@ ws.onmessage = event => {
     moveLeft,
     moveDown,
     timer,
-    expCount
+    expCount,
+    row, col,
   } = JSON.parse(event.data)
 
   switch (type) {
@@ -100,13 +101,14 @@ ws.onmessage = event => {
       break
     case 'boomb':
       console.log('boomb cor', boombX, boombY)
-
-      // SimpleJS.state.bombs.push({xPos:boombX,YPos: boombY})
       bombUsers.putTheBomb(boombX * size, boombY * size, expCount)
-      // SimpleJS.setState(prev => ({
-      //   ...prev,
-      //   bombs: [...prev.bombs, { xPos: boombX, YPos: boombY }]
-      // }))
+      break
+    case 'powerups':
+      SimpleJS.state.grids[row][col].power = "";
+      SimpleJS.setState((prev) => ({
+        ...prev,
+        powers: prev.powers.filter((p) => p.id !== SimpleJS.state.grids[row][col].id),
+      }));
       break
   }
 }

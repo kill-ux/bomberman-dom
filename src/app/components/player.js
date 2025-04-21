@@ -3,7 +3,7 @@ import { bomb, size } from '../App.js'
 import { ws } from '../index.js'
 
 export class Player {
-  constructor (x, y, speed) {
+  constructor(x, y, speed) {
     this.startX = x
     this.startY = y
     this.x = x
@@ -28,7 +28,7 @@ export class Player {
 
   }
 
-  initBomberMan (map) {
+  initBomberMan(map) {
     //
   }
 
@@ -37,7 +37,7 @@ export class Player {
 
     switch (key) {
       case ' ':
-        bomb.putTheBomb(this.x, this.y)
+        bomb.putTheBomb(this.x, this.y, bomb.expCount)
         ws.send(
           JSON.stringify({
             type: 'boomb',
@@ -83,7 +83,7 @@ export class Player {
 }
 
 export class otherPlayer {
-  constructor (x, y, speed) {
+  constructor(x, y, speed) {
     this.startX = x
     this.startY = y
     this.x = x

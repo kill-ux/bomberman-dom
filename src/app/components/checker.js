@@ -1,5 +1,6 @@
 import { SimpleJS } from "../../dist/index.js";
 import { bomb, height, size, width } from "../App.js";
+import { ws } from "../index.js";
 
 const checkIfinBomb = (grids, player) => {
   return grids[Math.round(player.y / height)][Math.round(player.x / width)].classList.contains("bomb-wall");
@@ -14,6 +15,7 @@ const handlePowerUp = (grids, row, col, bomb) => {
     } else {
       SimpleJS.state.players[SimpleJS.state.playerName].pObj.speed *= 1.1
     }
+    ws.send(JSON.stringify({ type: "powerups", playerName: SimpleJS.state.playerName, row, col }))
     grids[row][col].power = "";
     SimpleJS.setState((prev) => ({
       ...prev,
