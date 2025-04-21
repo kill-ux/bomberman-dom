@@ -36,6 +36,8 @@ export const ws = new WebSocket('/')
 
 
 export function SendMessage(message) {
+  console.log(SimpleJS.state.chat);
+
   ws.send(JSON.stringify({ type: "newMessage", message: message, playerName: SimpleJS.state.playerName }))
 }
 
@@ -124,8 +126,19 @@ ws.onmessage = event => {
         powers: prev.powers.filter((p) => p.id !== SimpleJS.state.grids[row][col].id),
       }));
       break
+    case 'newMessage':
+      console.log(message);
+      SimpleJS.setState((prev) => {
+        return {
+          ...prev,
+          chat: [...prev.chat, { playerName, message }]
+        };
+      });
+        console.log(SimpleJS.state.chat);
+        
+      break
     case 'lifes':
-      
+
   }
 }
 

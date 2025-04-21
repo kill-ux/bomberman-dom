@@ -6,7 +6,7 @@ import { Board, MapSchema } from './components/map.js';
 import { menu } from './components/menu.js';
 import { Monster } from './components/monsters.js';
 import { otherPlayer, Player } from './components/player.js';
-import { SendMessage } from "./index.js";
+
 const initWidth = Math.floor(window.innerWidth / MapSchema[0].length / 1.4)
 const initHeight = Math.floor(window.innerHeight / MapSchema.length / 1.4)
 export let size = Math.min(initWidth, initHeight);
@@ -141,13 +141,7 @@ export const Game = () => {
       
     // })
     
-    ...SimpleJS.state.chat.map(({playerName, message}) => {
-      console.log(playerName);    
-      console.log(message);  
-       console.log("hhhhhhhhh")
-       return SimpleJS.createElement("div", {class:"chat"})
-      
-      })
+
     
   //   (message => {
   //   return SimpleJS.createElement("p", {
@@ -196,6 +190,7 @@ export const Game = () => {
 					SimpleJS.createElement("h1", { class: "" },[`lives: ${SimpleJS.state.players[Object.keys(SimpleJS.state.players)[1]]?.pObj?.lifes}`])
 				])
 				]),		
+         Chat()
 		])
 	)
 }
