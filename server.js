@@ -89,6 +89,7 @@ const spawns = [
 ]
 let diffMap
 const messages = []
+let gameStarted = false
 
 const startTime = () => {
     timer10 = 10
@@ -103,6 +104,7 @@ const startTime = () => {
                 value.ws.send(JSON.stringify({ type: "startGame", cls, diffMap, }))
             })
             timer10 = null
+            gameStarted = true
             clearInterval(timeout)
         } else {
             Clients.forEach(value => {
@@ -123,7 +125,7 @@ wss.on('connection', ws => {
                 if (Clients.size === 0) {
                     diffMap = DiffMap()
                 }
-                if (timer10) {
+                if (timer10 || gameStarted) {
                     return
                 }
                 console.log('clients', Clients)
@@ -181,8 +183,10 @@ wss.on('connection', ws => {
                     if (livePlayers.size == 1) {
                         const playerwon = [...livePlayers][0]
                         Clients.forEach((value) => {
-                            value.ws.send(JSON.stringify({type:"win", playerName:playerwon}))
+                            value.ws.send(JSON.stringify({ type: "win", playerName: playerwon }))
                         })
+                        livePlayers.clear()
+                        gameStarted = false
                     }
                 }
             case 'moves':
@@ -193,6 +197,9 @@ wss.on('connection', ws => {
                         value.ws.send(JSON.stringify(data))
                     }
                 })
+                if (!gameStarted) {
+                    Clients.clear()
+                }
                 break
         }
     })
