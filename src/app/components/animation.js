@@ -162,6 +162,8 @@ export const animateMovement = (time) => {
 			!player.bomberman.current.classList.contains("immune")
 		) {
 			death(player, SimpleJS.state.monsters, player.bomberman.current, player.bomberman.current.classList);
+			ws.send(JSON.stringify({ type: "moves", playerName: SimpleJS.state.playerName, playerX: player.x / size, playerY: player.y / size, moveRight: player.moveRight, moveUp: player.moveUp, moveDown: player.moveDown, moveLeft: player.moveLeft }))
+
 			// console.log(bomberman,player.bomberman.current)
 
 			//player.lifes--;
