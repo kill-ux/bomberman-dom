@@ -15,7 +15,9 @@ SimpleJS.state = {
   pause: false,
   playerCount: 0,
   playerName: '',
-  players: {}
+  players: {},
+  chat: [],
+  message: '',
 }
 
 SimpleJS.addRoute('/', Welcome)
@@ -32,6 +34,8 @@ if (component) {
 
 export const ws = new WebSocket('/')
 
+
+
 ws.onopen = () => {
   console.log('you are connected to the server')
 }
@@ -39,6 +43,10 @@ ws.onopen = () => {
 const bombUsers = new Bomb(true)
 
 let resetMoves
+
+
+
+
 ws.onmessage = event => {
   const {
     type,
@@ -56,10 +64,12 @@ ws.onmessage = event => {
     moveLeft,
     moveDown,
     timer,
+    message,
     expCount,
-    row, 
+    row,
     col,
-    lifes
+    lifes,
+    messages
   } = JSON.parse(event.data)
 
   switch (type) {
@@ -67,10 +77,12 @@ ws.onmessage = event => {
       console.error(content)
       break
     case 'appendQueue':
+      console.log('appendQueue', playerCount, playerName)
       SimpleJS.setState(prev => ({
         ...prev,
         playerCount,
-        playerName: prev.playerName ? prev.playerName : playerName
+        playerName: prev.playerName ? prev.playerName : playerName,
+        chat: messages,
       }))
       if (location.pathname !== '/queue') {
         SimpleJS.Link('/queue')
@@ -110,6 +122,17 @@ ws.onmessage = event => {
         ...prev,
         powers: prev.powers.filter((p) => p.id !== SimpleJS.state.grids[row][col].id),
       }));
+      break
+    case 'newMessage':
+      console.log(message);
+
+      SimpleJS.setState((prev) => {
+        return {
+          ...prev, chat: [...prev.chat, { playerName, message }]
+        }
+      })
+      console.log(SimpleJS.state.chat);
+
       break
     case 'lifes':
       SimpleJS.setState((prev) => {

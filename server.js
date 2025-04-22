@@ -13,7 +13,9 @@ const mimeTypes = {
     '.js': 'application/javascript',
     '.css': 'text/css',
     '.json': 'application/json',
-    '.png': 'image/png'
+    '.png': 'image/png',
+    '.jpg': 'image/jpeg',
+    'webp': 'image/webp',
 }
 
 // Function to serve index.html
@@ -85,9 +87,10 @@ const spawns = [
     [1, 9]
 ]
 let diffMap
+const messages = []
 
 const startTime = () => {
-    timer10 = 0
+    timer10 = 10
     timeout = setInterval(() => {
         if (timer10 === -1) {
             let cls = {}
@@ -138,7 +141,8 @@ wss.on('connection', ws => {
                                 JSON.stringify({
                                     type: 'appendQueue',
                                     playerCount: Clients.size,
-                                    playerName
+                                    playerName,
+                                    messages,
                                 })
                             )
                         })
@@ -147,12 +151,12 @@ wss.on('connection', ws => {
                             timer20 = 20
                             clearTimeout(timeout)
                             if (Clients.size == 4) {
-                                // startTime()
+                                startTime()
                             } else {
                                 timeout = setTimeout(() => {
                                     startTime()
                                     // }, 20000)
-                                }, 2000)
+                                }, 1000)
                             }
                         }
                     } else {
@@ -161,7 +165,14 @@ wss.on('connection', ws => {
                 }
                 break
             case 'newMessage':
-            //
+                Clients.forEach((value, key) => {
+                    if (key != data.playerName) {
+                        value.ws.send(JSON.stringify(data))
+                    }
+                })
+                messages.push({ playerName: data.playerName, message: data.message })
+                break
+
             case 'moves':
             case 'boomb':
             case 'lifes':
@@ -172,14 +183,28 @@ wss.on('connection', ws => {
                     }
                 })
                 break
-            case 'dead':
-            //
         }
     })
 
     ws.on('close', () => {
         console.log(`${playerName} are close his connection`)
         Clients.delete(playerName)
+        if (Clients.size === 0) {
+            clearTimeout(timeout)
+            timer10 = null
+            timer20 = null
+            messages = []
+        }
+
+        // Clients.forEach(value => {
+        //     value.ws.send(
+        //         JSON.stringify({
+        //             type: 'appendQueue',
+        //             playerCount: Clients.size,
+        //             playerName
+        //         })
+        //     )
+        // })
         // send
         console.log('Client disconnected')
     })
