@@ -147,8 +147,9 @@ export const animateMovement = (time) => {
 				}
 				else {
 					/*--- player death ---*/
-					if (pObj.bomberman.current.style.display != "none")
+					if (pObj.bomberman.current.style.display != "none"){
 						pObj.bomberman.current.style.display = "none"
+					}
 				}
 			})
 			if (oldX != player.x || oldY != player.y) {

@@ -146,20 +146,6 @@ export const Game = () => {
       }, [])
     ),
 
-    //Render Monsters
-    ...SimpleJS.state.monsters.map(monster => {
-      return SimpleJS.createElement("div", {
-        class: `monster monster-${monster.id}`,
-        ref: monster.monsterDiv,
-        style: `width:${width}px;
-				height:${height}px;
-				position:absolute;
-				image-rendering:pixelated;
-				background-image:url(assets/skull.png);
-				background-size:${3 * width}px ${4 * height}px;
-				transform:translate(${monster.x}px, ${monster.y}px);`
-      })
-    }),
   ])
 
   const BoardMap = new Board(map, MapSchema)
