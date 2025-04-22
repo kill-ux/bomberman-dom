@@ -18,6 +18,7 @@ SimpleJS.state = {
   players: {},
   chat: [],
   message: '',
+  currentPage: "",
 }
 
 SimpleJS.addRoute('/', Welcome)
@@ -69,7 +70,7 @@ ws.onmessage = event => {
     row,
     col,
     lifes,
-    messages
+    messages,
   } = JSON.parse(event.data)
 
   switch (type) {
@@ -84,6 +85,7 @@ ws.onmessage = event => {
         chat: messages,
       }))
       if (location.pathname !== '/queue') {
+        SimpleJS.state.currentPage = "/queue"
         SimpleJS.Link('/queue')
       }
       break
@@ -91,6 +93,7 @@ ws.onmessage = event => {
       SimpleJS.state.players = cls
       SimpleJS.state.diffMap = diffMap
       if (location.pathname !== '/game') {
+        SimpleJS.state.currentPage = "/game"
         SimpleJS.Link('/game')
       }
     case 'startTime':
