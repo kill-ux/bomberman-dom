@@ -371,3 +371,29 @@ body {
   border-radius: 4px;
   box-sizing: border-box;
 }
+
+.Forbidden {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
+  background-color: #ffffff;
+}
+
+.btn {
+  background-color: #000000de;
+  color: white;
+  padding: 5px 5px;
+  /* border: none; */
+  border-radius: 5px;
+  cursor: pointer;
+  font-family: "Press Start 2P", system-ui;
+  margin: 5px;
+}
+
+.btn:hover {
+  background-color: #ffffffde;
+  color: rgb(0, 0, 0);
+  border: 1px solid #000000;
+}
