@@ -73,7 +73,9 @@ ws.onmessage = event => {
     timer,
     message,
     expCount,
-    row, col,
+    row, 
+    col,
+    lifes
   } = JSON.parse(event.data)
 
   switch (type) {
@@ -116,7 +118,6 @@ ws.onmessage = event => {
       }, 50)
       break
     case 'boomb':
-      console.log('boomb cor', boombX, boombY)
       bombUsers.putTheBomb(boombX * size, boombY * size, expCount)
       break
     case 'powerups':
@@ -138,7 +139,11 @@ ws.onmessage = event => {
         
       break
     case 'lifes':
-
+      SimpleJS.setState((prev) => {
+        prev.players[playerName].pObj.lifes = lifes
+        return prev
+      })
+      break
   }
 }
 

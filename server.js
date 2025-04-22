@@ -87,7 +87,7 @@ const spawns = [
 let diffMap
 
 const startTime = () => {
-    timer10 = 10
+    timer10 = 0
     timeout = setInterval(() => {
         if (timer10 === -1) {
             let cls = {}
@@ -164,6 +164,7 @@ wss.on('connection', ws => {
             //
             case 'moves':
             case 'boomb':
+            case 'lifes':
             case 'powerups':
                 Clients.forEach((value, key) => {
                     if (key != data.playerName) {
