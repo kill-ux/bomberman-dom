@@ -141,6 +141,7 @@ ws.onmessage = event => {
       break
     case "win":
       alert(playerName," has won")
+      SimpleJS.Link("/")
       break
   }
 }
