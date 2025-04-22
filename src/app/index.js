@@ -77,7 +77,6 @@ ws.onmessage = event => {
       console.error(content)
       break
     case 'appendQueue':
-      console.log('appendQueue', playerCount, playerName)
       SimpleJS.setState(prev => ({
         ...prev,
         playerCount,
@@ -124,14 +123,11 @@ ws.onmessage = event => {
       }));
       break
     case 'newMessage':
-      console.log(message);
-
       SimpleJS.setState((prev) => {
         return {
           ...prev, chat: [...prev.chat, { playerName, message }]
         }
       })
-      console.log(SimpleJS.state.chat);
 
       break
     case 'lifes':

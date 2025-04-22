@@ -110,7 +110,6 @@ export const animateMovement = (time) => {
 		if (player.bomberman.current) {
 
 			Object.values(SimpleJS.state.players).forEach(({ pObj }) => {
-				console.log("pObj.lifes:", pObj.lifes)
 				if (pObj.lifes !== 0) {
 					let skip = false
 					pObj.bomberman.current.style.transform = `translate(${pObj.x}px, ${pObj.y}px)`;
@@ -152,9 +151,7 @@ export const animateMovement = (time) => {
 						pObj.bomberman.current.style.display = "none"
 				}
 			})
-			console.log(oldX != player.x )
 			if (oldX != player.x || oldY != player.y) {
-				console.log("sending cords:")
 				ws.send(JSON.stringify({ type: "moves", playerName: SimpleJS.state.playerName, playerX: player.x / size, playerY: player.y / size, moveRight: player.moveRight, moveUp: player.moveUp, moveDown: player.moveDown, moveLeft: player.moveLeft }))
 			}
 
@@ -166,11 +163,6 @@ export const animateMovement = (time) => {
 		) {
 			death(player, SimpleJS.state.monsters, player.bomberman.current, player.bomberman.current.classList);
 			ws.send(JSON.stringify({ type: "moves", playerName: SimpleJS.state.playerName, playerX: player.x / size, playerY: player.y / size, moveRight: player.moveRight, moveUp: player.moveUp, moveDown: player.moveDown, moveLeft: player.moveLeft }))
-
-			// console.log(bomberman,player.bomberman.current)
-
-			//player.lifes--;
-
 			SimpleJS.setState((prev) => {
 				prev.players[prev.playerName].pObj.lifes--
 				return prev

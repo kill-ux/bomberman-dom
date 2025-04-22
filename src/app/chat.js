@@ -21,14 +21,13 @@ export const Chat = () => {
     }
 
     const handelonInput = (e) => {
-        console.log("event", e.target.value);
         SimpleJS.setState((prev) => {
             return {
                 ...prev, message: e.target.value
             }
         })
     }
-    
+
     return (
         SimpleJS.createElement("div", { class: "chat" }, [
             SimpleJS.createElement("div", { class: "chat-header" }, [

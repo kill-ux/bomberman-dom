@@ -160,24 +160,6 @@ export const Game = () => {
 				transform:translate(${monster.x}px, ${monster.y}px);`
       })
     }),
-
-    //RenderMessages
-    // 
-    
-    
-    // Object.entries(SimpleJS.state.chat).forEach(([playerName,message]) => {
-    //   console.log(playerName);
-    //   console.log(message);
-      
-    // })
-    
-
-    
-  //   (message => {
-  //   return SimpleJS.createElement("p", {
-  //     class: 'message',
-  //   }[message.name,message.message])
-  // })
   ])
 
   const BoardMap = new Board(map, MapSchema)
