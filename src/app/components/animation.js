@@ -11,7 +11,8 @@ export const animateMovement = (time) => {
 
 		const grids = SimpleJS.state.grids
 		let player = SimpleJS.state.players[SimpleJS.state.playerName].pObj
-
+		const oldX = player.x
+		const oldY = player.y
 		if (player.lifes !== 0) {
 			let checkObj;
 			switch (true) {
@@ -107,7 +108,7 @@ export const animateMovement = (time) => {
 			}
 		}
 		if (player.bomberman.current) {
-			const copy = player.bomberman.current.style.transform
+
 			Object.values(SimpleJS.state.players).forEach(({ pObj }) => {
 				console.log("pObj.lifes:", pObj.lifes)
 				if (pObj.lifes !== 0) {
@@ -151,7 +152,8 @@ export const animateMovement = (time) => {
 						pObj.bomberman.current.style.display = "none"
 				}
 			})
-			if (copy != `translate(${player.x}px, ${player.y}px)`) {
+			console.log(oldX != player.x )
+			if (oldX != player.x || oldY != player.y) {
 				console.log("sending cords:")
 				ws.send(JSON.stringify({ type: "moves", playerName: SimpleJS.state.playerName, playerX: player.x / size, playerY: player.y / size, moveRight: player.moveRight, moveUp: player.moveUp, moveDown: player.moveDown, moveLeft: player.moveLeft }))
 			}
