@@ -139,6 +139,8 @@ ws.onmessage = event => {
         
       break
     case 'lifes':
+      console.log("test");
+      
       SimpleJS.setState((prev) => {
         prev.players[playerName].pObj.lifes = lifes
         return prev

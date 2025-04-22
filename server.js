@@ -18,18 +18,18 @@ const mimeTypes = {
 
 // Function to serve index.html
 async function serveIndexHtml(res) {
-  const indexPath = path.join(baseDirectory, 'index.html');
-  try {
-    const data = await fs.readFile(indexPath, 'utf8');
-    res.statusCode = 200;
-    res.setHeader('Content-Type', 'text/html');
+    const indexPath = path.join(baseDirectory, 'index.html');
+    try {
+        const data = await fs.readFile(indexPath, 'utf8');
+        res.statusCode = 200;
+        res.setHeader('Content-Type', 'text/html');
 
-    res.end(data);
-  } catch (err) {
-    res.statusCode = 500;
-    res.setHeader('Content-Type', 'text/plain');
-    res.end('Internal Server Error');
-  }
+        res.end(data);
+    } catch (err) {
+        res.statusCode = 500;
+        res.setHeader('Content-Type', 'text/plain');
+        res.end('Internal Server Error');
+    }
 }
 const server = createServer()
 
@@ -161,7 +161,16 @@ wss.on('connection', ws => {
                 }
                 break
             case 'newMessage':
-            //
+                console.log(message);
+
+                SimpleJS.setState((prev) => {
+                    return {
+                        ...prev, chat: [...prev.chat, { playerName, message }]
+                    }
+                })
+                console.log(SimpleJS.state.chat);
+
+                break
             case 'moves':
             case 'boomb':
             case 'lifes':
