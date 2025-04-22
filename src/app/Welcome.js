@@ -20,17 +20,41 @@ export const Welcome = () => {
                 SimpleJS.createElement("input", { class: "input", onkeydown: handelClick }),
             ]),
             SimpleJS.createElement("div", { class: "body-welcome" }, [
-                SimpleJS.createElement("div", { class: "" }, [
-                    "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Necessitatibus, ?",
+                SimpleJS.createElement("div", { class: "images-space" }, [
+                    SimpleJS.createElement("div", { class: "imgs" }, [
+                        SimpleJS.createElement("div", { class: "space" }),
+                        SimpleJS.createElement("div", { class: "description" }, [
+                            "place a bomb ",
+                        ]),
+                    ]),
+
+                    SimpleJS.createElement("div", { class: "imgs" }, [
+                        SimpleJS.createElement("div", { class: "buttons" }),
+                        SimpleJS.createElement("div", { class: "description" }, [
+                            "move the player ",
+                        ]),
+                    ]),
                 ]),
-                SimpleJS.createElement("div", { class: "space" }, [
-                   
-                ]),
-                SimpleJS.createElement("div", { class: "" }, [
-                    "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Necessitatibus, ?",
-                ]),
-                SimpleJS.createElement("div", { class: "" }, [
-                    "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Necessitatibus, ?",
+
+                SimpleJS.createElement("div", { class: "images-space" }, [
+                    SimpleJS.createElement("div", { class: "imgs" }, [
+                        SimpleJS.createElement("div", { class: "power battery" }),
+                        SimpleJS.createElement("div", { class: "description" }, [
+                            " Increases movement speed; ",
+                        ]),
+                    ]),
+                    SimpleJS.createElement("div", { class: "imgs" }, [
+                        SimpleJS.createElement("div", { class: " power fire" }),
+                        SimpleJS.createElement("div", { class: "description" }, [
+                            " Increases explosion range  ",
+                        ]),
+                    ]),
+                    SimpleJS.createElement("div", { class: "imgs" }, [
+                        SimpleJS.createElement("div", { class: "power idel" }),
+                        SimpleJS.createElement("div", { class: "description" }, [
+                            "Increases bombs amount",
+                        ]),
+                    ]),
                 ]),
             ]),
         ])

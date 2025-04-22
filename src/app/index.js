@@ -65,6 +65,7 @@ ws.onmessage = event => {
       console.error(content)
       break
     case 'appendQueue':
+    console.log('appendQueue', playerCount, playerName)
       SimpleJS.setState(prev => ({
         ...prev,
         playerCount,

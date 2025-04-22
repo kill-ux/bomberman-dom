@@ -179,6 +179,15 @@ wss.on('connection', ws => {
     ws.on('close', () => {
         console.log(`${playerName} are close his connection`)
         Clients.delete(playerName)
+        // Clients.forEach(value => {
+        //     value.ws.send(
+        //         JSON.stringify({
+        //             type: 'appendQueue',
+        //             playerCount: Clients.size,
+        //             playerName
+        //         })
+        //     )
+        // })
         // send
         console.log('Client disconnected')
     })

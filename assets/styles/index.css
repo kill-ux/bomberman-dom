@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
 
 html,
 body {
@@ -124,7 +124,7 @@ body {
   align-items: center;
   background-color: #F9F7F7;
   gap: 50px;
-  word-break: break-all;
+  word-break: break-word;
 }
 
 .title-welcom {
@@ -133,15 +133,6 @@ body {
   font-style: normal;
   font-size: xx-large;
   color: #F7374F;
-}
-
-.body-welcome {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: 10px;
-  font-weight: 100;
 }
 
 .input {
@@ -181,44 +172,72 @@ body {
 }
 
 .space {
-  background-image: url(../space.png);
+  background-image: url(../pixil-frame-1.png);
   background-repeat: no-repeat;
-  background-size: cover;
+  background-size: contain;
+  width: 150px;
+  height: 32px;
+  margin-top: 30px;
 }
-/* 
-@keyframes hitler {
-  0% {
-    background-position: 0px 400px;
-  }
-  10% {
-    background-position: -100px 400px;
-  }
-  20% {
-    background-position: -200px 400px;
-  }
-  30% {
-    background-position: -300px 400px;
-  }
-  40% {
-    background-position: 0px 300px;
-  }
-  50% {
-    background-position: 0px 200px;
-  }
-  60% {
-    background-position: -100px 200px;
-  }
-  70% {
-    background-position: -200px 200px;
-  }
-  80% {
-    background-position: -300px 200px;
-  }
-  90% {
-    background-position: 0px 100px;
-  }
-  100% {
-    background-position: -100px 100px;
-  }
-} */
 
+.buttons {
+  background-image: url(../pixil-frame-0.png);
+  background-repeat: no-repeat;
+  background-size: contain;
+  width: 100px;
+  height: 60px;
+}
+
+.images-space {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 50px;
+}
+
+
+.body-welcome {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  font-family: "Roboto", sans-serif;
+  font-weight: 200;
+  border: 1px solid rgba(0, 0, 0, 0.034);
+  padding: 10px 30px;
+}
+
+.imgs {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  font-family: "Roboto", sans-serif;
+  font-weight: 200;
+  padding: 10px 30px;
+
+}
+
+.power {
+  background-repeat: no-repeat;
+  background-size: contain;
+  width: 60px;
+  height: 60px;
+}
+
+.battery {
+  background-image: url(../battery.png);
+}
+
+.fire {
+  background-image: url(../fire.png);
+}
+
+.idel {
+  background-image: url(../idel.png);
+}
+
+.queue {
+}
