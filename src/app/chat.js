@@ -1,9 +1,34 @@
-import { on } from "ws";
-import { SimpleJS } from "../dist/index.js"
-import { SendMessage } from "../index.js";
+
+import { ws } from "./index.js";
+import { SimpleJS } from "../dist/index.js";
+
 
 export const Chat = () => {
-    let messageText = "";
+
+    const handelonKeyDown = (e) => {
+        if (e.key === "Enter") {
+            if (SimpleJS.state.message.length > 0) {
+                ws.send(JSON.stringify({ type: "newMessage", message: SimpleJS.state.message, playerName: SimpleJS.state.playerName }))
+                SimpleJS.setState((prev) => {
+                    return {
+                        ...prev, chat: [...prev.chat, { playerName: SimpleJS.state.playerName, message: SimpleJS.state.message }]
+                    }
+                })
+                e.target.value = "";
+                SimpleJS.state.message = ""
+            }
+        }
+    }
+
+    const handelonInput = (e) => {
+        console.log("event", e.target.value);
+        SimpleJS.setState((prev) => {
+            return {
+                ...prev, message: e.target.value
+            }
+        })
+    }
+    
     return (
         SimpleJS.createElement("div", { class: "chat" }, [
             SimpleJS.createElement("div", { class: "chat-header" }, [
@@ -21,35 +46,13 @@ export const Chat = () => {
                             ])
                         )
                     })
-
-
-
                 ]),
                 SimpleJS.createElement("input", {
                     type: "text",
                     class: "chat-input",
                     placeholder: "Type a message...",
-                    onInput: (e) => {
-                        console.log("event", e.target.value);
-
-                        messageText = e.target.value;
-
-                    },
-                    onKeyDown: (e) => {
-                        if (e.key === "Enter") {
-                            console.log("messageText", messageText);
-                            const input = document.querySelector(".chat-input");
-                            if (input) input.value = "";
-                            SendMessage(messageText);
-
-                            SimpleJS.setState((prev) => {
-                                return {
-                                    ...prev, chat: [...prev.chat, { playerName: SimpleJS.state.playerName, message: messageText }]
-                                }
-                            })
-                            messageText = ""
-                        }
-                    }
+                    onInput: handelonInput,
+                    onKeyDown: handelonKeyDown
                 })
             ])]
         )

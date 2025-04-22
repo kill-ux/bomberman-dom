@@ -61,50 +61,50 @@ export const Game = () => {
 	}, [
 
 
-		...Object.keys(SimpleJS.state.players).map((playerName, index) => {
-			if (SimpleJS.state.players[playerName].pObj) {
-				const elmentRef = useRef(playerName)
-				SimpleJS.state.players[playerName].pObj.bomberman = elmentRef
-				const { pObj } = SimpleJS.state.players[playerName]
+    ...Object.keys(SimpleJS.state.players).map((playerName, index) => {
+      if (SimpleJS.state.players[playerName].pObj) {
+        const elmentRef = useRef(playerName)
+        SimpleJS.state.players[playerName].pObj.bomberman = elmentRef
+        const { pObj } = SimpleJS.state.players[playerName]
 
-				return SimpleJS.createElement('div', {
-					class: 'bomber-man',
-					style: `background-image:url(assets/${index + 1}.png);
+        return SimpleJS.createElement('div', {
+          class: 'bomber-man',
+          style: `background-image:url(assets/${index + 1}.png);
 						background-size:${4 * width}px ${4 * height}px;
 						background-position:${1 * width}px 0px;
 						width:${width}px;
 						height:${height}px;
 						transform:translate(${pObj.x}px, ${pObj.y}px);
 						`,
-					ref: elmentRef,
-				})
+          ref: elmentRef,
+        })
 
-			}
-			return ""
-		}
-		)
+      }
+      return ""
+    }
+    )
 
 
-		,
+    ,
 
-		// Render grid cells
-		...SimpleJS.state.grids.flatMap((row, i) => {
-			return row.map((cell, j) =>
-				SimpleJS.createElement('div', {
-					class: `grid-cell ${cell.type}`,
-					style: `image-rendering:pixelated;
+    // Render grid cells
+    ...SimpleJS.state.grids.flatMap((row, i) => {
+      return row.map((cell, j) =>
+        SimpleJS.createElement('div', {
+          class: `grid-cell ${cell.type}`,
+          style: `image-rendering:pixelated;
 							width:${width}px;
 							height:${height}px;`,
-				})
-			)
-		}
+        })
+      )
+    }
 
-		),
-		// Render bombs
-		...SimpleJS.state.bombs.map(bomb =>
-			SimpleJS.createElement('div', {
-				class: 'bomb',
-				style: `
+    ),
+    // Render bombs
+    ...SimpleJS.state.bombs.map(bomb =>
+      SimpleJS.createElement('div', {
+        class: 'bomb',
+        style: `
                 background-image:url(assets/bomb.png);
                 background-size:${width * 3}px ${height}px;
                 width:${width}px;
@@ -112,14 +112,14 @@ export const Game = () => {
                 position:absolute;
                 transform:translate(${bomb.xPos * width}px, ${bomb.yPos * height}px);
             `
-			})
-		),
+      })
+    ),
 
-		// Render power-ups
-		...SimpleJS.state.powers.map(power =>
-			SimpleJS.createElement('div', {
-				class: 'bomb',
-				style: `
+    // Render power-ups
+    ...SimpleJS.state.powers.map(power =>
+      SimpleJS.createElement('div', {
+        class: 'bomb',
+        style: `
                 background-image:url(assets/${power.image}.png);
                 background-size:${width}px ${height}px;
                 width:${width}px;
@@ -128,14 +128,14 @@ export const Game = () => {
                 position:absolute;
                 transform:translate(${power.xPos * width}px, ${power.yPos * height}px);
             `
-			})
-		)
-		,
-		// Render fires
-		...SimpleJS.state.fires.map(fire =>
-			SimpleJS.createElement("div", {
-				class: `fire-${fire.id}`,
-				style: `background-image:url(assets/inTheFire.png);
+      })
+    )
+    ,
+    // Render fires
+    ...SimpleJS.state.fires.map(fire =>
+      SimpleJS.createElement("div", {
+        class: `fire-${fire.id}`,
+        style: `background-image:url(assets/inTheFire.png);
                     background-size:${width}px ${height}px;
                     width:${width}px;
                     height:${height}px;
@@ -143,40 +143,57 @@ export const Game = () => {
                     position:absolute;
                     transform:translate(${fire.x * width}px, ${fire.y * height}px);
                     `,
-			}, [])
-		),
+      }, [])
+    ),
 
-		//Render Monsters
-		...SimpleJS.state.monsters.map(monster => {
-			return SimpleJS.createElement("div", {
-				class: `monster monster-${monster.id}`,
-				ref: monster.monsterDiv,
-				style: `width:${width}px;
+    //Render Monsters
+    ...SimpleJS.state.monsters.map(monster => {
+      return SimpleJS.createElement("div", {
+        class: `monster monster-${monster.id}`,
+        ref: monster.monsterDiv,
+        style: `width:${width}px;
 				height:${height}px;
 				position:absolute;
 				image-rendering:pixelated;
 				background-image:url(assets/skull.png);
 				background-size:${3 * width}px ${4 * height}px;
 				transform:translate(${monster.x}px, ${monster.y}px);`
-			})
-		})
-	]);
+      })
+    }),
 
-	const BoardMap = new Board(map, MapSchema)
-	if (SimpleJS.state.grids.length == 0) {
-		useEffect(() => {
-			/* all players */
-			Object.entries(SimpleJS.state.players).forEach(([playerName, data]) => {
-				SimpleJS.state.players[playerName].pObj = new Player(data.spawn[0] * width, data.spawn[1] * height, size * delta * 2)
-			});
-			BoardMap.randomizeBricks(SimpleJS.state.diffMap)
-			grids = BoardMap.initLevel(map)
-			bomb = new Bomb();
-			// SimpleJS.state.monsters = new Monster().initMonsters(totalMonsters, MapSchema, map);
-			SimpleJS.setState()
-			requestAnimationFrame(animateMovement);
-		})
-	}
+    //RenderMessages
+    // 
+    
+    
+    // Object.entries(SimpleJS.state.chat).forEach(([playerName,message]) => {
+    //   console.log(playerName);
+    //   console.log(message);
+      
+    // })
+    
+
+    
+  //   (message => {
+  //   return SimpleJS.createElement("p", {
+  //     class: 'message',
+  //   }[message.name,message.message])
+  // })
+  ])
+
+  const BoardMap = new Board(map, MapSchema)
+  if (SimpleJS.state.grids.length == 0) {
+    useEffect(() => {
+      /* all players */
+      Object.entries(SimpleJS.state.players).forEach(([playerName, data]) => {
+        SimpleJS.state.players[playerName].pObj = new Player(data.spawn[0] * width, data.spawn[1] * height, size * delta * 2)
+      });
+      BoardMap.randomizeBricks(SimpleJS.state.diffMap)
+      grids = BoardMap.initLevel(map)
+      bomb = new Bomb();
+      SimpleJS.setState()
+      requestAnimationFrame(animateMovement);
+    })
+  }
 
 	return (
 		SimpleJS.createElement("div", { class: "body q container-body" }, [
