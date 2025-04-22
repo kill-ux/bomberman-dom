@@ -26,8 +26,8 @@ export const Game = () => {
 		tabindex: 0,
 		autofocus: true,
 		style: `width:${MapSchema[0].length * width}px;height:${MapSchema.length * height}px`,
-		onkeydown: SimpleJS.state.players[SimpleJS.state.playerName].pObj ? (e) => SimpleJS.state.players[SimpleJS.state.playerName].pObj?.movePlayer(e, map) : "",
-		onkeyup: SimpleJS.state.players[SimpleJS.state.playerName].pObj ? (e) => SimpleJS.state.players[SimpleJS.state.playerName].pObj?.stopPlayer(e, map) : ""
+		onkeydown: SimpleJS.state.players[SimpleJS.state.playerName]?.pObj ? (e) => SimpleJS.state.players[SimpleJS.state.playerName].pObj?.movePlayer(e, map) : "",
+		onkeyup: SimpleJS.state.players[SimpleJS.state.playerName]?.pObj ? (e) => SimpleJS.state.players[SimpleJS.state.playerName].pObj?.stopPlayer(e, map) : ""
 	}, [
 
 
@@ -153,11 +153,11 @@ export const Game = () => {
 			SimpleJS.createElement("div", { class: "playerInfo topNav" },[
 			SimpleJS.createElement("div", { class: "player1" },[
 				SimpleJS.createElement("h1", { class: "" },[`player1: ${Object.keys(SimpleJS.state.players)[0]}`]),
-				SimpleJS.createElement("h1", { class: "" },[`lives: ${SimpleJS.state.players[Object.keys(SimpleJS.state.players)[0]]?.pObj?.lifes}`])
+				SimpleJS.createElement("h1", { class: "" },[`lives: ${SimpleJS.state.players[Object.keys(SimpleJS.state.players)[0]]?.pObj?.lifes || "dead"}`])
 			]),
 			SimpleJS.createElement("div", { class: "player3" },[
 				SimpleJS.createElement("h1", { class: "" },[`player3: ${Object.keys(SimpleJS.state.players)[2]}`]),
-				SimpleJS.createElement("h1", { class: "" },[`lives: ${SimpleJS.state.players[Object.keys(SimpleJS.state.players)[2]]?.pObj?.lifes}`])
+				SimpleJS.createElement("h1", { class: "" },[`lives: ${SimpleJS.state.players[Object.keys(SimpleJS.state.players)[2]]?.pObj?.lifes || "dead"}`])
 			])
 			]),		
 			SimpleJS.createElement("div", { class: "container" }, [
@@ -166,11 +166,11 @@ export const Game = () => {
 			SimpleJS.createElement("div", { class: "playerInfo botNav" },[
 				SimpleJS.createElement("div", { class: "player4" },[
 					SimpleJS.createElement("h1", { class: "" },[`player4: ${Object.keys(SimpleJS.state.players)[3]}`]),
-					SimpleJS.createElement("h1", { class: "" },[`lives: ${SimpleJS.state.players[Object.keys(SimpleJS.state.players)[3]]?.pObj?.lifes}`])
+					SimpleJS.createElement("h1", { class: "" },[`lives: ${SimpleJS.state.players[Object.keys(SimpleJS.state.players)[3]]?.pObj?.lifes || "dead"}`])
 				]),
 				SimpleJS.createElement("div", { class: "player2" },[
 					SimpleJS.createElement("h1", { class: "" },[`player2: ${Object.keys(SimpleJS.state.players)[1]}`]),
-					SimpleJS.createElement("h1", { class: "" },[`lives: ${SimpleJS.state.players[Object.keys(SimpleJS.state.players)[1]]?.pObj?.lifes}`])
+					SimpleJS.createElement("h1", { class: "" },[`lives: ${SimpleJS.state.players[Object.keys(SimpleJS.state.players)[1]]?.pObj?.lifes || "dead"}`])
 				])
 				]),		
 		])
