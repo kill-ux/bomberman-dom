@@ -125,7 +125,7 @@ wss.on('connection', ws => {
                 if (Clients.size === 0) {
                     diffMap = DiffMap()
                 }
-                if (timer10 || gameStarted) {
+                if (gameStarted) {
                     return
                 }
                 console.log('clients', Clients)
@@ -160,7 +160,7 @@ wss.on('connection', ws => {
                                 timeout = setTimeout(() => {
                                     startTime()
                                     // }, 20000)
-                                }, 1000)
+                                }, 20000)
                             }
                         }
                     } else {
@@ -181,11 +181,6 @@ wss.on('connection', ws => {
                 if (data.lifes === 0) {
                     livePlayers.delete(data.playerName)
                     if (livePlayers.size == 1) {
-                        const playerwon = [...livePlayers][0]
-                        Clients.forEach((value) => {
-                            value.ws.send(JSON.stringify({ type: "win", playerName: playerwon }))
-                        })
-                        livePlayers.clear()
                         gameStarted = false
                     }
                 }
@@ -198,7 +193,12 @@ wss.on('connection', ws => {
                     }
                 })
                 if (!gameStarted) {
+                    const playerwon = [...livePlayers][0]
+                    Clients.forEach((value) => {
+                        value.ws.send(JSON.stringify({ type: "win", playerName: playerwon }))
+                    })
                     Clients.clear()
+                    livePlayers.clear()
                 }
                 break
         }
