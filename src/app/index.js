@@ -136,6 +136,9 @@ ws.onmessage = event => {
         return prev
       })
       break
+    case "win":
+      alert(playerName," has won")
+      break
   }
 }
 

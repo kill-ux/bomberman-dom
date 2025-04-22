@@ -79,6 +79,7 @@ let timer10
 let playerCount = 0
 const wss = new WebSocketServer({ server })
 const Clients = new Map()
+const livePlayers = new Set()
 // room => Map of users
 const spawns = [
     [1, 1],
@@ -95,6 +96,7 @@ const startTime = () => {
         if (timer10 === -1) {
             let cls = {}
             Clients.forEach(({ lifes, spawn }, key) => {
+                livePlayers.add(key)
                 cls[key] = { lifes, spawn }
             })
             Clients.forEach(value => {
@@ -173,9 +175,18 @@ wss.on('connection', ws => {
                 messages.push({ playerName: data.playerName, message: data.message })
                 break
 
+            case 'lifes':
+                if (data.lifes === 0) {
+                    livePlayers.delete(data.playerName)
+                    if (livePlayers.size == 1) {
+                        const playerwon = [...livePlayers][0]
+                        Clients.forEach((value) => {
+                            value.ws.send(JSON.stringify({type:"win", playerName:playerwon}))
+                        })
+                    }
+                }
             case 'moves':
             case 'boomb':
-            case 'lifes':
             case 'powerups':
                 Clients.forEach((value, key) => {
                     if (key != data.playerName) {
@@ -194,7 +205,7 @@ wss.on('connection', ws => {
             timer10 = null
             timer20 = null
             messages.length = 0
-            
+
         }
 
         // Clients.forEach(value => {
