@@ -2,6 +2,7 @@ import { SimpleJS } from '../dist/index.js'
 import { useEffect, useRef, useState } from '../dist/utils.js';
 import { animateMovement } from './components/animation.js';
 import { Bomb } from './components/bomb.js';
+import { Chat } from './components/chat.js';
 import { Board, MapSchema } from './components/map.js';
 import { menu } from './components/menu.js';
 import { Monster } from './components/monsters.js';
@@ -190,7 +191,7 @@ export const Game = () => {
 					SimpleJS.createElement("h1", { class: "" },[`lives: ${SimpleJS.state.players[Object.keys(SimpleJS.state.players)[1]]?.pObj?.lifes}`])
 				])
 				]),		
-         Chat()
+        Chat()
 		])
 	)
 }

@@ -8,40 +8,51 @@ export const Chat = () => {
         SimpleJS.createElement("div", { class: "chat" }, [
 
 
-            SimpleJS.createElement("div", { class: "body" }, [
+            SimpleJS.createElement("div", { class: "chatInput" }, [
                 SimpleJS.createElement("textarea", {
-                    class: "chat",
+                    class: "Input",
                     onInput: (e) => {
+                        console.log("event", e.target.value);
+
                         messageText = e.target.value;
+                       
                     }
                 }, []),
                 SimpleJS.createElement("button", {
                     type: "submit",
                     onClick: () => {
+                        console.log("messageText", messageText);
+                        const textarea = document.querySelector(".Input");
+                        if (textarea) textarea.value = "";
                         SendMessage(messageText);
-                        messageText = "";
+                        
+                        SimpleJS.setState((prev) => {
+                            return {
+                            ...prev,  chat: [...prev.chat, { playerName:SimpleJS.state.playerName,message: messageText }]
+                            }
+                        })
+                        messageText=""
                     }
                 }, ["submit"])
             ]),
 
-        ],
 
-        ...SimpleJS.state.chat.map(([ playerName, message ]) => {
-            console.log(playerName);
-            console.log(message);
-            
-        })
-        //     console.log(playerName);
-            
-        //         SimpleJS.createElement("div", { class: "" }, [
-        //             SimpleJS.createElement("h4", { class: "" }, [
-        //                 playerName
-        //             ]),
-        //             SimpleJS.createElement("p", { class: "" }, [
-        //                 message
-        //             ])
-        //         ])
-        //     })
-        )
+
+
+            ...SimpleJS.state.chat.map(({ playerName, message }) => {
+                return (
+                    SimpleJS.createElement("div", { class: "" }, [
+                        SimpleJS.createElement("h4", { class: "gggggg" }, [
+                            playerName
+                        ]),
+                        SimpleJS.createElement("p", { class: "sdgsdfgsdfgsdf" }, [
+                            message
+                        ])
+                    ])
+                )
+            })
+
+        ])
+
     )
 }
