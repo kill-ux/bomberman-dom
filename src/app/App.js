@@ -1,24 +1,53 @@
 import { SimpleJS } from '../dist/index.js'
 import { useEffect, useRef, useState } from '../dist/utils.js';
+import { Chat } from './chat.js';
 import { animateMovement } from './components/animation.js';
 import { Bomb } from './components/bomb.js';
-import { Chat } from './components/chat.js';
 import { Board, MapSchema } from './components/map.js';
 import { menu } from './components/menu.js';
 import { Monster } from './components/monsters.js';
 import { otherPlayer, Player } from './components/player.js';
 
-const initWidth = Math.floor(window.innerWidth / MapSchema[0].length / 1.4)
-const initHeight = Math.floor(window.innerHeight / MapSchema.length / 1.4)
+let initWidth = Math.floor(window.innerWidth / MapSchema[0].length / 1.8)
+let initHeight = Math.floor(window.innerHeight / MapSchema.length / 1.8)
+
 export let size = Math.min(initWidth, initHeight);
 export let width = size;
 export let height = size;
 export let delta = 0.0166
-// export let player
 export let grids = []
 export let bomb
 export const totalMonsters = 5
 export let monsters
+
+window.addEventListener("resize", function () {
+	const oldSize = size;
+	initWidth = Math.floor(window.innerWidth / MapSchema[0].length / 1.8);
+	initHeight = Math.floor(window.innerHeight / MapSchema.length / 1.8);
+	size = Math.min(initWidth, initHeight);
+	width = size;
+	height = size;
+	SimpleJS.setState(prev => {
+		const scaleFactor = size / oldSize;
+		const updatedPlayers = Object.fromEntries(
+			Object.entries(prev.players).map(([key, obj]) => {
+				const newX = obj.pObj.x * scaleFactor;
+				const newY = obj.pObj.y * scaleFactor;
+				obj.pObj.x = newX;
+				obj.pObj.y = newY;
+				if (obj.pObj.bomberman.current) {
+					obj.pObj.bomberman.current.style.transform = `translate(${newX}px, ${newY}px)`;
+				}
+				return [key, obj];
+			})
+		);
+
+		return {
+			...prev,
+			players: updatedPlayers,
+		};
+	});
+});
 
 export const Game = () => {
 
@@ -131,24 +160,6 @@ export const Game = () => {
 				transform:translate(${monster.x}px, ${monster.y}px);`
       })
     }),
-
-    //RenderMessages
-    // 
-    
-    
-    // Object.entries(SimpleJS.state.chat).forEach(([playerName,message]) => {
-    //   console.log(playerName);
-    //   console.log(message);
-      
-    // })
-    
-
-    
-  //   (message => {
-  //   return SimpleJS.createElement("p", {
-  //     class: 'message',
-  //   }[message.name,message.message])
-  // })
   ])
 
   const BoardMap = new Board(map, MapSchema)
@@ -167,31 +178,48 @@ export const Game = () => {
   }
 
 	return (
-		SimpleJS.createElement("div", { class: "body" }, [
-			SimpleJS.createElement("div", { class: "playerInfo topNav" },[
-			SimpleJS.createElement("div", { class: "player1" },[
-				SimpleJS.createElement("h1", { class: "" },[`player1: ${Object.keys(SimpleJS.state.players)[0]}`]),
+		SimpleJS.createElement("div", { class: "body q container-body" }, [
+			Chat(),
+			SimpleJS.createElement("div", { class: "game" }, [
+				SimpleJS.createElement("div", { class: "playerInfo topNav" }, [
+					SimpleJS.createElement("div", { class: "player1" }, [
+						SimpleJS.createElement("h1", { class: "" }, [`player1: ${Object.keys(SimpleJS.state.players)[0]}`]),
 				SimpleJS.createElement("h1", { class: "" },[`lives: ${SimpleJS.state.players[Object.keys(SimpleJS.state.players)[0]]?.pObj?.lifes || "dead"}`])
-			]),
-			SimpleJS.createElement("div", { class: "player3" },[
-				SimpleJS.createElement("h1", { class: "" },[`player3: ${Object.keys(SimpleJS.state.players)[2]}`]),
+					]),
+					SimpleJS.createElement("div", { class: "player3" }, [
+						SimpleJS.createElement("h1", { class: "" }, [`player3: ${Object.keys(SimpleJS.state.players)[2]}`]),
 				SimpleJS.createElement("h1", { class: "" },[`lives: ${SimpleJS.state.players[Object.keys(SimpleJS.state.players)[2]]?.pObj?.lifes || "dead"}`])
-			])
-			]),		
-			SimpleJS.createElement("div", { class: "container" }, [
-				map
-			]),
-			SimpleJS.createElement("div", { class: "playerInfo botNav" },[
-				SimpleJS.createElement("div", { class: "player4" },[
-					SimpleJS.createElement("h1", { class: "" },[`player4: ${Object.keys(SimpleJS.state.players)[3]}`]),
-					SimpleJS.createElement("h1", { class: "" },[`lives: ${SimpleJS.state.players[Object.keys(SimpleJS.state.players)[3]]?.pObj?.lifes || "dead"}`])
+					])
 				]),
-				SimpleJS.createElement("div", { class: "player2" },[
-					SimpleJS.createElement("h1", { class: "" },[`player2: ${Object.keys(SimpleJS.state.players)[1]}`]),
+				SimpleJS.createElement("div", { class: "container" }, [
+					map
+				]),
+				SimpleJS.createElement("div", { class: "playerInfo botNav" }, [
+					SimpleJS.createElement("div", { class: "player4" }, [
+						SimpleJS.createElement("h1", { class: "" }, [`player4: ${Object.keys(SimpleJS.state.players)[3]}`]),
+					SimpleJS.createElement("h1", { class: "" },[`lives: ${SimpleJS.state.players[Object.keys(SimpleJS.state.players)[3]]?.pObj?.lifes || "dead"}`])
+					]),
+					SimpleJS.createElement("div", { class: "player2" }, [
+						SimpleJS.createElement("h1", { class: "" }, [`player2: ${Object.keys(SimpleJS.state.players)[1]}`]),
 					SimpleJS.createElement("h1", { class: "" },[`lives: ${SimpleJS.state.players[Object.keys(SimpleJS.state.players)[1]]?.pObj?.lifes || "dead"}`])
-				])
-				]),		
-        Chat()
+					])
+				]),
+			]),
+
 		])
 	)
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+

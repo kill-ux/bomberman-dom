@@ -11,7 +11,8 @@ export const animateMovement = (time) => {
 
 		const grids = SimpleJS.state.grids
 		let player = SimpleJS.state.players[SimpleJS.state.playerName].pObj
-
+		const oldX = player.x
+		const oldY = player.y
 		if (player.lifes !== 0) {
 			let checkObj;
 			switch (true) {
@@ -107,9 +108,14 @@ export const animateMovement = (time) => {
 			}
 		}
 		if (player.bomberman.current) {
-			const copy = player.bomberman.current.style.transform
-			Object.values(SimpleJS.state.players).forEach(({ pObj }) => {
+			let countlife=0
+			let playerlife=""
+			Object.entries(SimpleJS.state.players).forEach(([playerName, { pObj }]) => {
+	
+				
+				
 				if (pObj.lifes !== 0) {
+
 					let skip = false
 					pObj.bomberman.current.style.transform = `translate(${pObj.x}px, ${pObj.y}px)`;
 
@@ -141,17 +147,36 @@ export const animateMovement = (time) => {
 							pObj.slow = 0;
 						} else {
 							pObj.slow++;
+
 						}
 					}
-				}
-				else {
+					playerlife=playerName
+					countlife++
+				}else {
 					/*--- player death ---*/
-					if (pObj.bomberman.current.style.display != "none")
+					if (pObj.bomberman.current.style.display != "none"){
 						pObj.bomberman.current.style.display = "none"
+					} 
+					var  Tlength = Object.entries(SimpleJS.state.players).length
+
+					// if  (Tlength-countlife===1 &&  ) {
+					// 	Tlength++
+					// } else {
+					// 	console.log(playerName);
+						
+					// }
+					
+					
+					
 				}
 			})
-			if (copy != `translate(${player.x}px, ${player.y}px)`) {
+
+			if (countlife===1){
+				// alert(playerlife)
+				console.log("playerlife:",playerlife);
 				
+			}  
+			if (oldX != player.x || oldY != player.y) {
 				ws.send(JSON.stringify({ type: "moves", playerName: SimpleJS.state.playerName, playerX: player.x / size, playerY: player.y / size, moveRight: player.moveRight, moveUp: player.moveUp, moveDown: player.moveDown, moveLeft: player.moveLeft }))
 			}
 
@@ -163,17 +188,13 @@ export const animateMovement = (time) => {
 		) {
 			death(player, SimpleJS.state.monsters, player.bomberman.current, player.bomberman.current.classList);
 			ws.send(JSON.stringify({ type: "moves", playerName: SimpleJS.state.playerName, playerX: player.x / size, playerY: player.y / size, moveRight: player.moveRight, moveUp: player.moveUp, moveDown: player.moveDown, moveLeft: player.moveLeft }))
-
-			// console.log(bomberman,player.bomberman.current)
-
-			//player.lifes--;
-
 			SimpleJS.setState((prev) => {
 				prev.players[prev.playerName].pObj.lifes--
 				return prev
 			})
-			ws.send(JSON.stringify({ type: "lifes", playerName: SimpleJS.state.playerName, lifes: SimpleJS.state.players[SimpleJS.state.playerName].pObj.lifes }))
-
+			
+				ws.send(JSON.stringify({ type: "lifes", playerName: SimpleJS.state.playerName, lifes: SimpleJS.state.players[SimpleJS.state.playerName].pObj.lifes }))
+			
 		}
 	}
 

@@ -16,7 +16,8 @@ SimpleJS.state = {
   playerCount: 0,
   playerName: '',
   players: {},
-  chat: []
+  chat: [],
+  message: '',
 }
 
 SimpleJS.addRoute('/', Welcome)
@@ -32,14 +33,6 @@ if (component) {
 }
 
 export const ws = new WebSocket('/')
-
-
-
-export function SendMessage(message) {
-
-
-  ws.send(JSON.stringify({ type: "newMessage", message: message, playerName: SimpleJS.state.playerName }))
-}
 
 
 
@@ -73,9 +66,10 @@ ws.onmessage = event => {
     timer,
     message,
     expCount,
-    row, 
+    row,
     col,
-    lifes
+    lifes,
+    messages
   } = JSON.parse(event.data)
 
   switch (type) {
@@ -86,7 +80,8 @@ ws.onmessage = event => {
       SimpleJS.setState(prev => ({
         ...prev,
         playerCount,
-        playerName: prev.playerName ? prev.playerName : playerName
+        playerName: prev.playerName ? prev.playerName : playerName,
+        chat: messages,
       }))
       if (location.pathname !== '/queue') {
         SimpleJS.Link('/queue')
@@ -128,19 +123,14 @@ ws.onmessage = event => {
       }));
       break
     case 'newMessage':
-      console.log(message);
-      
       SimpleJS.setState((prev) => {
         return {
-        ...prev,  chat: [...prev.chat, { playerName, message }]
+          ...prev, chat: [...prev.chat, { playerName, message }]
         }
       })
-        console.log(SimpleJS.state.chat);
-        
+
       break
     case 'lifes':
-      console.log("test");
-      
       SimpleJS.setState((prev) => {
         prev.players[playerName].pObj.lifes = lifes
         return prev
