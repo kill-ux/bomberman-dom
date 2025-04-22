@@ -193,7 +193,8 @@ wss.on('connection', ws => {
             clearTimeout(timeout)
             timer10 = null
             timer20 = null
-            messages = []
+            messages.length = 0
+            
         }
 
         // Clients.forEach(value => {
