@@ -38,6 +38,14 @@ body {
   display: flex;
   flex-wrap: wrap;
   position: relative;
+  margin: auto;
+}
+
+.container-body {
+  display: grid;
+  grid-template-columns: 1fr 3fr;
+  justify-content: center;
+  align-items: center;
 }
 
 .lifes-holder {
@@ -240,4 +248,126 @@ body {
 }
 
 .queue {
+  /* display: flex; */
+  /* flex-direction: row; */
+  /* justify-content:space-around; */
+  background-color: rgba(255, 255, 255, 0.945);
+  backdrop-filter: blur(5px);
+
+}
+
+.game {
+  margin: auto;
+}
+
+.q {
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
+}
+
+.queue-bg {
+  background: url(hero-bg-shrapnel.DGv4mo0c_2muSFt.png) no-repeat center center fixed;
+  background-size: cover;
+  width: 100vw;
+  height: 100vh;
+}
+
+.queue h2 {
+  font-family: "Press Start 2P", system-ui;
+  font-weight: 400;
+  font-style: normal;
+  font-size: xx-large;
+}
+
+.queue h6 {
+  font-family: "Press Start 2P", system-ui;
+  font-weight: 400;
+  font-style: normal;
+  font-size: large;
+}
+
+
+
+/* styles.css */
+
+/* Main chat container */
+.chat {
+  width: 80%;
+  max-width: 600px;
+  margin: 0 auto;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  overflow: hidden;
+  font-family: Arial, sans-serif;
+}
+
+/* Chat header */
+.chat-header {
+  background-color: #f1f1f1;
+  padding: 10px;
+  text-align: center;
+  border-bottom: 1px solid #ccc;
+}
+
+.chat-header h2 {
+  margin: 0;
+  font-size: 1.2em;
+  color: #333;
+}
+
+/* Chat body */
+.chat-body {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 400px;
+}
+
+
+/* Chat messages area */
+.chat-messages {
+  flex: 1;
+  padding: 10px;
+  overflow-y: auto;
+  background-color: #fff;
+  width: 90%;
+}
+
+/* Individual chat message */
+.chat-message {
+  margin-bottom: 10px;
+  padding: 8px;
+  background-color: #e9e9e9;
+  border-radius: 4px;
+}
+
+/* Username in chat message */
+.chat-username {
+  font-weight: bold;
+  color: #007bff;
+  margin-right: 5px;
+}
+
+/* Text in chat message */
+.chat-text {
+  color: #333;
+}
+
+/* Chat input area */
+.chat-input-area {
+  padding: 10px;
+  background-color: #f1f1f1;
+  border-top: 1px solid #ccc;
+}
+
+/* Chat input field */
+.chat-input {
+  width: 98%;
+  padding: 8px;
+  margin: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
 }

@@ -13,7 +13,9 @@ const mimeTypes = {
     '.js': 'application/javascript',
     '.css': 'text/css',
     '.json': 'application/json',
-    '.png': 'image/png'
+    '.png': 'image/png',
+    '.jpg': 'image/jpeg',
+    'webp': 'image/webp',
 }
 
 // Function to serve index.html
@@ -87,7 +89,7 @@ const spawns = [
 let diffMap
 
 const startTime = () => {
-    timer10 = 10
+    timer10 = 0
     timeout = setInterval(() => {
         if (timer10 === -1) {
             let cls = {}
@@ -143,7 +145,7 @@ wss.on('connection', ws => {
                             )
                         })
 
-                        if (Clients.size >= 2) {
+                        if (Clients.size >= 1) {
                             timer20 = 20
                             clearTimeout(timeout)
                             if (Clients.size == 4) {
@@ -152,7 +154,7 @@ wss.on('connection', ws => {
                                 timeout = setTimeout(() => {
                                     startTime()
                                     // }, 20000)
-                                }, 20000)
+                                }, 1000)
                             }
                         }
                     } else {
