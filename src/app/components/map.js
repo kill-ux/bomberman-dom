@@ -58,7 +58,6 @@ export class Board {
 			}
 		}
 
-		console.log(this.bluePrint)
 	}
 	getPlayerPose = () => {
 		for (let i = 0; i < this.bluePrint.length; i++) {

@@ -166,6 +166,7 @@ wss.on('connection', ws => {
             //
             case 'moves':
             case 'boomb':
+            case 'lifes':
             case 'powerups':
                 Clients.forEach((value, key) => {
                     if (key != data.playerName) {
