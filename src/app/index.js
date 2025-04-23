@@ -155,6 +155,7 @@ ws.onmessage = event => {
         fires: [],
         playerCount: 0,
         playerName: '',
+        diffMap:[],
         players: {},
         chat: [],
         message: '',
