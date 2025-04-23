@@ -93,7 +93,7 @@ let gameStarted = false
 
 const startTime = () => {
     gameStarted = true
-    timer10 = 0
+    timer10 = 10
     timeout = setInterval(() => {
         if (timer10 === -1) {
             if (Clients.size == 1) {
@@ -176,7 +176,7 @@ wss.on('connection', ws => {
                                     if (Clients.size > 1) {
                                         startTime()
                                     }
-                                }, 0)
+                                }, 5000)
                             }
                         }
                     } else {

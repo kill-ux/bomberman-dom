@@ -14,7 +14,7 @@ SimpleJS.state = {
   playerName: '',
   players: {},
   chat: [],
-  diffMap:[],
+  diffMap: [],
   message: '',
   currentPage: "",
 }
@@ -88,7 +88,7 @@ ws.onmessage = event => {
         SimpleJS.Link('/queue')
       }
       break
-    case 'ModifyQueue' :
+    case 'ModifyQueue':
       SimpleJS.setState(prev => ({
         ...prev,
         playerCount,
@@ -96,6 +96,7 @@ ws.onmessage = event => {
       break
     case 'startGame':
       SimpleJS.state.players = cls
+      console.log(" diffMap ", diffMap)
       SimpleJS.state.diffMap = diffMap
       if (location.pathname !== '/game') {
         SimpleJS.state.currentPage = "/game"
@@ -114,7 +115,7 @@ ws.onmessage = event => {
 
       clearTimeout(resetMoves)
       resetMoves = setTimeout(() => {
-        if (SimpleJS.state.players[playerName].pObj){
+        if (SimpleJS.state.players[playerName] && SimpleJS.state.players[playerName].pObj) {
           SimpleJS.state.players[playerName].pObj.moveDown = false
           SimpleJS.state.players[playerName].pObj.moveLeft = false
           SimpleJS.state.players[playerName].pObj.moveUp = false
@@ -147,22 +148,24 @@ ws.onmessage = event => {
       })
       break
     case "win":
-      alert(playerName," has won")
-      SimpleJS.state = {
-        bombs: [],
-        powers: [],
-        grids: [],
-        fires: [],
-        playerCount: 0,
-        playerName: '',
-        diffMap:[],
-        players: {},
-        chat: [],
-        message: '',
-        currentPage: "",
-      }
-      cancelAnimationFrame(animationID)
-      SimpleJS.Link("/")
+      setTimeout(() => {
+        alert(playerName, " has won")
+        SimpleJS.state = {
+          bombs: [],
+          powers: [],
+          grids: [],
+          fires: [],
+          playerCount: 0,
+          playerName: '',
+          diffMap: [],
+          players: {},
+          chat: [],
+          message: '',
+          currentPage: "",
+        }
+        cancelAnimationFrame(animationID)
+        SimpleJS.Link("/")
+      }, 200)
       //location.href = "/"
       break
   }

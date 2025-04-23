@@ -15,32 +15,14 @@ export const MapSchema = [
 	[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
 ]
 
+// export const newMapSchema = MapSchema.map(grid => grid.map(e => e))
+
 export class Board {
 	constructor(map, bluePrint) {
 		this.map = map
-		this.bluePrint = bluePrint
+		this.bluePrint = bluePrint.map(grid => grid.map(e => e))
 		this.maxNothing = 15
 		this.ran = [2, 3, 4, 5, 3, 4, 5]
-	}
-
-	//Solo + Co-Op mode randomize add a port§
-	randomize_CoOp_Bricks() {
-		let portal = false
-		for (
-			let i = 0;
-			i < (this.bluePrint.length * this.bluePrint[0].length) / 2;
-			i++
-		) {
-			const row = Math.floor(Math.random() * this.bluePrint.length)
-			const col = Math.floor(Math.random() * this.bluePrint[0].length)
-
-			if (!portal && this.bluePrint[row][col] == 0) {
-				this.bluePrint[row][col] = 3
-				portal = true
-				continue
-			}
-			if (this.bluePrint[row][col] == 0) this.bluePrint[row][col] = 2
-		}
 	}
 
 	randomizeBricks(arr) {
@@ -66,7 +48,7 @@ export class Board {
 			}
 		}
 	}
-	  
+
 	initLevel() {
 		const gridState = this.bluePrint.map((row, i) => row.map((cell, j) => {
 			return {

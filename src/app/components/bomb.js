@@ -2,7 +2,7 @@ import { SimpleJS } from "../../dist/index.js";
 import { height, width } from "../App.js";
 
 export class Explosion {
-  constructor (x, y, id) {
+  constructor(x, y, id) {
     this.x = x
     this.y = y
     this.id = id
@@ -10,7 +10,7 @@ export class Explosion {
     this.height = height
   }
 
-  initExplosion () {
+  initExplosion() {
     if (
       !SimpleJS.state.grids[this.y] ||
       !SimpleJS.state.grids[this.y][this.x]
@@ -20,49 +20,49 @@ export class Explosion {
 
     const currentCell = SimpleJS.state.grids[this.y][this.x]
 
-        // Skip if it's a wall
-        let oldType = ` ${currentCell.type} `;
-        if (oldType.includes(" wall ")) {
-            return { x: this.x, y: this.y, wall: true };
-        }
+    // Skip if it's a wall
+    let oldType = ` ${currentCell.type} `;
+    if (oldType.includes(" wall ")) {
+      return { x: this.x, y: this.y, wall: true };
+    }
 
     // Update cell type
     let newType = currentCell.type.replace('soft-wall', 'empty').trim()
 
     newType = newType.replace('empty', 'empty explosion').trim()
 
-        const power = currentCell.power;
-        const id = currentCell?.id;
+    const power = currentCell.power;
+    const id = currentCell?.id;
 
-        // Update state
-        SimpleJS.setState(prev => {
-            const newGrids = [...prev.grids];
-            newGrids[this.y][this.x] = {
-                ...newGrids[this.y][this.x],
-                type: newType,
-                power: power != "" ? `powered-${power}` : ""
-            };
-            return {
-                ...prev,
-                grids: newGrids,
-                fires: [
-                    ...prev.fires, {
-                        x: this.x,
-                        y: this.y,
-                        id: this.id
-                    }],
-                powers: (power != "" && !power.startsWith("powered")) ? 
-                    [...prev.powers, { id, image: power, xPos: this.x, yPos: this.y }] : 
-                    [...prev.powers],
-            };
-        });
+    // Update state
+    SimpleJS.setState(prev => {
+      const newGrids = [...prev.grids];
+      newGrids[this.y][this.x] = {
+        ...newGrids[this.y][this.x],
+        type: newType,
+        power: power != "" ? `powered-${power}` : ""
+      };
+      return {
+        ...prev,
+        grids: newGrids,
+        fires: [
+          ...prev.fires, {
+            x: this.x,
+            y: this.y,
+            id: this.id
+          }],
+        powers: (power != "" && !power.startsWith("powered")) ?
+          [...prev.powers, { id, image: power, xPos: this.x, yPos: this.y }] :
+          [...prev.powers],
+      };
+    });
 
     return { x: this.x, y: this.y }
   }
 }
 
 export class Bomb {
-  constructor (users) {
+  constructor(users) {
     this.users = users
     this.dropped = false
     this.explosionTime = 2 // seconds
@@ -73,7 +73,7 @@ export class Bomb {
     this.expCount = 1
   }
 
-  putTheBomb (x, y, expCount) {
+  putTheBomb(x, y, expCount) {
     if (!this.users) {
       if (this.bombs <= 0) return
       this.bombs--
@@ -98,51 +98,51 @@ export class Bomb {
     })
 
     // Set explosion timeout
-    const time = setInterval(() => {
+    setTimeout(() => {
       this.explode(xPos, yPos, expCount || this.expCount)
-      clearInterval(time)
     }, this.explosionTime * 1000)
   }
 
-    explode(xPos, yPos, expCount) {
-        const explosions = [];
-        // Add center explosion
-        explosions.push(new Explosion(xPos, yPos, 1));
+  explode(xPos, yPos, expCount) {
+    if (SimpleJS.state.grids.length === 0) return
+    const explosions = [];
+    // Add center explosion
+    explosions.push(new Explosion(xPos, yPos, 1));
 
-        // Add explosions in all directions up to expCount
-        for (let i = 1; i <= expCount; i++) {
-            explosions.push(
-                new Explosion(xPos + i, yPos, 2), // right
-                new Explosion(xPos - i, yPos, 3), // left
-                new Explosion(xPos, yPos + i, 4), // down
-                new Explosion(xPos, yPos - i, 5)  // up
-            );
-        }
+    // Add explosions in all directions up to expCount
+    for (let i = 1; i <= expCount; i++) {
+      explosions.push(
+        new Explosion(xPos + i, yPos, 2), // right
+        new Explosion(xPos - i, yPos, 3), // left
+        new Explosion(xPos, yPos + i, 4), // down
+        new Explosion(xPos, yPos - i, 5)  // up
+      );
+    }
 
-        // Process explosions with directional awareness
-        const processed = {
-            right: false,
-            left: false,
-            down: false,
-            up: false
-        };
+    // Process explosions with directional awareness
+    const processed = {
+      right: false,
+      left: false,
+      down: false,
+      up: false
+    };
 
-        explosions.forEach(exp => {
-            // Skip if direction is already blocked
-            if (exp.id === 2 && processed.right) return;
-            if (exp.id === 3 && processed.left) return;
-            if (exp.id === 4 && processed.down) return;
-            if (exp.id === 5 && processed.up) return;
+    explosions.forEach(exp => {
+      // Skip if direction is already blocked
+      if (exp.id === 2 && processed.right) return;
+      if (exp.id === 3 && processed.left) return;
+      if (exp.id === 4 && processed.down) return;
+      if (exp.id === 5 && processed.up) return;
 
-            const res = exp.initExplosion();
-            if (res && res.wall) {
-                // Mark direction as blocked if wall is hit
-                if (exp.id === 2) processed.right = true;
-                if (exp.id === 3) processed.left = true;
-                if (exp.id === 4) processed.down = true;
-                if (exp.id === 5) processed.up = true;
-            }
-        });
+      const res = exp.initExplosion();
+      if (res && res.wall) {
+        // Mark direction as blocked if wall is hit
+        if (exp.id === 2) processed.right = true;
+        if (exp.id === 3) processed.left = true;
+        if (exp.id === 4) processed.down = true;
+        if (exp.id === 5) processed.up = true;
+      }
+    });
 
     // Clean up bomb
     SimpleJS.setState(prev => {
@@ -166,14 +166,13 @@ export class Bomb {
       }
     })
 
-        // Remove explosion effects after delay
-        const time = setInterval(() => {
-            this.removeExplosionEffects(explosions);
-            clearInterval(time);
-        }, this.removeEffectsTime * 1000);
-    }
+    // Remove explosion effects after delay
+    setTimeout(() => {
+      this.removeExplosionEffects(explosions);
+    }, this.removeEffectsTime * 1000);
+  }
 
-  removeExplosionEffects (explosions) {
+  removeExplosionEffects(explosions) {
     SimpleJS.setState(prev => {
       const newGrids = [...prev.grids]
       const newFires = [...(prev.fires || [])]
