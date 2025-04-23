@@ -7,7 +7,7 @@ import { death } from "./helpers.js";
 
 let resetMoves
 export let animationID 
-export const animateMovement = (time) => {
+export const animateMovement = () => {
 	if (!SimpleJS.state.pause) {
 
 		const grids = SimpleJS.state.grids

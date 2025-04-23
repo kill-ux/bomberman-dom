@@ -8,6 +8,7 @@ export class Explosion {
     this.id = id
     this.width = width
     this.height = height
+    this.remove = false
   }
 
   initExplosion() {
@@ -127,6 +128,7 @@ export class Bomb {
       up: false
     };
 
+
     explosions.forEach(exp => {
       // Skip if direction is already blocked
       if (exp.id === 2 && processed.right) return;
@@ -135,6 +137,7 @@ export class Bomb {
       if (exp.id === 5 && processed.up) return;
 
       const res = exp.initExplosion();
+      exp.remove = true;
       if (res && res.wall) {
         // Mark direction as blocked if wall is hit
         if (exp.id === 2) processed.right = true;
@@ -168,16 +171,20 @@ export class Bomb {
 
     // Remove explosion effects after delay
     setTimeout(() => {
-      this.removeExplosionEffects(explosions);
+      this.removeExplosionEffects(explosions, processed);
     }, this.removeEffectsTime * 1000);
   }
 
-  removeExplosionEffects(explosions) {
+  removeExplosionEffects(explosions, processed) {
     SimpleJS.setState(prev => {
       const newGrids = [...prev.grids]
       const newFires = [...(prev.fires || [])]
 
+      console.log('processed', processed)
+
       explosions.forEach(exp => {
+        if (!exp.remove) return;
+
         if (newGrids[exp.y] && newGrids[exp.y][exp.x]) {
           newGrids[exp.y][exp.x] = {
             ...newGrids[exp.y][exp.x],
