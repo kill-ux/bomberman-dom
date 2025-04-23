@@ -32,12 +32,11 @@ window.addEventListener("resize", function () {
 		const scaleFactor = size / oldSize;
 		const updatedPlayers = Object.fromEntries(
 			Object.entries(prev.players).map(([key, obj]) => {
-				const newX = obj.pObj.x * scaleFactor;
-				const newY = obj.pObj.y * scaleFactor;
-				obj.pObj.x = newX;
-				obj.pObj.y = newY;
-				// update speed
-				obj.pObj.speed = obj.pObj.speed * scaleFactor;
+				obj.pObj.x *= scaleFactor;
+				obj.pObj.y *= scaleFactor;
+				obj.pObj.startX *= scaleFactor;
+				obj.pObj.startY *= scaleFactor;
+				obj.pObj.speed *= scaleFactor;
 				if (obj.pObj.bomberman.current) {
 					obj.pObj.bomberman.current.style.transform = `translate(${newX}px, ${newY}px)`;
 				}
@@ -153,7 +152,7 @@ export const Game = () => {
 			}, [])
 		),
 
-  ])
+	])
 
 	const BoardMap = new Board(map, MapSchema)
 	if (SimpleJS.state.grids.length == 0) {
