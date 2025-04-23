@@ -223,6 +223,17 @@ wss.on('connection', ws => {
     ws.on('close', () => {
         console.log(`${playerName} are close his connection`)
         Clients.delete(playerName)
+        if (currentPage === "game") {
+            Clients.forEach((value, key) => {
+                if (key != data.playerName) {
+                    value.ws.send(JSON.stringify({
+                        type: 'lifes',
+                        lifes: 0,
+                        playerName: playerName,
+                    }))
+                }
+            })
+        }
         if (currentPage === "queue") {
             Clients.forEach(value => {
                 value.ws.send(
