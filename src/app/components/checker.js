@@ -175,5 +175,6 @@ export const getPosImg = (frameX, frameY, div) => {
 };
 
 export const checkIfBombed = (grids, x, y) => {
+  //console.error(grids,x,y)
   return grids[Math.round(y / height)][Math.round(x / width)].type.includes("explosion");
 };

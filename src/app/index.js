@@ -109,10 +109,10 @@ ws.onmessage = event => {
 
       clearTimeout(resetMoves)
       resetMoves = setTimeout(() => {
-        SimpleJS.state.players[playerName].pObj.moveDown = false
-        SimpleJS.state.players[playerName].pObj.moveLeft = false
-        SimpleJS.state.players[playerName].pObj.moveUp = false
-        SimpleJS.state.players[playerName].pObj.moveRight = false
+        SimpleJS.state.players[playerName]?.pObj.moveDown = false
+        SimpleJS.state.players[playerName]?.pObj.moveLeft = false
+        SimpleJS.state.players[playerName]?.pObj.moveUp = false
+        SimpleJS.state.players[playerName]?.pObj.moveRight = false
       }, 50)
       break
     case 'boomb':

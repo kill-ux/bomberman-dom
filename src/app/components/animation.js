@@ -11,9 +11,11 @@ export const animateMovement = (time) => {
 
 		const grids = SimpleJS.state.grids
 		let player = SimpleJS.state.players[SimpleJS.state.playerName].pObj
-		const oldX = player.x
-		const oldY = player.y
-		if (player.lifes !== 0) {
+
+		if (player && player.lifes !== 0) {
+			const oldX = player.x
+			const oldY = player.y
+
 			let checkObj;
 			switch (true) {
 				case player.moveDown:
@@ -106,11 +108,14 @@ export const animateMovement = (time) => {
 					}
 				// getPosImg(1, 4, player.bomberman.current);
 			}
+			if (oldX != player.x || oldY != player.y) {
+				ws.send(JSON.stringify({ type: "moves", playerName: SimpleJS.state.playerName, playerX: player.x / size, playerY: player.y / size, moveRight: player.moveRight, moveUp: player.moveUp, moveDown: player.moveDown, moveLeft: player.moveLeft }))
+			}
 		}
-		if (player.bomberman.current) {
 
-			Object.values(SimpleJS.state.players).forEach(({ pObj }) => {
-				if (pObj.lifes !== 0) {
+
+			Object.entries(SimpleJS.state.players).forEach(([playerName, { pObj }]) => {
+				if (pObj && pObj.lifes !== 0) {
 					let skip = false
 					pObj.bomberman.current.style.transform = `translate(${pObj.x}px, ${pObj.y}px)`;
 
@@ -147,23 +152,27 @@ export const animateMovement = (time) => {
 				}
 				else {
 					/*--- player death ---*/
-					if (pObj.bomberman.current.style.display != "none"){
-						pObj.bomberman.current.style.display = "none"
+					if (pObj) {
+						SimpleJS.setState((prev) => {
+							prev.players[playerName].pObj = undefined
+							return prev
+
+						})
 					}
 				}
 			})
-			if (oldX != player.x || oldY != player.y) {
-				ws.send(JSON.stringify({ type: "moves", playerName: SimpleJS.state.playerName, playerX: player.x / size, playerY: player.y / size, moveRight: player.moveRight, moveUp: player.moveUp, moveDown: player.moveDown, moveLeft: player.moveLeft }))
-			}
 
-		}
+		
 
-		if (player.lifes !== 0 &&
+		if (player && player.lifes !== 0 &&
 			checkIfBombed(grids, player.x, player.y) &&
 			!player.bomberman.current.classList.contains("immune")
 		) {
 			death(player, SimpleJS.state.monsters, player.bomberman.current, player.bomberman.current.classList);
-			ws.send(JSON.stringify({ type: "moves", playerName: SimpleJS.state.playerName, playerX: player.x / size, playerY: player.y / size, moveRight: player.moveRight, moveUp: player.moveUp, moveDown: player.moveDown, moveLeft: player.moveLeft }))
+			if (player.lifes !== 1){
+				ws.send(JSON.stringify({ type: "moves", playerName: SimpleJS.state.playerName, playerX: player.x / size, playerY: player.y / size, moveRight: player.moveRight, moveUp: player.moveUp, moveDown: player.moveDown, moveLeft: player.moveLeft }))
+
+			}
 			SimpleJS.setState((prev) => {
 				prev.players[prev.playerName].pObj.lifes--
 				return prev
