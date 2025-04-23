@@ -244,17 +244,6 @@ wss.on('connection', ws => {
             livePlayers.clear()
             console.log('All clients disconnected, server reset')
         }
-
-        // Clients.forEach(value => {
-        //     value.ws.send(
-        //         JSON.stringify({
-        //             type: 'appendQueue',
-        //             playerCount: Clients.size,
-        //             playerName
-        //         })
-        //     )
-        // })
-        // send
         console.log('Client disconnected')
     })
 })
