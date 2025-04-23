@@ -96,7 +96,6 @@ ws.onmessage = event => {
       break
     case 'startGame':
       SimpleJS.state.players = cls
-      console.log(" diffMap ", diffMap)
       SimpleJS.state.diffMap = diffMap
       if (location.pathname !== '/game') {
         SimpleJS.state.currentPage = "/game"

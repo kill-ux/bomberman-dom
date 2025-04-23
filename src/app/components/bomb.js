@@ -8,6 +8,7 @@ export class Explosion {
     this.id = id
     this.width = width
     this.height = height
+    this.remove = false
   }
 
   initExplosion() {
@@ -21,15 +22,17 @@ export class Explosion {
     const currentCell = SimpleJS.state.grids[this.y][this.x]
 
     // Skip if it's a wall
-    let oldType = ` ${currentCell.type} `;
+    // let oldType = ` ${currentCell.type} `;
+
+    let oldType = currentCell.type
     if (oldType.includes(" wall ")) {
-      return { x: this.x, y: this.y, wall: true };
+      return { wall: true };
     }
 
     // Update cell type
-    let newType = currentCell.type.replace('soft-wall', 'empty').trim()
+    let newType = currentCell.type.replace('soft-wall', 'empty')
 
-    newType = newType.replace('empty', 'empty explosion').trim()
+    newType = newType.replace('empty', 'empty explosion')
 
     const power = currentCell.power;
     const id = currentCell?.id;
@@ -69,7 +72,7 @@ export class Bomb {
     this.explosionCounter = 0
     this.removeEffectsTime = 3 // seconds
     this.removeEffectsCounter = 0
-    this.bombs = 1
+    this.bombs = 40
     this.expCount = 1
   }
 
@@ -100,7 +103,7 @@ export class Bomb {
     // Set explosion timeout
     setTimeout(() => {
       this.explode(xPos, yPos, expCount || this.expCount)
-    }, this.explosionTime * 1000)
+    }, this.explosionTime * 10000)
   }
 
   explode(xPos, yPos, expCount) {
@@ -127,6 +130,7 @@ export class Bomb {
       up: false
     };
 
+
     explosions.forEach(exp => {
       // Skip if direction is already blocked
       if (exp.id === 2 && processed.right) return;
@@ -135,6 +139,7 @@ export class Bomb {
       if (exp.id === 5 && processed.up) return;
 
       const res = exp.initExplosion();
+      exp.remove = true;
       if (res && res.wall) {
         // Mark direction as blocked if wall is hit
         if (exp.id === 2) processed.right = true;
@@ -149,7 +154,7 @@ export class Bomb {
       const newGrids = [...prev.grids]
       newGrids[yPos][xPos] = {
         ...newGrids[yPos][xPos],
-        type: newGrids[yPos][xPos].type.replace('bomb-wall', '').trim()
+        type: newGrids[yPos][xPos].type.replace('bomb-wall', '')
       }
 
       const newBombs = prev.bombs.filter(
@@ -168,20 +173,22 @@ export class Bomb {
 
     // Remove explosion effects after delay
     setTimeout(() => {
-      this.removeExplosionEffects(explosions);
+      this.removeExplosionEffects(explosions, processed);
     }, this.removeEffectsTime * 1000);
   }
 
-  removeExplosionEffects(explosions) {
+  removeExplosionEffects(explosions, processed) {
     SimpleJS.setState(prev => {
       const newGrids = [...prev.grids]
       const newFires = [...(prev.fires || [])]
 
       explosions.forEach(exp => {
+        if (!exp.remove) return;
+
         if (newGrids[exp.y] && newGrids[exp.y][exp.x]) {
           newGrids[exp.y][exp.x] = {
             ...newGrids[exp.y][exp.x],
-            type: newGrids[exp.y][exp.x].type.replace('explosion', '').trim()
+            type: newGrids[exp.y][exp.x].type.replace('explosion', '')
           }
         }
 
