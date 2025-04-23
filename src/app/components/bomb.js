@@ -22,15 +22,17 @@ export class Explosion {
     const currentCell = SimpleJS.state.grids[this.y][this.x]
 
     // Skip if it's a wall
-    let oldType = ` ${currentCell.type} `;
+    // let oldType = ` ${currentCell.type} `;
+
+    let oldType = currentCell.type
     if (oldType.includes(" wall ")) {
-      return { x: this.x, y: this.y, wall: true };
+      return { wall: true };
     }
 
     // Update cell type
-    let newType = currentCell.type.replace('soft-wall', 'empty').trim()
+    let newType = currentCell.type.replace('soft-wall', 'empty')
 
-    newType = newType.replace('empty', 'empty explosion').trim()
+    newType = newType.replace('empty', 'empty explosion')
 
     const power = currentCell.power;
     const id = currentCell?.id;
@@ -152,7 +154,7 @@ export class Bomb {
       const newGrids = [...prev.grids]
       newGrids[yPos][xPos] = {
         ...newGrids[yPos][xPos],
-        type: newGrids[yPos][xPos].type.replace('bomb-wall', '').trim()
+        type: newGrids[yPos][xPos].type.replace('bomb-wall', '')
       }
 
       const newBombs = prev.bombs.filter(
@@ -188,7 +190,7 @@ export class Bomb {
         if (newGrids[exp.y] && newGrids[exp.y][exp.x]) {
           newGrids[exp.y][exp.x] = {
             ...newGrids[exp.y][exp.x],
-            type: newGrids[exp.y][exp.x].type.replace('explosion', '').trim()
+            type: newGrids[exp.y][exp.x].type.replace('explosion', '')
           }
         }
 

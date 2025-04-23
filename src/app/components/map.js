@@ -54,7 +54,7 @@ export class Board {
 			return {
 				type: (cell === 0 || cell === 'x')
 					? 'empty'
-					: (cell === 1 ? 'wall' : 'soft-wall'),
+					: (cell === 1 ? ' wall ' : 'soft-wall'),
 				power: cell === 3 ? "idel" : (cell === 4 ? "fire" : (cell === 5 ? "battery" : "")),
 				id: `${i}-${j}`
 			}
