@@ -1,12 +1,10 @@
 import { SimpleJS } from '../dist/index.js'
-import { useEffect, useRef, useState } from '../dist/utils.js';
+import { useEffect, useRef } from '../dist/utils.js';
 import { Chat } from './chat.js';
 import { animateMovement } from './components/animation.js';
 import { Bomb } from './components/bomb.js';
 import { Board, MapSchema } from './components/map.js';
-import { menu } from './components/menu.js';
-import { Monster } from './components/monsters.js';
-import { otherPlayer, Player } from './components/player.js';
+import { Player } from './components/player.js';
 import { Forbidden } from './forbidden.js';
 
 let initWidth = Math.floor(window.innerWidth / MapSchema[0].length / 1.8)
@@ -18,8 +16,6 @@ export let height = size;
 export let delta = 0.0166
 export let grids = []
 export let bomb
-export const totalMonsters = 5
-export let monsters
 
 window.addEventListener("resize", function () {
 	const oldSize = size;

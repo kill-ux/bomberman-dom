@@ -1,5 +1,6 @@
 import { SimpleJS } from '../dist/index.js'
 import { Game, size } from './App.js'
+import { animateMovement, animationID } from './components/animation.js'
 import { Bomb } from './components/bomb.js'
 import { Queue } from './Queue.js'
 import { Welcome } from './Welcome.js'
@@ -9,14 +10,11 @@ SimpleJS.state = {
   powers: [],
   grids: [],
   fires: [],
-  monsters: [],
-  player: null,
-  initialized: false,
-  pause: false,
   playerCount: 0,
   playerName: '',
   players: {},
   chat: [],
+  diffMap:[],
   message: '',
   currentPage: "",
 }
@@ -116,10 +114,12 @@ ws.onmessage = event => {
 
       clearTimeout(resetMoves)
       resetMoves = setTimeout(() => {
-        SimpleJS.state.players[playerName]?.pObj.moveDown = false
-        SimpleJS.state.players[playerName]?.pObj.moveLeft = false
-        SimpleJS.state.players[playerName]?.pObj.moveUp = false
-        SimpleJS.state.players[playerName]?.pObj.moveRight = false
+        if (SimpleJS.state.players[playerName].pObj){
+          SimpleJS.state.players[playerName].pObj.moveDown = false
+          SimpleJS.state.players[playerName].pObj.moveLeft = false
+          SimpleJS.state.players[playerName].pObj.moveUp = false
+          SimpleJS.state.players[playerName].pObj.moveRight = false
+        }
       }, 50)
       break
     case 'boomb':
@@ -148,8 +148,21 @@ ws.onmessage = event => {
       break
     case "win":
       alert(playerName," has won")
-      // SimpleJS.Link("/")
-      location.href = "/"
+      SimpleJS.state = {
+        bombs: [],
+        powers: [],
+        grids: [],
+        fires: [],
+        playerCount: 0,
+        playerName: '',
+        players: {},
+        chat: [],
+        message: '',
+        currentPage: "",
+      }
+      cancelAnimationFrame(animationID)
+      SimpleJS.Link("/")
+      //location.href = "/"
       break
   }
 }

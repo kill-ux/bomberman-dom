@@ -6,6 +6,7 @@ import { checkDownMove, checkIfBombed, checkLeftMove, checkRightMove, checkUpper
 import { death } from "./helpers.js";
 
 let resetMoves
+export let animationID 
 export const animateMovement = (time) => {
 	if (!SimpleJS.state.pause) {
 
@@ -168,7 +169,7 @@ export const animateMovement = (time) => {
 			checkIfBombed(grids, player.x, player.y) &&
 			!player.bomberman.current.classList.contains("immune")
 		) {
-			death(player, SimpleJS.state.monsters, player.bomberman.current, player.bomberman.current.classList);
+			death(player, player.bomberman.current);
 			if (player.lifes !== 1){
 				ws.send(JSON.stringify({ type: "moves", playerName: SimpleJS.state.playerName, playerX: player.x / size, playerY: player.y / size, moveRight: player.moveRight, moveUp: player.moveUp, moveDown: player.moveDown, moveLeft: player.moveLeft }))
 
@@ -182,5 +183,5 @@ export const animateMovement = (time) => {
 		}
 	}
 
-	requestAnimationFrame(animateMovement);
+	animationID = requestAnimationFrame(animateMovement);
 };
