@@ -72,7 +72,7 @@ export class Bomb {
     this.explosionCounter = 0
     this.removeEffectsTime = 3 // seconds
     this.removeEffectsCounter = 0
-    this.bombs = 1
+    this.bombs = 40
     this.expCount = 1
   }
 
@@ -103,7 +103,7 @@ export class Bomb {
     // Set explosion timeout
     setTimeout(() => {
       this.explode(xPos, yPos, expCount || this.expCount)
-    }, this.explosionTime * 1000)
+    }, this.explosionTime * 10000)
   }
 
   explode(xPos, yPos, expCount) {
@@ -181,8 +181,6 @@ export class Bomb {
     SimpleJS.setState(prev => {
       const newGrids = [...prev.grids]
       const newFires = [...(prev.fires || [])]
-
-      console.log('processed', processed)
 
       explosions.forEach(exp => {
         if (!exp.remove) return;

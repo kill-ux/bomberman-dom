@@ -3,7 +3,7 @@ import { bomb, height, size, width } from "../App.js";
 import { ws } from "../index.js";
 
 const checkIfinBomb = (grids, player) => {
-  return grids[Math.round(player.y / height)][Math.round(player.x / width)].type.includes("bomb-wall");
+  return grids[Math.round(player.y / height)][Math.round(player.x / width)].type.includes("bomb-wall");;
 };
 
 const handlePowerUp = (grids, row, col, bomb) => {
@@ -33,7 +33,6 @@ export const checkUpperMove = (grids, rowBot, colBot, colTop, object) => {
     grids[rowBot][colTop].type.includes(" wall ") ||
     grids[rowBot][colTop].type.includes("soft-wall") ||
     (grids[rowBot][colTop].type.includes("bomb-wall") && !checkIfinBomb(grids, object));
-
   if (leftGrid && !rightGrid) {
     if (Math.ceil((object.x + object.speed) / width) > Math.ceil(object.x / width)) {
       return [true, (object.x = Math.ceil(object.x / width) * size)];
@@ -137,11 +136,12 @@ export const checkRightMove = (grids, rowBot, rowTop, colTop, object) => {
   const upGrid =
     grids[rowBot][colTop].type.includes(" wall ") ||
     grids[rowBot][colTop].type.includes("soft-wall") ||
-    (grids[rowBot][colTop].type.includes("bomb-wall") && checkIfinBomb(grids, object));
+    (grids[rowBot][colTop].type.includes("bomb-wall") && !checkIfinBomb(grids, object));
   const downGrid =
     grids[rowTop][colTop].type.includes(" wall ") ||
     grids[rowTop][colTop].type.includes("soft-wall") ||
-    (grids[rowTop][colTop].type.includes("bomb-wall") && checkIfinBomb(grids, object));
+    (grids[rowTop][colTop].type.includes("bomb-wall") && !checkIfinBomb(grids, object));
+
 
   if (upGrid && !downGrid) {
     if (Math.ceil((object.y + object.speed) / height) > Math.ceil(object.y / height)) {
