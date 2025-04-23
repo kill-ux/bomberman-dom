@@ -36,6 +36,8 @@ window.addEventListener("resize", function () {
 				const newY = obj.pObj.y * scaleFactor;
 				obj.pObj.x = newX;
 				obj.pObj.y = newY;
+				// update speed
+				obj.pObj.speed = obj.pObj.speed * scaleFactor;
 				if (obj.pObj.bomberman.current) {
 					obj.pObj.bomberman.current.style.transform = `translate(${newX}px, ${newY}px)`;
 				}

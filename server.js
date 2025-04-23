@@ -72,7 +72,7 @@ const DiffMap = () => {
     }
     return arr
 }
-
+let currentPage = ''
 let timeout
 let timer20
 let timer10
@@ -92,20 +92,30 @@ const messages = []
 let gameStarted = false
 
 const startTime = () => {
-    timer10 = 10
+    gameStarted = true
+    timer10 = 0
     timeout = setInterval(() => {
         if (timer10 === -1) {
-            let cls = {}
-            Clients.forEach(({ lifes, spawn }, key) => {
-                livePlayers.add(key)
-                cls[key] = { lifes, spawn }
-            })
-            Clients.forEach(value => {
-                value.ws.send(JSON.stringify({ type: "startGame", cls, diffMap, }))
-            })
-            timer10 = null
-            gameStarted = true
-            clearInterval(timeout)
+            if (Clients.size == 1) {
+                Clients.forEach((value, key) => {
+                    value.ws.send(JSON.stringify({ type: "win", playerName: key }))
+                })
+                Clients.clear()
+                livePlayers.clear()
+            } else {
+                let cls = {}
+                Clients.forEach(({ lifes, spawn }, key) => {
+                    livePlayers.add(key)
+                    cls[key] = { lifes, spawn }
+                })
+                Clients.forEach(value => {
+                    value.ws.send(JSON.stringify({ type: "startGame", cls, diffMap, }))
+                })
+                timer10 = null
+                currentPage = "game"
+                clearInterval(timeout)
+            }
+
         } else {
             Clients.forEach(value => {
                 value.ws.send(JSON.stringify({ type: "startTime", timer: timer10 }))
@@ -128,7 +138,6 @@ wss.on('connection', ws => {
                 if (gameStarted) {
                     return
                 }
-                console.log('clients', Clients)
                 if (Clients.size < 4) {
                     if (data.playername && !Clients.has(data.playername)) {
                         playerName = data.playername
@@ -151,16 +160,23 @@ wss.on('connection', ws => {
                             )
                         })
 
+                        currentPage = "queue"
+
                         if (Clients.size >= 2) {
                             timer20 = 20
+                            if (!timer10) {
+                                
+                            }
                             clearTimeout(timeout)
                             if (Clients.size == 4) {
                                 startTime()
                             } else {
                                 timeout = setTimeout(() => {
-                                    startTime()
-                                    // }, 20000)
-                                }, 20000)
+                                    console.log('start game', Clients.size)
+                                    if (Clients.size > 1) {
+                                        startTime()
+                                    }
+                                }, 0)
                             }
                         }
                     } else {
@@ -207,12 +223,26 @@ wss.on('connection', ws => {
     ws.on('close', () => {
         console.log(`${playerName} are close his connection`)
         Clients.delete(playerName)
+        if (currentPage === "queue") {
+            Clients.forEach(value => {
+                value.ws.send(
+                    JSON.stringify({
+                        type: 'ModifyQueue',
+                        playerCount: Clients.size,
+                        playerName
+                    })
+                )
+            })
+        }
         if (Clients.size === 0) {
             clearTimeout(timeout)
             timer10 = null
             timer20 = null
             messages.length = 0
-
+            gameStarted = false
+            diffMap = null
+            livePlayers.clear()
+            console.log('All clients disconnected, server reset')
         }
 
         // Clients.forEach(value => {
