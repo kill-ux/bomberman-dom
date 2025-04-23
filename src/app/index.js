@@ -82,9 +82,11 @@ ws.onmessage = event => {
         ...prev,
         playerCount,
         playerName: prev.playerName ? prev.playerName : playerName,
-        chat: messages,
+        chat: messages ? messages : [],
       }))
       if (location.pathname !== '/queue') {
+
+        console.log(SimpleJS.state)
         SimpleJS.state.currentPage = "/queue"
         SimpleJS.Link('/queue')
       }

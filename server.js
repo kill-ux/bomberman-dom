@@ -156,7 +156,7 @@ wss.on('connection', ws => {
                                 timeout = setTimeout(() => {
                                     startTime()
                                     // }, 20000)
-                                }, 1000)
+                                }, 10000)
                             }
                         }
                     } else {
