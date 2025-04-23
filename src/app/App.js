@@ -38,7 +38,7 @@ window.addEventListener("resize", function () {
 				obj.pObj.startY *= scaleFactor;
 				obj.pObj.speed *= scaleFactor;
 				if (obj.pObj.bomberman.current) {
-					obj.pObj.bomberman.current.style.transform = `translate(${newX}px, ${newY}px)`;
+					obj.pObj.bomberman.current.style.transform = `translate(${obj.pObj.x}px, ${obj.pObj.y}px)`;
 				}
 				return [key, obj];
 			})
