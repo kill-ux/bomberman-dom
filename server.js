@@ -233,6 +233,14 @@ wss.on('connection', ws => {
                     }))
                 }
             })
+
+            if (Clients.size === 1) {
+                Clients.forEach((value, key) => {
+                    value.ws.send(JSON.stringify({ type: "win", playerName: key }))
+                })
+                Clients.clear()
+                livePlayers.clear()
+            }
         }
         if (currentPage === "queue") {
             Clients.forEach(value => {
