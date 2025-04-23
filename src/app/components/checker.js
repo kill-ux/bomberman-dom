@@ -26,7 +26,7 @@ const handlePowerUp = (grids, row, col, bomb) => {
 
 export const checkUpperMove = (grids, rowBot, colBot, colTop, object) => {
   const leftGrid =
-    grids[rowBot][colBot].type.includes("wall") ||
+    grids[rowBot][colBot].type.includes(" wall ") ||
     grids[rowBot][colBot].type.includes("soft-wall") ||
     (grids[rowBot][colBot].type.includes("bomb-wall") && !checkIfinBomb(grids, object));
   const rightGrid =
