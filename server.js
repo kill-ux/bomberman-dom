@@ -225,7 +225,7 @@ wss.on('connection', ws => {
         Clients.delete(playerName)
         if (currentPage === "game") {
             Clients.forEach((value, key) => {
-                if (key != data.playerName) {
+                if (key != playerName) {
                     value.ws.send(JSON.stringify({
                         type: 'lifes',
                         lifes: 0,
