@@ -78,6 +78,7 @@ ws.onmessage = event => {
       console.error(content)
       break
     case 'appendQueue':
+      console.log('appendQueue', content)
       SimpleJS.setState(prev => ({
         ...prev,
         playerCount,
@@ -88,6 +89,12 @@ ws.onmessage = event => {
         SimpleJS.state.currentPage = "/queue"
         SimpleJS.Link('/queue')
       }
+      break
+    case 'ModifyQueue' :
+      SimpleJS.setState(prev => ({
+        ...prev,
+        playerCount,
+      }))
       break
     case 'startGame':
       SimpleJS.state.players = cls
