@@ -135,6 +135,7 @@ wss.on('connection', ws => {
                     diffMap = DiffMap()
                 }
                 if (gameStarted) {
+                    ws.send(JSON.stringify({ type: 'error', content: 'game staerted wait until finished' }))
                     return
                 }
                 if (Clients.size < 4) {
@@ -163,7 +164,7 @@ wss.on('connection', ws => {
                         if (Clients.size >= 2) {
                             timer20 = 20
                             if (!timer10) {
-                                
+
                             }
                             clearTimeout(timeout)
                             if (Clients.size == 4) {
@@ -174,7 +175,7 @@ wss.on('connection', ws => {
                                     if (Clients.size > 1) {
                                         startTime()
                                     }
-                                }, 0)
+                                }, 5000)
                             }
                         }
                     } else {

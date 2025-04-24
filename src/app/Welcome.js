@@ -18,6 +18,9 @@ export const Welcome = () => {
             ]),
             SimpleJS.createElement("div", { class: "bg-input" }, [
                 SimpleJS.createElement("input", { class: "input", onkeydown: handelClick }),
+                SimpleJS.state.error ? SimpleJS.createElement("div", { class: "error" }, [
+                    SimpleJS.state.error
+                ]) : "",
             ]),
             SimpleJS.createElement("div", { class: "body-welcome" }, [
                 SimpleJS.createElement("div", { class: "images-space" }, [

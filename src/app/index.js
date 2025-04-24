@@ -15,8 +15,8 @@ SimpleJS.state = {
   players: {},
   chat: [],
   diffMap: [],
-  message: '',
   currentPage: "",
+  error: ""
 }
 
 SimpleJS.addRoute('/', Welcome)
@@ -68,13 +68,17 @@ ws.onmessage = event => {
 
   switch (type) {
     case 'error':
-      console.error(content)
+      SimpleJS.setState(prev => ({
+        ...prev,
+        error: content
+      }))
       break
     case 'appendQueue':
       SimpleJS.setState(prev => ({
         ...prev,
         playerCount,
         playerName: prev.playerName ? prev.playerName : playerName,
+        error: "",
       }))
       if (location.pathname !== '/queue') {
         SimpleJS.state.currentPage = "/queue"
@@ -135,7 +139,7 @@ ws.onmessage = event => {
       break
     case 'lifes':
       SimpleJS.setState((prev) => {
-        if (prev.players[playerName]){
+        if (prev.players[playerName]) {
           prev.players[playerName].pObj.lifes = lifes
         }
         return prev
@@ -154,11 +158,10 @@ ws.onmessage = event => {
           diffMap: [],
           players: {},
           chat: [],
-          message: '',
           currentPage: "",
         }
         cancelAnimationFrame(animationID)
-        startBombCheck.current  = false
+        startBombCheck.current = false
         lastTime.current = 0
         clearInterval(intervalID)
 
