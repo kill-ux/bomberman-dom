@@ -22,7 +22,7 @@ export class Player {
     this.colBot = 0
     this.colTop = 0
     this.deathTime = 2
-    this.lifes = 300
+    this.lifes = 3
     this.deathCounter = 0
     this.bomberman
     this.immune = false
