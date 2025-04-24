@@ -8,7 +8,7 @@ export class Player {
     this.startY = y
     this.x = x
     this.y = y
-    this.speed = speed *15
+    this.speed = speed
     this.loop = 0
     this.slowFrames = 5
     this.slow = 0

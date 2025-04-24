@@ -6,7 +6,7 @@ const checkIfinBomb = (grids, player) => {
   return grids[Math.round(player.y / height)][Math.round(player.x / width)].type.includes("bomb-wall");;
 };
 
-const handlePowerUp = (grids, bomb, player) => {
+const handlePowerUp = (grids, bomb, player, delta) => {
   const row = Math.round(player.y / height);
   const col = Math.round(player.x / width);
   if (grids[row][col].power.startsWith("powered")) {
@@ -15,7 +15,11 @@ const handlePowerUp = (grids, bomb, player) => {
     } else if (grids[row][col].power.endsWith("fire")) {
       bomb.expCount++
     } else {
-      SimpleJS.state.players[SimpleJS.state.playerName].pObj.speed *= 1.1
+      if ((size / delta * 0.9) > SimpleJS.state.players[SimpleJS.state.playerName].pObj.speed * 1.1) {
+        SimpleJS.state.players[SimpleJS.state.playerName].pObj.speed *= 1.1
+      } else if (SimpleJS.state.players[SimpleJS.state.playerName].pObj.speed != size / delta * 0.9) {
+        SimpleJS.state.players[SimpleJS.state.playerName].pObj.speed = size / delta * 0.9
+      }
     }
     ws.send(JSON.stringify({ type: "powerups", playerName: SimpleJS.state.playerName, row, col }))
     grids[row][col].power = "";
@@ -36,6 +40,7 @@ export const checkUpperMove = (grids, rowBot, colBot, colTop, object, delta) => 
     grids[rowBot][colTop].type.includes("soft-wall") ||
     (grids[rowBot][colTop].type.includes("bomb-wall") && !checkIfinBomb(grids, object));
   if (leftGrid && !rightGrid) {
+    console.log("here in ceil")
     if (Math.ceil((object.x + (object.speed * delta)) / width) > Math.ceil(object.x / width)) {
       return [true, (object.x = Math.ceil(object.x / width) * size)];
     } else {
@@ -43,14 +48,8 @@ export const checkUpperMove = (grids, rowBot, colBot, colTop, object, delta) => 
     }
   }
   if (!leftGrid && rightGrid) {
-    // if (Math.floor((object.x - object.speed) / width) < Math.floor(object.x / width)) {
-    //   return [true, (object.x = Math.floor(object.x / width) * size)];
-    // } else {
-    //return [true, (object.x -= object.speed  * delta)];
-    // }
-
-    if (Math.floor((object.x - object.speed * delta) / width) < Math.floor((object.x) / width) - 1) {
-      return [true, object.x = (Math.floor((object.x) / width) - 1) * size];
+    if (Math.floor((object.x - object.speed * delta) / width) < Math.floor((object.x) / width)) {
+      return [true, object.x = (Math.floor((object.x) / width)) * size];
     } else {
       return [true, (object.x -= object.speed * delta)];
     }
@@ -60,9 +59,7 @@ export const checkUpperMove = (grids, rowBot, colBot, colTop, object, delta) => 
     return [true, object.x];
   }
 
-  // if (colBot === colTop) {
-  handlePowerUp(grids, bomb, object);
-  // }
+  handlePowerUp(grids, bomb, object, delta);
 
   return [false, object.x];
 };
@@ -86,11 +83,11 @@ export const checkDownMove = (grids, rowTop, colBot, colTop, object, delta) => {
   }
 
   if (!leftGrid && rightGrid) {
-    // if (Math.floor((object.x - object.speed) / width) < Math.floor(object.x / width)) {
-    //   return [true, (object.x = Math.floor(object.x / width) * size)];
-    // } else {
-    return [true, (object.x -= object.speed * delta)];
-    // }
+    if (Math.floor((object.x - object.speed * delta) / width) < Math.floor(object.x / width)) {
+      return [true, (object.x = Math.floor(object.x / width) * size)];
+    } else {
+      return [true, (object.x -= object.speed * delta)];
+    }
   }
 
   if (leftGrid && rightGrid) {
@@ -98,10 +95,8 @@ export const checkDownMove = (grids, rowTop, colBot, colTop, object, delta) => {
     return [true, object.x];
   }
 
-  // if (colBot === colTop) {
-  //   handlePowerUp(grids, rowTop, colBot, bomb);
-  // }
-  handlePowerUp(grids, bomb, object);
+
+  handlePowerUp(grids, bomb, object, delta);
 
   return [false, object.x];
 };
@@ -124,21 +119,19 @@ export const checkLeftMove = (grids, rowBot, rowTop, colBot, object, delta) => {
     }
   }
   if (!upGrid && downGrid) {
-    // if (Math.floor((object.y - object.speed) / height) < Math.floor(object.y / height)) {
-    //   return [true, (object.y = Math.floor(object.y / height) * size)];
-    // } else {
-    return [true, (object.y -= object.speed * delta)];
-    // }
+    if (Math.floor((object.y - object.speed * delta) / height) < Math.floor(object.y / height)) {
+      return [true, (object.y = Math.floor(object.y / height) * size)];
+    } else {
+      return [true, (object.y -= object.speed * delta)];
+    }
   }
   if (upGrid && downGrid) {
     object.x = Math.floor(object.x / width) * size
     return [true, object.y];
   }
 
-  // if (rowTop === rowBot) {
-  //   handlePowerUp(grids, rowTop, colBot, bomb);
-  // }
-  handlePowerUp(grids, bomb, object);
+  handlePowerUp(grids, bomb, object, delta);
+
 
   return [false, object.y];
 };
@@ -162,21 +155,18 @@ export const checkRightMove = (grids, rowBot, rowTop, colTop, object, delta) => 
     }
   }
   if (!upGrid && downGrid) {
-    // if (Math.floor((object.y - object.speed) / height) < Math.floor(object.y / height)) {
-    //   return [true, (object.y = Math.floor(object.y / height) * size)];
-    // } else {
-    return [true, (object.y -= object.speed * delta)];
-    // }
+    if (Math.floor((object.y - object.speed * delta) / height) < Math.floor(object.y / height)) {
+      return [true, (object.y = Math.floor(object.y / height) * size)];
+    } else {
+      return [true, (object.y -= object.speed * delta)];
+    }
   }
   if (upGrid && downGrid) {
     object.x = Math.ceil(object.x / width) * size
     return [true, object.y];
   }
+  handlePowerUp(grids, bomb, object, delta);
 
-  // if (rowBot === rowTop) {
-  //   handlePowerUp(grids, rowBot, colTop, bomb);
-  // }
-  handlePowerUp(grids, bomb, object);
 
   return [false, object.y];
 };
@@ -188,6 +178,5 @@ export const getPosImg = (frameX, frameY, div) => {
 };
 
 export const checkIfBombed = (grids, x, y) => {
-  //console.error(grids,x,y)
   return grids[Math.round(y / height)][Math.round(x / width)].type.includes("explosion");
 };

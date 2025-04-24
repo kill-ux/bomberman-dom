@@ -73,7 +73,7 @@ export class Bomb {
     this.explosionCounter = 0
     this.removeEffectsTime = 3 // seconds
     this.removeEffectsCounter = 0
-    this.bombs = 40
+    this.bombs = 1
     this.expCount = 1
   }
 

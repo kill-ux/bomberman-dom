@@ -1,6 +1,6 @@
 import { SimpleJS } from '../dist/index.js'
 import { Game, intervalID, size, startBombCheck } from './App.js'
-import { animateMovement, animationID } from './components/animation.js'
+import { animateMovement, animationID, lastTime } from './components/animation.js'
 import { Bomb } from './components/bomb.js'
 import { Queue } from './Queue.js'
 import { Welcome } from './Welcome.js'
@@ -142,7 +142,9 @@ ws.onmessage = event => {
       break
     case 'lifes':
       SimpleJS.setState((prev) => {
-        prev.players[playerName].pObj.lifes = lifes
+        if (prev.players[playerName]){
+          prev.players[playerName].pObj.lifes = lifes
+        }
         return prev
       })
       break
