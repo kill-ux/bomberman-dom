@@ -53,6 +53,16 @@ body {
   flex-wrap: wrap;
   position: relative;
   margin: auto;
+  animation: fps 16ms infinite;
+}
+
+@keyframes fps {
+  from{
+    border-color:black ;
+  }
+  to{
+    border-color: rgba(0, 0, 0, 0.1);
+  }
 }
 
 .container-body {
