@@ -89,16 +89,8 @@ export const animateMovement = (currentTime) => {
 						delta
 					);
 					player.x = checkObj[1];
-					// getPosImg(player.frames[player.loop], 1, player.bomberman.current);
 					if (!checkObj[0]) {
-						// if (grids[Math.floor((player.y - player.speed) / height)][Math.floor(player.x / height)].type.includes("wall")) {
-						// 	console.log("here1")
-						// 	player.y = Math.floor(player.y / height) * size
-						// } else {
-						// console.log("here2")
 						player.y -= player.speed * delta;
-						// }
-
 					}
 
 					clearTimeout(resetMoves)

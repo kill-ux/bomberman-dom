@@ -60,7 +60,6 @@ window.addEventListener("resize", function () {
 });
 
 export const Game = () => {
-	console.log(SimpleJS.state.currentPage)
 	if (SimpleJS.state.currentPage !== "/game") {
 		return Forbidden()
 	}

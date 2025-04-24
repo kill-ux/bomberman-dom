@@ -2,8 +2,8 @@ import { SimpleJS } from "../../dist/index.js";
 import { bomb, height, size, width } from "../App.js";
 import { ws } from "../index.js";
 
-const checkIfinBomb = (grids, player) => {
-  return grids[Math.round(player.y / height)][Math.round(player.x / width)].type.includes("bomb-wall");;
+const checkIfinBomb = (grids, player, rounding) => {
+  return grids[rounding(player.y / height)][rounding(player.x / width)].type.includes("bomb-wall");;
 };
 
 const handlePowerUp = (grids, bomb, player, delta) => {
@@ -34,13 +34,12 @@ export const checkUpperMove = (grids, rowBot, colBot, colTop, object, delta) => 
   const leftGrid =
     grids[rowBot][colBot].type.includes(" wall ") ||
     grids[rowBot][colBot].type.includes("soft-wall") ||
-    (grids[rowBot][colBot].type.includes("bomb-wall") && !checkIfinBomb(grids, object));
+    (grids[rowBot][colBot].type.includes("bomb-wall") && !checkIfinBomb(grids, object, Math.floor));
   const rightGrid =
     grids[rowBot][colTop].type.includes(" wall ") ||
     grids[rowBot][colTop].type.includes("soft-wall") ||
-    (grids[rowBot][colTop].type.includes("bomb-wall") && !checkIfinBomb(grids, object));
+    (grids[rowBot][colTop].type.includes("bomb-wall") && !checkIfinBomb(grids, object, Math.floor));
   if (leftGrid && !rightGrid) {
-    console.log("here in ceil")
     if (Math.ceil((object.x + (object.speed * delta)) / width) > Math.ceil(object.x / width)) {
       return [true, (object.x = Math.ceil(object.x / width) * size)];
     } else {
@@ -68,11 +67,11 @@ export const checkDownMove = (grids, rowTop, colBot, colTop, object, delta) => {
   const leftGrid =
     grids[rowTop][colBot].type.includes(" wall ") ||
     grids[rowTop][colBot].type.includes("soft-wall") ||
-    (grids[rowTop][colBot].type.includes("bomb-wall") && !checkIfinBomb(grids, object));
+    (grids[rowTop][colBot].type.includes("bomb-wall") && !checkIfinBomb(grids, object, Math.ceil));
   const rightGrid =
     grids[rowTop][colTop].type.includes(" wall ") ||
     grids[rowTop][colTop].type.includes("soft-wall") ||
-    (grids[rowTop][colTop].type.includes("bomb-wall") && !checkIfinBomb(grids, object));
+    (grids[rowTop][colTop].type.includes("bomb-wall") && !checkIfinBomb(grids, object, Math.ceil));
 
   if (leftGrid && !rightGrid) {
     if (Math.ceil((object.x + object.speed * delta) / width) > Math.ceil(object.x / width)) {
@@ -105,11 +104,11 @@ export const checkLeftMove = (grids, rowBot, rowTop, colBot, object, delta) => {
   const downGrid =
     grids[rowTop][colBot].type.includes(" wall ") ||
     grids[rowTop][colBot].type.includes("soft-wall") ||
-    (grids[rowTop][colBot].type.includes("bomb-wall") && !checkIfinBomb(grids, object));
+    (grids[rowTop][colBot].type.includes("bomb-wall") && !checkIfinBomb(grids, object, Math.floor));
   const upGrid =
     grids[rowBot][colBot].type.includes(" wall ") ||
     grids[rowBot][colBot].type.includes("soft-wall") ||
-    (grids[rowBot][colBot].type.includes("bomb-wall") && !checkIfinBomb(grids, object));
+    (grids[rowBot][colBot].type.includes("bomb-wall") && !checkIfinBomb(grids, object, Math.floor));
 
   if (upGrid && !downGrid) {
     if (Math.ceil((object.y + object.speed * delta) / height) > Math.ceil(object.y / height)) {
@@ -140,11 +139,11 @@ export const checkRightMove = (grids, rowBot, rowTop, colTop, object, delta) => 
   const upGrid =
     grids[rowBot][colTop].type.includes(" wall ") ||
     grids[rowBot][colTop].type.includes("soft-wall") ||
-    (grids[rowBot][colTop].type.includes("bomb-wall") && !checkIfinBomb(grids, object));
+    (grids[rowBot][colTop].type.includes("bomb-wall") && !checkIfinBomb(grids, object, Math.ceil));
   const downGrid =
     grids[rowTop][colTop].type.includes(" wall ") ||
     grids[rowTop][colTop].type.includes("soft-wall") ||
-    (grids[rowTop][colTop].type.includes("bomb-wall") && !checkIfinBomb(grids, object));
+    (grids[rowTop][colTop].type.includes("bomb-wall") && !checkIfinBomb(grids, object, Math.ceil));
 
 
   if (upGrid && !downGrid) {

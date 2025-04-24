@@ -86,7 +86,6 @@ export class Bomb {
     }
     
     if (!this.users) {
-      console.log('bombs', this.bombs)
       if (this.bombs <= 0) return
       this.bombs--
       ws.send(
@@ -120,7 +119,7 @@ export class Bomb {
     // Set explosion timeout
     setTimeout(() => {
       this.explode(xPos, yPos, expCount || this.expCount)
-    }, this.explosionTime * 1000)
+    }, this.explosionTime * 10000)
   }
 
   explode(xPos, yPos, expCount) {
