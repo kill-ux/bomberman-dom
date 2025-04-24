@@ -6,7 +6,7 @@ import { checkDownMove, checkIfBombed, checkLeftMove, checkRightMove, checkUpper
 import { death } from "./helpers.js";
 
 let resetMoves
-export let animationID 
+export let animationID
 export const animateMovement = () => {
 	if (!SimpleJS.state.pause) {
 
@@ -34,7 +34,12 @@ export const animateMovement = () => {
 					);
 					player.x = checkObj[1];
 					if (!checkObj[0]) {
+						// if (Math.ceil((player.y + player.speed) / height) > Math.ceil(player.y / height)) {
+						// 	player.y = Math.ceil(player.y / height) * size
+						// } else {
 						player.y += player.speed;
+						// }
+
 					}
 
 					clearTimeout(resetMoves)
@@ -55,7 +60,12 @@ export const animateMovement = () => {
 					player.y = checkObj[1];
 					// getPosImg(player.frames[player.loop], 3, player.bomberman.current);
 					if (!checkObj[0]) {
-						player.x -= player.speed;
+						// Math.floor((player.x - player.speed) / width) < Math.floor(player.x / width)
+						// if (grids[Math.floor(player.y / height)][Math.floor((player.x - player.speed) / width)].type.includes("wall")) {
+						// 	player.x = Math.floor(player.x / width) * size
+						// } else {
+							player.x -= player.speed;
+						// }
 					}
 
 					clearTimeout(resetMoves)
@@ -75,7 +85,14 @@ export const animateMovement = () => {
 					player.x = checkObj[1];
 					// getPosImg(player.frames[player.loop], 1, player.bomberman.current);
 					if (!checkObj[0]) {
-						player.y -= player.speed;
+						// if (grids[Math.floor((player.y - player.speed) / height)][Math.floor(player.x / height)].type.includes("wall")) {
+						// 	console.log("here1")
+						// 	player.y = Math.floor(player.y / height) * size
+						// } else {
+							// console.log("here2")
+							player.y -= player.speed;
+						// }
+
 					}
 
 					clearTimeout(resetMoves)
@@ -96,7 +113,12 @@ export const animateMovement = () => {
 					player.y = checkObj[1];
 					// getPosImg(player.frames[player.loop], 2, player.bomberman.current);
 					if (!checkObj[0]) {
+						// if (grids[Math.ceil(player.y / height)][Math.ceil((player.x + player.speed) / height)].type.includes("wall")) {
+						// 	player.x = Math.ceil(player.x / width) * size;
+						// } else {
 						player.x += player.speed
+						// }
+						//player.x += player.speed
 					}
 
 					clearTimeout(resetMoves)
@@ -115,62 +137,62 @@ export const animateMovement = () => {
 		}
 
 
-			Object.entries(SimpleJS.state.players).forEach(([playerName, { pObj }]) => {
-				if (pObj && pObj.lifes !== 0) {
-					let skip = false
-					pObj.bomberman.current.style.transform = `translate(${pObj.x}px, ${pObj.y}px)`;
+		Object.entries(SimpleJS.state.players).forEach(([playerName, { pObj }]) => {
+			if (pObj && pObj.lifes !== 0) {
+				let skip = false
+				pObj.bomberman.current.style.transform = `translate(${pObj.x}px, ${pObj.y}px)`;
 
-					switch (true) {
-						case pObj.moveDown:
-							getPosImg(pObj.frames[pObj.loop], 4, pObj.bomberman.current);
-							break;
-						case pObj.moveLeft:
-							getPosImg(pObj.frames[pObj.loop], 3, pObj.bomberman.current);
-							break;
-						case pObj.moveUp:
-							getPosImg(pObj.frames[pObj.loop], 1, pObj.bomberman.current);
-							break;
-						case pObj.moveRight:
-							getPosImg(pObj.frames[pObj.loop], 2, pObj.bomberman.current);
-							break;
-						default:
-							skip = true
-					}
-					if (!skip) {
-						if (pObj.slow >= pObj.slowFrames) {
-							if (pObj.loop < pObj.frames.length - 1) {
-								pObj.loop++;
-							} else {
-								pObj.loop = 0;
-							}
-
-
-							pObj.slow = 0;
+				switch (true) {
+					case pObj.moveDown:
+						getPosImg(pObj.frames[pObj.loop], 4, pObj.bomberman.current);
+						break;
+					case pObj.moveLeft:
+						getPosImg(pObj.frames[pObj.loop], 3, pObj.bomberman.current);
+						break;
+					case pObj.moveUp:
+						getPosImg(pObj.frames[pObj.loop], 1, pObj.bomberman.current);
+						break;
+					case pObj.moveRight:
+						getPosImg(pObj.frames[pObj.loop], 2, pObj.bomberman.current);
+						break;
+					default:
+						skip = true
+				}
+				if (!skip) {
+					if (pObj.slow >= pObj.slowFrames) {
+						if (pObj.loop < pObj.frames.length - 1) {
+							pObj.loop++;
 						} else {
-							pObj.slow++;
+							pObj.loop = 0;
 						}
+
+
+						pObj.slow = 0;
+					} else {
+						pObj.slow++;
 					}
 				}
-				else {
-					/*--- player death ---*/
-					if (pObj) {
-						SimpleJS.setState((prev) => {
-							prev.players[playerName].pObj = undefined
-							return prev
+			}
+			else {
+				/*--- player death ---*/
+				if (pObj) {
+					SimpleJS.setState((prev) => {
+						prev.players[playerName].pObj = undefined
+						return prev
 
-						})
-					}
+					})
 				}
-			})
+			}
+		})
 
-		
+
 
 		if (player && player.lifes !== 0 &&
 			checkIfBombed(grids, player.x, player.y) &&
 			!player.bomberman.current.classList.contains("immune")
 		) {
 			death(player, player.bomberman.current);
-			if (player.lifes !== 1){
+			if (player.lifes !== 1) {
 				ws.send(JSON.stringify({ type: "moves", playerName: SimpleJS.state.playerName, playerX: player.x / size, playerY: player.y / size, moveRight: player.moveRight, moveUp: player.moveUp, moveDown: player.moveDown, moveLeft: player.moveLeft }))
 
 			}

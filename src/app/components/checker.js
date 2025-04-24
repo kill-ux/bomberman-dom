@@ -48,6 +48,7 @@ export const checkUpperMove = (grids, rowBot, colBot, colTop, object) => {
     }
   }
   if (leftGrid && rightGrid) {
+    object.y = Math.floor(object.y / height) * size
     return [true, object.x];
   }
 
@@ -78,15 +79,14 @@ export const checkDownMove = (grids, rowTop, colBot, colTop, object) => {
 
   if (!leftGrid && rightGrid) {
     if (Math.floor((object.x - object.speed) / width) < Math.floor(object.x / width)) {
-
       return [true, (object.x = Math.floor(object.x / width) * size)];
     } else {
-
       return [true, (object.x -= object.speed)];
     }
   }
 
   if (leftGrid && rightGrid) {
+    object.y = Math.ceil(object.y / height) * size
     return [true, object.x];
   }
 
@@ -122,6 +122,7 @@ export const checkLeftMove = (grids, rowBot, rowTop, colBot, object) => {
     }
   }
   if (upGrid && downGrid) {
+    object.x = Math.floor(object.x / width) * size
     return [true, object.y];
   }
 
@@ -158,6 +159,7 @@ export const checkRightMove = (grids, rowBot, rowTop, colTop, object) => {
     }
   }
   if (upGrid && downGrid) {
+    object.x = Math.ceil(object.x / width) * size
     return [true, object.y];
   }
 
