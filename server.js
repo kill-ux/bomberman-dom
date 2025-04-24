@@ -88,7 +88,6 @@ const spawns = [
     [1, 9]
 ]
 let diffMap
-const messages = []
 let gameStarted = false
 
 const startTime = () => {
@@ -155,7 +154,6 @@ wss.on('connection', ws => {
                                     type: 'appendQueue',
                                     playerCount: Clients.size,
                                     playerName,
-                                    messages,
                                 })
                             )
                         })
@@ -190,7 +188,6 @@ wss.on('connection', ws => {
                         value.ws.send(JSON.stringify(data))
                     }
                 })
-                messages.push({ playerName: data.playerName, message: data.message })
                 break
 
             case 'lifes':
@@ -257,7 +254,6 @@ wss.on('connection', ws => {
             clearTimeout(timeout)
             timer10 = null
             timer20 = null
-            messages.length = 0
             gameStarted = false
             diffMap = null
             livePlayers.clear()

@@ -40,11 +40,7 @@ ws.onopen = () => {
 }
 
 const bombUsers = new Bomb(true)
-
 let resetMoves
-
-
-
 
 ws.onmessage = event => {
   const {
@@ -68,7 +64,6 @@ ws.onmessage = event => {
     row,
     col,
     lifes,
-    messages,
   } = JSON.parse(event.data)
 
   switch (type) {
@@ -80,7 +75,6 @@ ws.onmessage = event => {
         ...prev,
         playerCount,
         playerName: prev.playerName ? prev.playerName : playerName,
-        chat: messages,
       }))
       if (location.pathname !== '/queue') {
         SimpleJS.state.currentPage = "/queue"

@@ -179,7 +179,6 @@ export const Game = () => {
 	}
 
 	return (
-
 		SimpleJS.createElement("div", { class: "body q container-body" }, [
 			Chat(),
 			SimpleJS.createElement("div", { class: "game" }, [
