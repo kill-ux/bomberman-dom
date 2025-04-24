@@ -8,7 +8,7 @@ export class Player {
     this.startY = y
     this.x = x
     this.y = y
-    this.speed = speed 
+    this.speed = speed *15
     this.loop = 0
     this.slowFrames = 5
     this.slow = 0
@@ -25,7 +25,7 @@ export class Player {
     this.lifes = 300
     this.deathCounter = 0
     this.bomberman
-
+    this.immune = false
   }
 
   initBomberMan(map) {

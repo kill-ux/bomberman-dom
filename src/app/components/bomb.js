@@ -120,7 +120,7 @@ export class Bomb {
     // Set explosion timeout
     setTimeout(() => {
       this.explode(xPos, yPos, expCount || this.expCount)
-    }, this.explosionTime * 10000)
+    }, this.explosionTime * 1000)
   }
 
   explode(xPos, yPos, expCount) {

@@ -23,6 +23,19 @@ body {
   font-size:1rem;
 }
 
+.immune{
+  animation: flinch .5s infinite;
+}
+
+@keyframes flinch {
+  from{
+    opacity: 1;
+  }
+  to{
+    opacity: 0;
+  }
+}
+
 .container {
   overflow: hidden;
 }

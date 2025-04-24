@@ -1,7 +1,7 @@
 import { SimpleJS } from '../dist/index.js'
 import { useEffect, useRef } from '../dist/utils.js';
 import { Chat } from './chat.js';
-import { animateMovement } from './components/animation.js';
+import { animateMovement, bomChecker } from './components/animation.js';
 import { Bomb } from './components/bomb.js';
 import { Board, MapSchema } from './components/map.js';
 import { Player } from './components/player.js';
@@ -13,9 +13,21 @@ let initHeight = Math.floor(window.innerHeight / MapSchema.length / 1.8)
 export let size = Math.min(initWidth, initHeight);
 export let width = size;
 export let height = size;
-export let delta = 0.0166
+// export let delta = 0.0166
 export let grids = []
 export let bomb
+
+export let startBombCheck = {current :false}
+export let intervalID
+document.addEventListener("visibilitychange", () => {
+	if (document.hidden && startBombCheck.current) {
+		intervalID = setInterval(() => {
+			bomChecker()
+		}, 16.7)
+	} else {
+		clearInterval(intervalID)
+	}
+})
 
 window.addEventListener("resize", function () {
 	const oldSize = size;
@@ -155,13 +167,15 @@ export const Game = () => {
 		useEffect(() => {
 			/* all players */
 			Object.entries(SimpleJS.state.players).forEach(([playerName, data]) => {
-				SimpleJS.state.players[playerName].pObj = new Player(data.spawn[0] * width, data.spawn[1] * height, size * delta * 2)
+				SimpleJS.state.players[playerName].pObj = new Player(data.spawn[0] * width, data.spawn[1] * height, size * 2)
 			});
 			BoardMap.randomizeBricks(SimpleJS.state.diffMap)
 			grids = BoardMap.initLevel(map)
 			bomb = new Bomb();
 			SimpleJS.setState()
+
 			requestAnimationFrame(animateMovement);
+			startBombCheck.current = true
 		})
 	}
 

@@ -1,5 +1,5 @@
 import { SimpleJS } from '../dist/index.js'
-import { Game, size } from './App.js'
+import { Game, intervalID, size, startBombCheck } from './App.js'
 import { animateMovement, animationID } from './components/animation.js'
 import { Bomb } from './components/bomb.js'
 import { Queue } from './Queue.js'
@@ -163,6 +163,11 @@ ws.onmessage = event => {
           currentPage: "",
         }
         cancelAnimationFrame(animationID)
+        startBombCheck.current  = false
+        lastTime.current = 0
+        clearInterval(intervalID)
+
+
         SimpleJS.Link("/")
       }, 200)
       //location.href = "/"

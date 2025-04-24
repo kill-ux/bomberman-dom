@@ -7,8 +7,11 @@ import { death } from "./helpers.js";
 
 let resetMoves
 export let animationID
-export const animateMovement = () => {
+export const lastTime = { current: 0 };
+export const animateMovement = (currentTime) => {
 	if (!SimpleJS.state.pause) {
+		const delta = (currentTime - lastTime.current) / 1000; // Convert to seconds
+		lastTime.current = currentTime;
 
 		const grids = SimpleJS.state.grids
 		let player = SimpleJS.state.players[SimpleJS.state.playerName].pObj
@@ -20,8 +23,8 @@ export const animateMovement = () => {
 			let checkObj;
 			switch (true) {
 				case player.moveDown:
-					player.rowBot = Math.floor((player.y + player.speed) / height);
-					player.rowTop = Math.ceil((player.y + player.speed) / height);
+					player.rowBot = Math.floor((player.y + player.speed * delta) / height);
+					player.rowTop = Math.ceil((player.y + player.speed * delta) / height);
 					player.colBot = Math.floor(player.x / width);
 					player.colTop = Math.ceil(player.x / width);
 
@@ -30,14 +33,15 @@ export const animateMovement = () => {
 						player.rowTop,
 						player.colBot,
 						player.colTop,
-						player
+						player,
+						delta
 					);
 					player.x = checkObj[1];
 					if (!checkObj[0]) {
 						// if (Math.ceil((player.y + player.speed) / height) > Math.ceil(player.y / height)) {
 						// 	player.y = Math.ceil(player.y / height) * size
 						// } else {
-						player.y += player.speed;
+						player.y += player.speed * delta;
 						// }
 
 					}
@@ -47,15 +51,16 @@ export const animateMovement = () => {
 				case player.moveLeft:
 					player.rowBot = Math.floor(player.y / height);
 					player.rowTop = Math.ceil(player.y / height);
-					player.colBot = Math.floor((player.x - player.speed) / width);
-					player.colTop = Math.ceil((player.x - player.speed) / width);
+					player.colBot = Math.floor((player.x - player.speed * delta) / width);
+					player.colTop = Math.ceil((player.x - player.speed * delta) / width);
 					// checkPowerUp(grids, player.rowTop, player.colBot, player.colTop)
 					checkObj = checkLeftMove(
 						grids,
 						player.rowBot,
 						player.rowTop,
 						player.colBot,
-						player
+						player,
+						delta
 					);
 					player.y = checkObj[1];
 					// getPosImg(player.frames[player.loop], 3, player.bomberman.current);
@@ -64,14 +69,14 @@ export const animateMovement = () => {
 						// if (grids[Math.floor(player.y / height)][Math.floor((player.x - player.speed) / width)].type.includes("wall")) {
 						// 	player.x = Math.floor(player.x / width) * size
 						// } else {
-							player.x -= player.speed;
+						player.x -= player.speed * delta;
 						// }
 					}
 
 					clearTimeout(resetMoves)
 					break;
 				case player.moveUp:
-					player.rowBot = Math.floor((player.y - player.speed) / height);
+					player.rowBot = Math.floor((player.y - player.speed * delta) / height);
 					player.colBot = Math.floor(player.x / width);
 					player.colTop = Math.ceil(player.x / width);
 					// checkPowerUp(grids, player.rowBot, player.colBot, player.colTop)
@@ -80,7 +85,8 @@ export const animateMovement = () => {
 						player.rowBot,
 						player.colBot,
 						player.colTop,
-						player
+						player,
+						delta
 					);
 					player.x = checkObj[1];
 					// getPosImg(player.frames[player.loop], 1, player.bomberman.current);
@@ -89,8 +95,8 @@ export const animateMovement = () => {
 						// 	console.log("here1")
 						// 	player.y = Math.floor(player.y / height) * size
 						// } else {
-							// console.log("here2")
-							player.y -= player.speed;
+						// console.log("here2")
+						player.y -= player.speed * delta;
 						// }
 
 					}
@@ -100,7 +106,7 @@ export const animateMovement = () => {
 				case player.moveRight:
 					player.rowBot = Math.floor(player.y / height);
 					player.rowTop = Math.ceil(player.y / height);
-					player.colTop = Math.ceil((player.x + player.speed) / width);
+					player.colTop = Math.ceil((player.x + player.speed * delta) / width);
 					// checkPowerUp(grids, player.rowBot, player.colBot, player.colTop)
 
 					checkObj = checkRightMove(
@@ -108,7 +114,8 @@ export const animateMovement = () => {
 						player.rowBot,
 						player.rowTop,
 						player.colTop,
-						player
+						player,
+						delta
 					);
 					player.y = checkObj[1];
 					// getPosImg(player.frames[player.loop], 2, player.bomberman.current);
@@ -116,7 +123,7 @@ export const animateMovement = () => {
 						// if (grids[Math.ceil(player.y / height)][Math.ceil((player.x + player.speed) / height)].type.includes("wall")) {
 						// 	player.x = Math.ceil(player.x / width) * size;
 						// } else {
-						player.x += player.speed
+						player.x += player.speed * delta
 						// }
 						//player.x += player.speed
 					}
@@ -172,6 +179,20 @@ export const animateMovement = () => {
 						pObj.slow++;
 					}
 				}
+
+
+				// if (checkIfBombed(grids, pObj.x, pObj.y) && !pObj.immune) {
+				// 	death(pObj, pObj.bomberman.current);
+				// 	if (pObj.lifes !== 1) {
+				// 		ws.send(JSON.stringify({ type: "moves", playerName: playerName, playerX: pObj.x / size, playerY: pObj.y / size, moveRight: pObj.moveRight, moveUp: pObj.moveUp, moveDown: pObj.moveDown, moveLeft: pObj.moveLeft }))
+
+				// 	}
+				// 	SimpleJS.setState((prev) => {
+				// 		prev.players[playerName].pObj.lifes--
+				// 		return prev
+				// 	})
+				// 	ws.send(JSON.stringify({ type: "lifes", playerName: playerName, lifes: SimpleJS.state.players[playerName].pObj.lifes }))
+				// }
 			}
 			else {
 				/*--- player death ---*/
@@ -189,7 +210,7 @@ export const animateMovement = () => {
 
 		if (player && player.lifes !== 0 &&
 			checkIfBombed(grids, player.x, player.y) &&
-			!player.bomberman.current.classList.contains("immune")
+			!player.immune
 		) {
 			death(player, player.bomberman.current);
 			if (player.lifes !== 1) {
@@ -207,3 +228,23 @@ export const animateMovement = () => {
 
 	animationID = requestAnimationFrame(animateMovement);
 };
+export const bomChecker = () => {
+	let player = SimpleJS.state.players[SimpleJS.state.playerName].pObj
+
+	if (player && player.lifes !== 0 &&
+		checkIfBombed(SimpleJS.state.grids, player.x, player.y) &&
+		!player.immune
+	) {
+		death(player, player.bomberman.current);
+		if (player.lifes !== 1) {
+			ws.send(JSON.stringify({ type: "moves", playerName: SimpleJS.state.playerName, playerX: player.x / size, playerY: player.y / size, moveRight: player.moveRight, moveUp: player.moveUp, moveDown: player.moveDown, moveLeft: player.moveLeft }))
+
+		}
+		SimpleJS.setState((prev) => {
+			prev.players[prev.playerName].pObj.lifes--
+			return prev
+		})
+		ws.send(JSON.stringify({ type: "lifes", playerName: SimpleJS.state.playerName, lifes: SimpleJS.state.players[SimpleJS.state.playerName].pObj.lifes }))
+
+	}
+}
