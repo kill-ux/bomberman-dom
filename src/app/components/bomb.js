@@ -1,5 +1,6 @@
 import { SimpleJS } from "../../dist/index.js";
-import { height, width } from "../App.js";
+import { height, size, width } from "../App.js";
+import { ws } from "../index.js";
 
 export class Explosion {
   constructor(x, y, id) {
@@ -77,13 +78,29 @@ export class Bomb {
   }
 
   putTheBomb(x, y, expCount) {
-    if (!this.users) {
-      if (this.bombs <= 0) return
-      this.bombs--
-    }
-
     const xPos = Math.round(x / width)
     const yPos = Math.round(y / height)
+
+    if (SimpleJS.state.grids[yPos][xPos].type.includes('bomb-wall')) {
+      return
+    }
+    
+    if (!this.users) {
+      console.log('bombs', this.bombs)
+      if (this.bombs <= 0) return
+      this.bombs--
+      ws.send(
+        JSON.stringify({
+          type: 'boomb',
+          playerName: SimpleJS.state.playerName,
+          boombX: x / size,
+          boombY: y / size,
+          expCount
+        })
+      )
+    }
+
+   
 
     // Add bomb to state
     SimpleJS.setState(prev => {

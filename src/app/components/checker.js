@@ -6,7 +6,9 @@ const checkIfinBomb = (grids, player) => {
   return grids[Math.round(player.y / height)][Math.round(player.x / width)].type.includes("bomb-wall");;
 };
 
-const handlePowerUp = (grids, row, col, bomb) => {
+const handlePowerUp = (grids, bomb, player) => {
+  const row = Math.round(player.y / height);
+  const col = Math.round(player.x / width);
   if (grids[row][col].power.startsWith("powered")) {
     if (grids[row][col].power.endsWith("idel")) {
       bomb.bombs++;
@@ -52,9 +54,9 @@ export const checkUpperMove = (grids, rowBot, colBot, colTop, object) => {
     return [true, object.x];
   }
 
-  if (colBot === colTop) {
-    handlePowerUp(grids, rowBot, colBot, bomb);
-  }
+  // if (colBot === colTop) {
+  handlePowerUp(grids, bomb, object);
+  // }
 
   return [false, object.x];
 };
@@ -90,9 +92,10 @@ export const checkDownMove = (grids, rowTop, colBot, colTop, object) => {
     return [true, object.x];
   }
 
-  if (colBot === colTop) {
-    handlePowerUp(grids, rowTop, colBot, bomb);
-  }
+  // if (colBot === colTop) {
+  //   handlePowerUp(grids, rowTop, colBot, bomb);
+  // }
+  handlePowerUp(grids, bomb, object);
 
   return [false, object.x];
 };
@@ -126,9 +129,10 @@ export const checkLeftMove = (grids, rowBot, rowTop, colBot, object) => {
     return [true, object.y];
   }
 
-  if (rowTop === rowBot) {
-    handlePowerUp(grids, rowTop, colBot, bomb);
-  }
+  // if (rowTop === rowBot) {
+  //   handlePowerUp(grids, rowTop, colBot, bomb);
+  // }
+  handlePowerUp(grids, bomb, object);
 
   return [false, object.y];
 };
@@ -163,9 +167,10 @@ export const checkRightMove = (grids, rowBot, rowTop, colTop, object) => {
     return [true, object.y];
   }
 
-  if (rowBot === rowTop) {
-    handlePowerUp(grids, rowBot, colTop, bomb);
-  }
+  // if (rowBot === rowTop) {
+  //   handlePowerUp(grids, rowBot, colTop, bomb);
+  // }
+  handlePowerUp(grids, bomb, object);
 
   return [false, object.y];
 };
