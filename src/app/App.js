@@ -5,6 +5,7 @@ import { animateMovement, bomChecker } from './components/animation.js';
 import { Bomb } from './components/bomb.js';
 import { Board, MapSchema } from './components/map.js';
 import { Player } from './components/player.js';
+import { playerInfo } from './components/playerInfo.js';
 import { Forbidden } from './forbidden.js';
 
 let initWidth = Math.floor(window.innerWidth / MapSchema[0].length / 1.8)
@@ -183,27 +184,15 @@ export const Game = () => {
 			Chat(),
 			SimpleJS.createElement("div", { class: "game" }, [
 				SimpleJS.createElement("div", { class: "playerInfo topNav" }, [
-					SimpleJS.createElement("div", { class: "player1" }, [
-						SimpleJS.createElement("h1", { class: "" }, [`player1: ${Object.keys(SimpleJS.state.players)[0]}`]),
-						SimpleJS.createElement("h1", { class: "" }, [`lives: ${SimpleJS.state.players[Object.keys(SimpleJS.state.players)[0]]?.pObj?.lifes || "dead"}`])
+					playerInfo(0, 1, true),  // Player 1: Top-left
+					playerInfo(2, 3, false)  // Player 3: Top-right
 					]),
-					SimpleJS.createElement("div", { class: "player3" }, [
-						SimpleJS.createElement("h1", { class: "" }, [`player3: ${Object.keys(SimpleJS.state.players)[2]}`]),
-						SimpleJS.createElement("h1", { class: "" }, [`lives: ${SimpleJS.state.players[Object.keys(SimpleJS.state.players)[2]]?.pObj?.lifes || "dead"}`])
-					])
-				]),
 				SimpleJS.createElement("div", { class: "container" }, [
 					map
 				]),
 				SimpleJS.createElement("div", { class: "playerInfo botNav" }, [
-					SimpleJS.createElement("div", { class: "player4" }, [
-						SimpleJS.createElement("h1", { class: "" }, [`player4: ${Object.keys(SimpleJS.state.players)[3]}`]),
-						SimpleJS.createElement("h1", { class: "" }, [`lives: ${SimpleJS.state.players[Object.keys(SimpleJS.state.players)[3]]?.pObj?.lifes || "dead"}`])
-					]),
-					SimpleJS.createElement("div", { class: "player2" }, [
-						SimpleJS.createElement("h1", { class: "" }, [`player2: ${Object.keys(SimpleJS.state.players)[1]}`]),
-						SimpleJS.createElement("h1", { class: "" }, [`lives: ${SimpleJS.state.players[Object.keys(SimpleJS.state.players)[1]]?.pObj?.lifes || "dead"}`])
-					])
+					playerInfo(3, 4, true),  // Player 4: Bottom-left
+					playerInfo(1, 2, false)  // Player 2: Bottom-right
 				]),
 			]),
 

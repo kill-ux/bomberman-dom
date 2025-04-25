@@ -16,11 +16,58 @@ body {
 
 }
 
-.playerInfo {
+/* .playerInfo {
   display: grid;
   grid-template-columns: 1fr 1fr;
   width: 100%;
   font-size:1rem;
+} */
+
+.playerInfo {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  /*width: 100%;*/
+  font-size: 1rem;
+  background-color: #333;
+  color: white;
+  /* padding: 10px; */
+  max-width: 100%;
+}
+
+.player-info {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  /* background-color: #444; */
+  /* border: 1px solid #666; */
+  /* border-radius: 5px; */
+  border-inline: 10px solid white;
+}
+
+.player-image {
+  width: 50px;
+  height: 50px;
+  background-size: 285px 285px;
+  background-position: 0 0;
+  margin: 0 10px;
+
+}
+
+.player-details {
+  font-family: "Press Start 2P", system-ui;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  padding-inline: 20px;
+  word-break: break-all;
+}
+
+.player-details h1, .player-info h1 {
+  margin: 0;
+  /* font-size: 1rem; */
+  font-size: clamp(12px, 2vw, 24px);
+  line-height: 2rem;
+  font-weight: lighter;
 }
 
 .immune{
