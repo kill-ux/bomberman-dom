@@ -44,7 +44,7 @@ export const Chat = () => {
                             return (
                                 SimpleJS.createElement("div", { class: "", ref: lastElement }, [
                                     SimpleJS.createElement("div", { class: "chat-message" }, [
-                                        SimpleJS.createElement("span", { class: "chat-username" }, [`${playerName}`]),
+                                        SimpleJS.createElement("span", { class: "chat-username" }, [`${playerName}:`]),
                                         SimpleJS.createElement("span", { class: "chat-text" }, [`${message}`])
                                     ])
                                 ])

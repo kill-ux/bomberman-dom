@@ -184,15 +184,15 @@ export const Game = () => {
 			Chat(),
 			SimpleJS.createElement("div", { class: "game" }, [
 				SimpleJS.createElement("div", { class: "playerInfo topNav" }, [
-					playerInfo(0, 1, true),  // Player 1: Top-left
-					playerInfo(2, 3, false)  // Player 3: Top-right
+					playerInfo(0, true),  // Player 1: Top-left
+					playerInfo(2, false)  // Player 3: Top-right
 					]),
 				SimpleJS.createElement("div", { class: "container" }, [
 					map
 				]),
 				SimpleJS.createElement("div", { class: "playerInfo botNav" }, [
-					playerInfo(3, 4, true),  // Player 4: Bottom-left
-					playerInfo(1, 2, false)  // Player 2: Bottom-right
+					playerInfo(3, true),  // Player 4: Bottom-left
+					playerInfo(1, false)  // Player 2: Bottom-right
 				]),
 			]),
 

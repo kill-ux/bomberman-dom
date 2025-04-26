@@ -64,6 +64,7 @@ ws.onmessage = event => {
     row,
     col,
     lifes,
+    playerNames,
   } = JSON.parse(event.data)
 
   switch (type) {
@@ -93,6 +94,7 @@ ws.onmessage = event => {
       break
     case 'startGame':
       SimpleJS.state.players = cls
+      SimpleJS.state.playerNames = playerNames
       SimpleJS.state.diffMap = diffMap
       if (location.pathname !== '/game') {
         SimpleJS.state.currentPage = "/game"

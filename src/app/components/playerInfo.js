@@ -1,14 +1,14 @@
 import { SimpleJS } from "../../dist/index.js";
 
-export const playerInfo = (playerIndex, playerNumber, isLeft) => {
-    const playerKey = Object.keys(SimpleJS.state.players)[playerIndex];
-    const player = SimpleJS.state.players[playerKey];
-    const imageUrl = `assets/${playerNumber}.png`;
+export const playerInfo = (playerIndex, isLeft) => {
+    const playerName = SimpleJS.state.playerNames[playerIndex];
+    const player = SimpleJS.state.players[playerName];
+    const imageUrl = `assets/${playerIndex+1}.png`;
 
-    if (playerKey && player ) {
+    if (playerName && player ) {
 
       const details = SimpleJS.createElement("div", { class: "player-details" }, [
-        SimpleJS.createElement("h1", {style:`text-decoration:${player.pObj ? "none":"line-through"}`}, [`${playerKey}`]),
+        SimpleJS.createElement("h1", {style:`text-decoration:${player.pObj ? "none":"line-through"}`}, [`${playerName}`]),
         SimpleJS.createElement("h1", {}, [player.pObj ? `${player.pObj.lifes}x` : "dead"])
       ]);
 

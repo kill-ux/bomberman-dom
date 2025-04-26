@@ -103,12 +103,14 @@ const startTime = () => {
                 livePlayers.clear()
             } else {
                 let cls = {}
-                Clients.forEach(({ lifes, spawn }, key) => {
-                    livePlayers.add(key)
-                    cls[key] = { lifes, spawn }
+                let index = 0
+                Clients.forEach(({ lifes }, key) => {
+                    // livePlayers.add(key)
+                    cls[key] = { lifes, spawn:spawns[index] }
+                    index++
                 })
                 Clients.forEach(value => {
-                    value.ws.send(JSON.stringify({ type: "startGame", cls, diffMap, }))
+                    value.ws.send(JSON.stringify({ type: "startGame", cls, diffMap, playerNames: [...livePlayers] }))
                 })
                 timer10 = null
                 currentPage = "game"
@@ -142,13 +144,13 @@ wss.on('connection', ws => {
                     if (data.playername && !Clients.has(data.playername) && data.playername.length > 0 && data.playername.length <= 10) {
                         playerName = data.playername
                         console.log(`${playerName} join the room`)
-                        Clients.set(data.playername, {
+                        Clients.set(playerName, {
                             ws,
                             lifes: 3,
-                            spawn: spawns[Clients.size],
                             image: Clients.size + 1
                         })
-
+                    livePlayers.add(playerName)
+                        
                         Clients.forEach(value => {
                             value.ws.send(
                                 JSON.stringify({
@@ -171,7 +173,6 @@ wss.on('connection', ws => {
                                 startTime()
                             } else {
                                 timeout = setTimeout(() => {
-                                    console.log('start game', Clients.size)
                                     if (Clients.size > 1) {
                                         startTime()
                                     }
@@ -220,6 +221,7 @@ wss.on('connection', ws => {
 
     ws.on('close', () => {
         console.log(`${playerName} are close his connection`)
+        livePlayers.delete(playerName)
         Clients.delete(playerName)
         if (currentPage === "game") {
             Clients.forEach((value, key) => {
