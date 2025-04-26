@@ -139,7 +139,7 @@ wss.on('connection', ws => {
                     return
                 }
                 if (Clients.size < 4) {
-                    if (data.playername && !Clients.has(data.playername)) {
+                    if (data.playername && !Clients.has(data.playername) && data.playername.length > 0 && data.playername.length < 10) {
                         playerName = data.playername
                         console.log(`${playerName} join the room`)
                         Clients.set(data.playername, {
