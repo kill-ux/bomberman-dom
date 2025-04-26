@@ -98,12 +98,16 @@ const startTime = () => {
                 })
                 Clients.clear()
                 livePlayers.clear()
+                gameStarted = false
+                timer10 = null
+                clearInterval(timeout)
+
             } else {
                 let cls = {}
                 let index = 0
                 Clients.forEach(({ lifes }, key) => {
                     // livePlayers.add(key)
-                    cls[key] = { lifes, spawn:spawns[index], image:index+1 }
+                    cls[key] = { lifes, spawn: spawns[index], image: index + 1 }
                     index++
                 })
                 Clients.forEach(value => {
@@ -134,7 +138,7 @@ wss.on('connection', ws => {
                     diffMap = DiffMap()
                 }
                 if (gameStarted) {
-                    ws.send(JSON.stringify({ type: 'error', content: 'game staerted wait until finished' }))
+                    ws.send(JSON.stringify({ type: 'error', content: 'game started wait until finished' }))
                     return
                 }
                 if (Clients.size < 4) {
@@ -145,8 +149,8 @@ wss.on('connection', ws => {
                             ws,
                             lifes: 3
                         })
-                    livePlayers.add(playerName)
-                        
+                        livePlayers.add(playerName)
+
                         Clients.forEach(value => {
                             value.ws.send(
                                 JSON.stringify({
@@ -159,17 +163,19 @@ wss.on('connection', ws => {
 
                         currentPage = "queue"
 
-                        if (Clients.size >= 2) {
+                        if (Clients.size == 2) {
                             clearTimeout(timeout)
-                            if (Clients.size == 4) {
-                                startTime()
-                            } else {
-                                timeout = setTimeout(() => {
-                                    if (Clients.size > 1) {
-                                        startTime()
-                                    }
-                                }, 20000)
-                            }
+                            timeout = setTimeout(() => {
+                                if (Clients.size > 1) {
+                                    startTime()
+                                }
+                            }, 20000)
+                        }
+                        if (Clients.size == 4) {
+                            clearTimeout(timeout)
+                            startTime()
+                        } else {
+
                         }
                     } else {
                         ws.send(JSON.stringify({ type: 'error', content: 'invalid name' }))
