@@ -171,20 +171,6 @@ export const animateMovement = (currentTime) => {
 						pObj.slow++;
 					}
 				}
-
-
-				// if (checkIfBombed(grids, pObj.x, pObj.y) && !pObj.immune) {
-				// 	death(pObj, pObj.bomberman.current);
-				// 	if (pObj.lifes !== 1) {
-				// 		ws.send(JSON.stringify({ type: "moves", playerName: playerName, playerX: pObj.x / size, playerY: pObj.y / size, moveRight: pObj.moveRight, moveUp: pObj.moveUp, moveDown: pObj.moveDown, moveLeft: pObj.moveLeft }))
-
-				// 	}
-				// 	SimpleJS.setState((prev) => {
-				// 		prev.players[playerName].pObj.lifes--
-				// 		return prev
-				// 	})
-				// 	ws.send(JSON.stringify({ type: "lifes", playerName: playerName, lifes: SimpleJS.state.players[playerName].pObj.lifes }))
-				// }
 			}
 			else {
 				/*--- player death ---*/
