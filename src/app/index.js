@@ -2,6 +2,7 @@ import { SimpleJS } from '../dist/index.js'
 import { Game, intervalID, size, startBombCheck } from './App.js'
 import { animateMovement, animationID, lastTime } from './components/animation.js'
 import { Bomb } from './components/bomb.js'
+import { Notfound } from './components/notfound.js'
 import { Queue } from './Queue.js'
 import { Welcome } from './Welcome.js'
 
@@ -26,7 +27,7 @@ SimpleJS.addRoute('/notfound', () => {
   return SimpleJS.createElement('div', {}, ['error 404'])
 })
 
-const component = SimpleJS.routes[window.location.pathname]
+const component = SimpleJS.routes[window.location.pathname] || Notfound
 if (component) {
   SimpleJS.mount(component)
 }
@@ -171,7 +172,6 @@ ws.onmessage = event => {
 
         SimpleJS.Link("/")
       }, 200)
-      //location.href = "/"
       break
   }
 }

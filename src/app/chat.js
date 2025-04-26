@@ -23,11 +23,6 @@ export const Chat = () => {
                 }
             })
             e.target.value = "";
-            // scroll down
-            // if (chatMessages.current) {
-            //     chatMessages.current.scrollTop = chatMessages.current.scrollHeight;
-            // }
-
         }
     }
 

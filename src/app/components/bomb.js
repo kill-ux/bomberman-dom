@@ -21,16 +21,10 @@ export class Explosion {
     }
 
     const currentCell = SimpleJS.state.grids[this.y][this.x]
-
-    // Skip if it's a wall
-    // let oldType = ` ${currentCell.type} `;
-
     let oldType = currentCell.type
     if (oldType.includes(" wall ")) {
       return { wall: true };
     }
-
-    // Update cell type
     let newType = currentCell.type.replace('soft-wall', 'empty')
 
     newType = newType.replace('empty', 'empty explosion')
@@ -38,7 +32,6 @@ export class Explosion {
     const power = currentCell.power;
     const id = currentCell?.id;
 
-    // Update state
     SimpleJS.setState(prev => {
       const newGrids = [...prev.grids];
       newGrids[this.y][this.x] = {
@@ -99,9 +92,6 @@ export class Bomb {
       )
     }
 
-   
-
-    // Add bomb to state
     SimpleJS.setState(prev => {
       const newGrids = [...prev.grids]
       newGrids[yPos][xPos] = {
@@ -125,10 +115,7 @@ export class Bomb {
   explode(xPos, yPos, expCount) {
     if (SimpleJS.state.grids.length === 0) return
     const explosions = [];
-    // Add center explosion
     explosions.push(new Explosion(xPos, yPos, 1));
-
-    // Add explosions in all directions up to expCount
     for (let i = 1; i <= expCount; i++) {
       explosions.push(
         new Explosion(xPos + i, yPos, 2), // right
@@ -138,7 +125,6 @@ export class Bomb {
       );
     }
 
-    // Process explosions with directional awareness
     const processed = {
       right: false,
       left: false,
@@ -148,7 +134,6 @@ export class Bomb {
 
 
     explosions.forEach(exp => {
-      // Skip if direction is already blocked
       if (exp.id === 2 && processed.right) return;
       if (exp.id === 3 && processed.left) return;
       if (exp.id === 4 && processed.down) return;
@@ -157,7 +142,6 @@ export class Bomb {
       const res = exp.initExplosion();
       exp.remove = true;
       if (res && res.wall) {
-        // Mark direction as blocked if wall is hit
         if (exp.id === 2) processed.right = true;
         if (exp.id === 3) processed.left = true;
         if (exp.id === 4) processed.down = true;
@@ -165,7 +149,6 @@ export class Bomb {
       }
     });
 
-    // Clean up bomb
     SimpleJS.setState(prev => {
       const newGrids = [...prev.grids]
       newGrids[yPos][xPos] = {

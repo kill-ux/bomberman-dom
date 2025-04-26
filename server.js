@@ -106,7 +106,6 @@ const startTime = () => {
                 let cls = {}
                 let index = 0
                 Clients.forEach(({ lifes }, key) => {
-                    // livePlayers.add(key)
                     cls[key] = { lifes, spawn: spawns[index], image: index + 1 }
                     index++
                 })
@@ -264,5 +263,5 @@ wss.on('connection', ws => {
 
 // Start the server
 server.listen(port, hostname, () => {
-    console.log(`Server running at http://${hostname}:${port}/`)
+    console.log(`Server running at http://localhost:${port}/`)
 })

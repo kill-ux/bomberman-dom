@@ -1,6 +1,6 @@
 import { SimpleJS } from "../../dist/index.js";
 import { setState } from "../../dist/state.js";
-import { bomb, height, size, width } from "../App.js";
+import { bomb, height, intervaleIfDosntWork, size, width } from "../App.js";
 import { ws } from "../index.js";
 import { checkDownMove, checkIfBombed, checkLeftMove, checkRightMove, checkUpperMove, getPosImg } from "./checker.js";
 import { death } from "./helpers.js";
@@ -9,6 +9,10 @@ let resetMoves
 export let animationID
 export const lastTime = { current: 0 };
 export const animateMovement = (currentTime) => {
+	// if (intervaleIfDosntWork.current) {
+	// 	clearInterval(intervaleIfDosntWork.current)
+	// 	intervaleIfDosntWork.current = null
+	// }
 	if (!SimpleJS.state.pause) {
 		const delta = (currentTime - lastTime.current) / 1000; // Convert to seconds
 		lastTime.current = currentTime;
@@ -38,12 +42,7 @@ export const animateMovement = (currentTime) => {
 					);
 					player.x = checkObj[1];
 					if (!checkObj[0]) {
-						// if (Math.ceil((player.y + player.speed) / height) > Math.ceil(player.y / height)) {
-						// 	player.y = Math.ceil(player.y / height) * size
-						// } else {
 						player.y += player.speed * delta;
-						// }
-
 					}
 
 					clearTimeout(resetMoves)
@@ -53,7 +52,6 @@ export const animateMovement = (currentTime) => {
 					player.rowTop = Math.ceil(player.y / height);
 					player.colBot = Math.floor((player.x - player.speed * delta) / width);
 					player.colTop = Math.ceil((player.x - player.speed * delta) / width);
-					// checkPowerUp(grids, player.rowTop, player.colBot, player.colTop)
 					checkObj = checkLeftMove(
 						grids,
 						player.rowBot,
@@ -63,14 +61,8 @@ export const animateMovement = (currentTime) => {
 						delta
 					);
 					player.y = checkObj[1];
-					// getPosImg(player.frames[player.loop], 3, player.bomberman.current);
 					if (!checkObj[0]) {
-						// Math.floor((player.x - player.speed) / width) < Math.floor(player.x / width)
-						// if (grids[Math.floor(player.y / height)][Math.floor((player.x - player.speed) / width)].type.includes("wall")) {
-						// 	player.x = Math.floor(player.x / width) * size
-						// } else {
 						player.x -= player.speed * delta;
-						// }
 					}
 
 					clearTimeout(resetMoves)
@@ -79,7 +71,6 @@ export const animateMovement = (currentTime) => {
 					player.rowBot = Math.floor((player.y - player.speed * delta) / height);
 					player.colBot = Math.floor(player.x / width);
 					player.colTop = Math.ceil(player.x / width);
-					// checkPowerUp(grids, player.rowBot, player.colBot, player.colTop)
 					checkObj = checkUpperMove(
 						grids,
 						player.rowBot,
@@ -99,8 +90,6 @@ export const animateMovement = (currentTime) => {
 					player.rowBot = Math.floor(player.y / height);
 					player.rowTop = Math.ceil(player.y / height);
 					player.colTop = Math.ceil((player.x + player.speed * delta) / width);
-					// checkPowerUp(grids, player.rowBot, player.colBot, player.colTop)
-
 					checkObj = checkRightMove(
 						grids,
 						player.rowBot,
@@ -110,14 +99,8 @@ export const animateMovement = (currentTime) => {
 						delta
 					);
 					player.y = checkObj[1];
-					// getPosImg(player.frames[player.loop], 2, player.bomberman.current);
 					if (!checkObj[0]) {
-						// if (grids[Math.ceil(player.y / height)][Math.ceil((player.x + player.speed) / height)].type.includes("wall")) {
-						// 	player.x = Math.ceil(player.x / width) * size;
-						// } else {
 						player.x += player.speed * delta
-						// }
-						//player.x += player.speed
 					}
 
 					clearTimeout(resetMoves)
@@ -128,7 +111,6 @@ export const animateMovement = (currentTime) => {
 							ws.send(JSON.stringify({ type: "moves", playerName: SimpleJS.state.playerName, playerX: player.x / size, playerY: player.y / size, moveRight: player.moveRight, moveUp: player.moveUp, moveDown: player.moveDown, moveLeft: player.moveLeft }))
 						}, 50)
 					}
-				// getPosImg(1, 4, player.bomberman.current);
 			}
 			if (oldX != player.x || oldY != player.y) {
 				ws.send(JSON.stringify({ type: "moves", playerName: SimpleJS.state.playerName, playerX: player.x / size, playerY: player.y / size, moveRight: player.moveRight, moveUp: player.moveUp, moveDown: player.moveDown, moveLeft: player.moveLeft }))

@@ -17,6 +17,7 @@ export let height = size;
 // export let delta = 0.0166
 export let grids = []
 export let bomb
+export const intervaleIfDosntWork = { current: null }
 
 export let startBombCheck = { current: false }
 export let intervalID
@@ -26,9 +27,12 @@ document.addEventListener("visibilitychange", () => {
 			bomChecker()
 		}, 16.7)
 	} else {
+		clearInterval(intervaleIfDosntWork.current)
 		clearInterval(intervalID)
 	}
 })
+
+export const affterStart = { current: false }
 
 window.addEventListener("resize", function () {
 	const oldSize = size;
@@ -170,6 +174,9 @@ export const Game = () => {
 
 			requestAnimationFrame(animateMovement);
 			startBombCheck.current = true
+			intervaleIfDosntWork.current = setInterval(() => {
+				bomChecker()
+			}, 16.7)
 		})
 	}
 
@@ -179,14 +186,14 @@ export const Game = () => {
 			SimpleJS.createElement("div", { class: "game" }, [
 				SimpleJS.createElement("div", { class: "playerInfo topNav" }, [
 					playerInfo(0, true),
-					playerInfo(2, false)  
+					playerInfo(2, false)
 				]),
 				SimpleJS.createElement("div", { class: "container" }, [
 					map
 				]),
 				SimpleJS.createElement("div", { class: "playerInfo botNav" }, [
-					playerInfo(3, true),  
-					playerInfo(1, false)  
+					playerInfo(3, true),
+					playerInfo(1, false)
 				]),
 			]),
 
