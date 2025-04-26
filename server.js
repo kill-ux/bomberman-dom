@@ -83,6 +83,7 @@ const spawns = [
     [21, 1],
     [1, 9]
 ]
+
 let diffMap
 let gameStarted = false
 
