@@ -5,7 +5,7 @@ export const Welcome = () => {
     const handelClick = (e) => {
         if (e.key === "Enter") {
             const playername = e.target.value.trim()
-            if (playername.length > 0 && playername.length < 10) {
+            if (playername.length > 0 && playername.length <= 10) {
                 ws.send(JSON.stringify({ type: "newPlayer", playername }))
                 SimpleJS.state.error = ""
             }
