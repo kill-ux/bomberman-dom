@@ -7,7 +7,7 @@ export const death = (player, bomberman) => {
         player.immune = false
         bomberman.classList.remove('immune')
         player.deathCounter = 0
-    }, 2000)
+    }, 3100)
     player.x = player.startX;
     player.y = player.startY;
 
