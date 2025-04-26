@@ -151,7 +151,6 @@ ws.onmessage = event => {
     case "win":
       setTimeout(() => {
         const text = playerName + " has won"
-        alert(text)
         SimpleJS.state = {
           bombs: [],
           powers: [],
@@ -164,12 +163,11 @@ ws.onmessage = event => {
           chat: [],
           currentPage: "",
         }
-        cancelAnimationFrame(animationID)
+        cancelAnimationFrame(animationID.current)
         startBombCheck.current = false
         lastTime.current = 0
         clearInterval(intervalID)
-
-
+        alert(text)
         SimpleJS.Link("/")
       }, 200)
       break

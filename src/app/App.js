@@ -1,7 +1,7 @@
 import { SimpleJS } from '../dist/index.js'
 import { useEffect, useRef } from '../dist/utils.js';
 import { Chat } from './chat.js';
-import { animateMovement, bomChecker } from './components/animation.js';
+import { animateMovement, animationID, bomChecker } from './components/animation.js';
 import { Bomb } from './components/bomb.js';
 import { Board, MapSchema } from './components/map.js';
 import { Player } from './components/player.js';
@@ -172,7 +172,7 @@ export const Game = () => {
 			bomb = new Bomb();
 			SimpleJS.setState()
 
-			requestAnimationFrame(animateMovement);
+			animationID.current = requestAnimationFrame(animateMovement);
 			startBombCheck.current = true
 			intervaleIfDosntWork.current = setInterval(() => {
 				bomChecker()

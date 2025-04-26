@@ -6,13 +6,16 @@ import { checkDownMove, checkIfBombed, checkLeftMove, checkRightMove, checkUpper
 import { death } from "./helpers.js";
 
 let resetMoves
-export let animationID
+export let animationID = { current: null };
 export const lastTime = { current: 0 };
+let dount = 2
 export const animateMovement = (currentTime) => {
-	// if (intervaleIfDosntWork.current) {
-	// 	clearInterval(intervaleIfDosntWork.current)
-	// 	intervaleIfDosntWork.current = null
-	// }
+	if (dount == 0) {
+		clearInterval(intervaleIfDosntWork.current)
+		intervaleIfDosntWork.current = null
+	} else {
+		dount--
+	}
 	if (!SimpleJS.state.pause) {
 		const delta = (currentTime - lastTime.current) / 1000; // Convert to seconds
 		lastTime.current = currentTime;
@@ -186,8 +189,10 @@ export const animateMovement = (currentTime) => {
 		}
 	}
 
-	animationID = requestAnimationFrame(animateMovement);
+	animationID.current = requestAnimationFrame(animateMovement);
 };
+
+
 export const bomChecker = () => {
 	let player = SimpleJS.state.players[SimpleJS.state.playerName].pObj
 
