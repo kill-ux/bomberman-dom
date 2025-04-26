@@ -79,11 +79,11 @@ export const Game = () => {
 			if (SimpleJS.state.players[playerName].pObj) {
 				const elmentRef = useRef(playerName)
 				SimpleJS.state.players[playerName].pObj.bomberman = elmentRef
-				const { pObj } = SimpleJS.state.players[playerName]
+				const { pObj, image } = SimpleJS.state.players[playerName]
 
 				return SimpleJS.createElement('div', {
 					class: 'bomber-man',
-					style: `background-image:url(assets/${index + 1}.png);
+					style: `background-image:url(assets/${image}.png);
 						background-size:${4 * width}px ${4 * height}px;
 						background-position:${1 * width}px 0px;
 						width:${width}px;

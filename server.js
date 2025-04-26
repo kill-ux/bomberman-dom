@@ -106,7 +106,7 @@ const startTime = () => {
                 let index = 0
                 Clients.forEach(({ lifes }, key) => {
                     // livePlayers.add(key)
-                    cls[key] = { lifes, spawn:spawns[index] }
+                    cls[key] = { lifes, spawn:spawns[index], image:index+1 }
                     index++
                 })
                 Clients.forEach(value => {
@@ -146,8 +146,7 @@ wss.on('connection', ws => {
                         console.log(`${playerName} join the room`)
                         Clients.set(playerName, {
                             ws,
-                            lifes: 3,
-                            image: Clients.size + 1
+                            lifes: 3
                         })
                     livePlayers.add(playerName)
                         
