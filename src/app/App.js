@@ -18,7 +18,7 @@ export let height = size;
 export let grids = []
 export let bomb
 
-export let startBombCheck = {current :false}
+export let startBombCheck = { current: false }
 export let intervalID
 document.addEventListener("visibilitychange", () => {
 	if (document.hidden && startBombCheck.current) {
@@ -74,7 +74,6 @@ export const Game = () => {
 		onkeyup: SimpleJS.state.players[SimpleJS.state.playerName]?.pObj ? (e) => SimpleJS.state.players[SimpleJS.state.playerName].pObj?.stopPlayer(e, map) : ""
 	}, [
 
-
 		...Object.keys(SimpleJS.state.players).map((playerName, index) => {
 			if (SimpleJS.state.players[playerName].pObj) {
 				const elmentRef = useRef(playerName)
@@ -92,15 +91,10 @@ export const Game = () => {
 						`,
 					ref: elmentRef,
 				})
-
 			}
 			return ""
 		}
-		)
-
-
-		,
-
+		),
 		// Render grid cells
 		...SimpleJS.state.grids.flatMap((row, i) => {
 			return row.map((cell, j) =>
@@ -184,15 +178,15 @@ export const Game = () => {
 			Chat(),
 			SimpleJS.createElement("div", { class: "game" }, [
 				SimpleJS.createElement("div", { class: "playerInfo topNav" }, [
-					playerInfo(0, true),  // Player 1: Top-left
-					playerInfo(2, false)  // Player 3: Top-right
-					]),
+					playerInfo(0, true),
+					playerInfo(2, false)  
+				]),
 				SimpleJS.createElement("div", { class: "container" }, [
 					map
 				]),
 				SimpleJS.createElement("div", { class: "playerInfo botNav" }, [
-					playerInfo(3, true),  // Player 4: Bottom-left
-					playerInfo(1, false)  // Player 2: Bottom-right
+					playerInfo(3, true),  
+					playerInfo(1, false)  
 				]),
 			]),
 

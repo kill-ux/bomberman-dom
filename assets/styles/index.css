@@ -32,6 +32,7 @@ body {
   color: white;
   /* padding: 10px; */
   max-width: 100%;
+  
 }
 
 .player-info {
@@ -50,7 +51,7 @@ body {
   background-size: 285px 285px;
   background-position: 0 0;
   margin: 0 10px;
-
+  animation: fps 16ms infinite;
 }
 
 .player-details {
@@ -100,15 +101,15 @@ body {
   flex-wrap: wrap;
   position: relative;
   margin: auto;
-  animation: fps 16ms infinite;
+  /* animation: fps 16ms infinite; */
 }
 
 @keyframes fps {
   from{
-    border-color:black ;
+    opacity: 1 ;
   }
   to{
-    border-color: rgba(0, 0, 0, 0.9);
+    opacity: 0.9;
   }
 }
 
@@ -155,6 +156,7 @@ body {
 
 .bomber-man {
   position: absolute;
+  will-change: transform;
 }
 
 .bomb {

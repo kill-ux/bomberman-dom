@@ -74,25 +74,22 @@ const DiffMap = () => {
 }
 let currentPage = ''
 let timeout
-let timer20
-let timer10
-let playerCount = 0
 const wss = new WebSocketServer({ server })
 const Clients = new Map()
 const livePlayers = new Set()
-// room => Map of users
 const spawns = [
     [1, 1],
     [21, 9],
     [21, 1],
     [1, 9]
 ]
+
 let diffMap
 let gameStarted = false
 
 const startTime = () => {
     gameStarted = true
-    timer10 = 0
+    let timer10 = 10
     timeout = setInterval(() => {
         if (timer10 === -1) {
             if (Clients.size == 1) {
@@ -163,10 +160,6 @@ wss.on('connection', ws => {
                         currentPage = "queue"
 
                         if (Clients.size >= 2) {
-                            timer20 = 20
-                            if (!timer10) {
-
-                            }
                             clearTimeout(timeout)
                             if (Clients.size == 4) {
                                 startTime()
@@ -175,7 +168,7 @@ wss.on('connection', ws => {
                                     if (Clients.size > 1) {
                                         startTime()
                                     }
-                                }, 5000)
+                                }, 20000)
                             }
                         }
                     } else {
@@ -254,8 +247,6 @@ wss.on('connection', ws => {
         }
         if (Clients.size === 0) {
             clearTimeout(timeout)
-            timer10 = null
-            timer20 = null
             gameStarted = false
             diffMap = null
             livePlayers.clear()

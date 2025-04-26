@@ -149,7 +149,8 @@ ws.onmessage = event => {
       break
     case "win":
       setTimeout(() => {
-        alert(playerName, " has won")
+        const text = playerName + " has won"
+        alert(text)
         SimpleJS.state = {
           bombs: [],
           powers: [],

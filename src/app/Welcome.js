@@ -18,7 +18,7 @@ export const Welcome = () => {
                 "Arena Bomb"
             ]),
             SimpleJS.createElement("div", { class: "bg-input" }, [
-                SimpleJS.createElement("input", { class: "input", placeholder : "enter your nickname" , maxlength: "10", onkeydown: handelClick }),
+                SimpleJS.createElement("input", { class: "input", placeholder : "nickname" , maxlength: "10", onkeydown: handelClick }),
                 SimpleJS.state.error ? SimpleJS.createElement("div", { class: "error" }, [
                     SimpleJS.state.error
                 ]) : "",
