@@ -34,8 +34,6 @@ if (component) {
 
 export const ws = new WebSocket('/')
 
-
-
 ws.onopen = () => {
   console.log('you are connected to the server')
 }

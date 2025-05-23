@@ -1,6 +1,5 @@
 import { SimpleJS } from "../../dist/index.js";
-import { setState } from "../../dist/state.js";
-import { bomb, height, intervaleIfDosntWork, size, width } from "../App.js";
+import { height, intervaleIfDosntWork, size, width } from "../App.js";
 import { ws } from "../index.js";
 import { checkDownMove, checkIfBombed, checkLeftMove, checkRightMove, checkUpperMove, getPosImg } from "./checker.js";
 import { death } from "./helpers.js";

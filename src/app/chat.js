@@ -1,8 +1,6 @@
-
 import { ws } from "./index.js";
 import { SimpleJS } from "../dist/index.js";
 import { useRef } from "../dist/utils.js";
-
 
 export const Chat = () => {
 

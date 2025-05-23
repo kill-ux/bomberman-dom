@@ -1,6 +1,5 @@
 import { SimpleJS } from "../dist/index.js"
 
-
 export const Forbidden = () => {
 
     const handelClick = () => {
@@ -17,17 +16,3 @@ export const Forbidden = () => {
         ])
     )
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -1,4 +1,3 @@
-//import { SimpleJS } from '../../dist/index.js'
 import { SimpleJS } from "../../dist/index.js";
 
 export const MapSchema = [

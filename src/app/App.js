@@ -14,7 +14,6 @@ let initHeight = Math.floor(window.innerHeight / MapSchema.length / 1.8)
 export let size = Math.min(initWidth, initHeight);
 export let width = size;
 export let height = size;
-// export let delta = 0.0166
 export let grids = []
 export let bomb
 export const intervaleIfDosntWork = { current: null }
