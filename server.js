@@ -1,7 +1,6 @@
 import fs from 'node:fs/promises'
 import { createServer } from 'node:http'
 import path from 'node:path'
-import { stringify } from 'node:querystring'
 import { WebSocketServer } from 'ws'
 
 const hostname = ''
