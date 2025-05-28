@@ -129,7 +129,12 @@ wss.on('connection', ws => {
     console.log('New client connected')
     let playerName
     ws.on('message', message => {
-        let data = JSON.parse(message)
+        let data = {}
+        try {
+            data = JSON.parse(message)
+        } catch (error) {
+            console.error(error)
+        }
         switch (data.type) {
             case 'newPlayer':
                 if (Clients.size === 0) {
