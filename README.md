@@ -38,7 +38,7 @@ These instructions assume you have Node.js (v18+ recommended) and a POSIX shell.
 1. Clone the repository and install dependencies:
 
 ```bash
-git clone <repo_url>
+git clone https://github.com/kill-ux/bomberman-dom.git
 cd bomberman-dom
 npm install
 ```
