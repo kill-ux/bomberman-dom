@@ -1,8 +1,5 @@
 # Bomberman DOM — Arena Bomb
 
-![Version](https://img.shields.io/badge/version-1.0.0-blue.svg)
-![License](https://img.shields.io/badge/license-SEE--LICENSE-lightgrey.svg)
-
 Lightweight multiplayer Bomberman-style game that runs in the browser and uses a WebSocket server for real-time multiplayer. The project is implemented with plain Node.js for the server and a small custom UI runtime under `dist/` for the client.
 
 ## What this project does
